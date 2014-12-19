@@ -137,7 +137,7 @@ How well does the optimal SPRT strategy actually match up with human responses o
 \label{sec:model}
 
 % describe model from sources of uncertainty
-As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). To determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. For each sample, we computed whether the ball went in the hole, and then averaged over all the samples.
+As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). We fit these model parameters to human judgments in a related but separate task. Then, to determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. From these samples, we estimated a truncated normal distribution along the wall with the hole in it, and then computed the probability density lying within the region of the hole.
 
 \subsection{Methods}
 
@@ -170,10 +170,6 @@ The experiment was divided into two phases: the training phase, and the experime
 
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. Participants were instructed to press the ``space'' key to begin the trial. Immediately upon pressing ``space'', the initial stimulus presentation began. As soon as the initial stimulus animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' to respond in the affirmative, and `p' to respond in the negative. Immediately after responding, text appeared saying ``Correct!'' or ``Incorrect.'', depending on the participants' response. Additionally, the gray occluder was removed, and participants were shown the feedback animation. After the feedback animation was complete, the final frame of the animation remained on the screen until participants pressed ``space'' to advance to the next trial. Figure \ref{fig:experiment} shows a few frames from one of the experimental trials.
 
-\subsection{Analysis}
-
-\TODO{}
-
 \subsection{Results}
 
 \begin{figure}[t]
@@ -186,11 +182,11 @@ On each trial, participants were shown the scene, including the initial position
 
 \subsubsection{Responses}
 
-On average, participants were correct about 76\% of the time ($\mu=0.76$, $\sigma^2=0.00001$), and responded that the ball would go in the hole about half the time ($\mu=0.53$, $\sigma^2=0.00001$). There was a significant effect of feedback type on participants' responses \TODO{}; there was also an effect of hole size, though less so \TODO{}. Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
+On average, participants were correct 76.1\% of the time ($N=17686$) and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
 
 \subsubsection{Response times}
 
-Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There was a significant effect of feedback type on response time \TODO{}, however, there was not a large effect of hole size on response time, except in the case of the ``far in'' (FI) trials, in which the ball went straight through the center of the hole \TODO{}. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
+Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There were significant effects of both feedback type ($\chi^2(3)=63.611, p<0.001$) and hole size ($\chi^2(1)=8.9808, p<0.01$) on response time, as well as an interaction between feedback type and hole size ($\chi^2(3)=27.146, p<0.001$). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
 
 \subsubsection{Speed-accuracy tradeoff}
 
