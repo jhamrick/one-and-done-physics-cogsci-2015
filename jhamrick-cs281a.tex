@@ -175,7 +175,7 @@ On each trial, participants were shown the scene, including the initial position
 \begin{figure}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
-        \caption{\textbf{Response times as a function of response.} \TODO{}}
+        \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time.}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure}
@@ -186,17 +186,23 @@ On average, participants were correct 76.1\% of the time ($N=17686$) and respond
 
 \subsubsection{Response times}
 
-Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There were significant effects of both feedback type ($\chi^2(3)=63.611, p<0.001$) and hole size ($\chi^2(1)=8.9808, p<0.01$) on response time, as well as an interaction between feedback type and hole size ($\chi^2(3)=27.146, p<0.001$). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
+For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples. Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There were significant effects of both feedback type ($\chi^2(3)=63.611, p<0.001$) and hole size ($\chi^2(1)=8.9808, p<0.01$) on response time, as well as an interaction between feedback type and hole size ($\chi^2(3)=27.146, p<0.001$). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
 
-\subsubsection{Speed-accuracy tradeoff}
+\subsubsection{Relationship of responses to reaction time}
 
 As shown in Figure \ref{fig:pct-vs-rt} (right subplot), we found a clear speed-accuracy tradeoff in participants responses and response times. In particular, participants were on average faster to respond on trials that they were more certain about, and slower to respond to trials that they were unsure about. This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ take much longer to make, because it takes longer to get to one threshold versus the other.
 
 \subsubsection{Comparison to SPRT}
 
-Participant responses were well correlated with a SPRT model with $T=2$ ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]).
+We fit participant responses and response times to the SPRT model with different values of $T$, and found that $T=2$ to have the best fit. Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. At first glance, this seems like it could contradict the earlier result that unknown sampling times have little effect on the optimal number of samples to take. An alternate possibility is just that each bounce adds time to people's simulations above and beyond what it adds to the model simulations, but does not actually affect the number of samples they take. More investigation will be required to fully understand what is going on here.
 
 \section{Discussion}
+
+In this paper, we asked the question: how should a sample-based agent act when it does not know how long it takes to draw a sample? To answer this question, we examined the optimal behavior of agents using the sequential probability ratio test (SPRT) with unknown time costs. Surprisingly, we found that the uncertainty introduced by the unknown sample times did not have a large effect: in most cases, the optimal threshold is the same regardless.
+
+We additionally ran an experiment to see how well SPRT predicts human behavior on a task which enforces unknown time costs (as well as a range of underlying probabilities). While we did find a clear relationship between people's responses and their reaction time, analagous to the type of relationship that would be expected from a SPRT-like policy. However, our SPRT model was only a mediocre explanation of people's response times---less so than even the number of times the ball bounced. However, people did not see the number of times that the ball bounced; thus, the effect of the number of bounces is a fairly clear sign that they \emph{are} using simulations in some manner. Rather than a failing of the SPRT model, this may be a failure of our simulation-based model to appropriately account for additional simulation time from bounces.
+
+However, based on our earlier result that unknown simulation time has little effect, even if we added extra simulation time per bounce to the model, it should not change the best-fitting threshold. Future work will investigate this claim further.
 
 \bibliography{references}
 
