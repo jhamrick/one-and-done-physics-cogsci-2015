@@ -23,14 +23,24 @@
 \section{Introduction}
 
 % How do sample-based agents make decisions based on samples that take a variable amount of time?
-
-% Evidence for sample (simulation based agents)
-
-% Previous models have mostly compared people to an agent that takes an infinite number of samples.
+Bayesian agents must often make judgments about situations that require computing a difficult, if not intractable, posterior distribution. One popular method to handle this issue is to use a Monte Carlo approximation to the posterior, where the agent draws some number of samples and bases its decision on those samples. However, even this approach is not always feasible for agents with limited computational computational power, as it can take thousands or even millions of samples to approach a decent approximation. The situation is further complicated by the fact that samples can vary in a variety of ways: for example, some samples may provide more information than others, and some samples may vary in how \emph{long} they take to compute. Given these constraints, what is the optimal sampling behavior for a sample-based agent?
 
 % One and done: the best thing to do is take very few samples
+Recent research by \citeA{Vul:2014ba} asked how many samples an agent should take before making a decision. Surprisingly, they found that to optimize success in the \emph{long} run, it is not useful for sample-based agents to take more than a few samples. For example, suppose that there is a reward for correct answers and no penalty for incorrect answers, and that the agent can take ten samples in the time it takes to actually execute the action that reflects the decision. Then, the optimal number of samples that the agent should base their decision on is only one! While this is obviously suboptimal for each \emph{individual} decision, over many decisions, this strategy trades off between the amount of time one can actually spend taking actions versus thinking.
 
 % But one and done assumes that sampling cost is fixed -- what if samples take a variable amount of time?
+One piece of the puzzle not addressed by \citeA{Vul:2014ba} was the case where samples themselves take a variable amount of time. This case is not unheard of: for example, recent research studying how people reason about the physical world suggests that people may rely on samples from noisy physical simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. If people are, in fact, using physical simulations, then it is likely that each simulation will take a different amount of time to run, due to the sequential nature of the simulation. For example, if the task is to predict whether a bouncing ball will hit a green or red target first \cite{Smith:2013ug}, the time it takes to run the simulation is unknown until the ball actually hits one of the targets. 
+
+However, in nearly all the research on intuitive physics, people have been compared to a simulation-based model which took a large number of samples---rather than a small number of samples which would be optimal in the long run---and those samples have been assumed to take constant time. In their appendix, \citeA{Battaglia2013}, attempted to determine the number of samples taken by people in several tasks concerning towers of building blocks. They did find a consistent story with \citeA{Vul:2014ba}: participants in their experiments seemed to use between three and seven samples per judgment. Despite this analysis, the samples were still assumed to be constant in time cost.
+
+% talk about SPRT
+\cite{wald1947sequential}
+\cite{Bitzer:2014ea}
+\cite{Gold:2007fo}
+\cite{Ratcliff:2008ux}
+
+% Summary
+In this paper, we ask the question: how many samples should sample-based agents take before coming to a decision, if the time cost of these samples is unknown? We find the counterintuitive result that the uncertainty in time cost largely doesn't matter; it is nearly optimal for the agent to act using a fixed time cost set to the expected value of the time cost. To show this, we first summarize the formal model as described by \citeA{Vul:2014ba}. Then, we extend this model to handle the case where samples take a variable amount of time. Finally, we apply this model to a behavioral case study.
 
 \section{Sampling with variable time costs}
 
@@ -114,7 +124,7 @@ Thus, the difference is approximated by:
 \end{equation}
 Plugging this back into Equation \ref{eq:ror}, we obtain the overall difference on the rate of return:
 \begin{equation}
-\mathbb{E}[U/t\,|\,T,t_a]=\int_0^1 \sum_{N=T}^\infty \mathbb{E}[U\,|\,T,p]\cdot{}t_a\cdot{}\frac{\mathrm{Var}(t_N)}{(N\cdot{}\mathbb{E}[t_s]+t_a)^3}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p.
+\Delta=\int_0^1 \sum_{N=T}^\infty \mathbb{E}[U\,|\,T,p]\cdot{}t_a\cdot{}\frac{\mathrm{Var}(t_N)}{(N\cdot{}\mathbb{E}[t_s]+t_a)^3}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p.
 \label{eq:ror-diff}
 \end{equation}
 
@@ -130,7 +140,7 @@ How well does the optimal SPRT strategy actually match up with human responses o
 \label{sec:model}
 
 % describe model from sources of uncertainty
-As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Ullman:2014ut}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). To determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. For each sample, we computed whether the ball went in the hole, and then averaged over all the samples.
+As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). To determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. For each sample, we computed whether the ball went in the hole, and then averaged over all the samples.
 
 \subsection{Methods}
 
@@ -143,7 +153,7 @@ We recruited $N=328$ participants on Amazon's Mechanical Turk using the psiTurk 
 % include figure of stimulus
 The stimuli consisted of animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px. All stimuli consisted of two separate animations. The first was he stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction. The second animation was the feedback, which picked up immediately where the first animation left off, and which had a duration of 1.5 seconds and depicted the ball either going into the hole or bouncing off the wall that contained the hole.\footnote{To enforce the constraint that the ball always travel the same distance during the feedback animation, the $x$-coordinate of the wall with the hole in it was allowed to vary across stimuli.} During the feedback animation, the ball could bounce on the other walls either 0, 1, or 2 times before going into the hole hitting the wall with the hole in it. In both animations, the ball had a velocity of 400px/s. Additionally, in the animations, the path that the ball had traveled so far was drawn with a faded gray line (see Figure \ref{fig:experiment}).
 
-There were 48 different initial animations, and for each of these intial animations, there were four different types of feedback and two different hole sizes, giving a total of eight versions of each stimulus. The four feedback types were: ``straight hit'', where the ball went directly through the center of the hole; ``far miss'', where the ball missed the hole by a wide margin; ``close hit'', where the ball just barely went through the hole; and ``near miss'', where the ball just barely missed the hole. The two hole sizes were 100px and 200px.
+There were 48 different initial animations, and for each of these intial animations, there were four different types of feedback and two different hole sizes, giving a total of eight versions of each stimulus. The four feedback types were: ``far in'' (FI), where the ball went directly through the center of the hole; ``far miss'' (FM), where the ball missed the hole by a wide margin; ``close in'' (CI), where the ball just barely went through the hole; and `` close miss'' (CM), where the ball just barely missed the hole. The two hole sizes were 100px and 200px.
 
 In order to ensure that participants never saw the same initial animation twice, we used a latin-square design of Initial Animation $\times$ Hole Type $\times$ Hole Size. Thus, each participant saw each initial animation exactly once, each hole type exactly 12 times, and each hole size exactly 24 times.
 
@@ -163,17 +173,35 @@ The experiment was divided into two phases: the training phase, and the experime
 
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. Participants were instructed to press the ``space'' key to begin the trial. Immediately upon pressing ``space'', the initial stimulus presentation began. As soon as the initial stimulus animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' to respond in the affirmative, and `p' to respond in the negative. Immediately after responding, text appeared saying ``Correct!'' or ``Incorrect.'', depending on the participants' response. Additionally, the gray occluder was removed, and participants were shown the feedback animation. After the feedback animation was complete, the final frame of the animation remained on the screen until participants pressed ``space'' to advance to the next trial. Figure \ref{fig:experiment} shows a few frames from one of the experimental trials.
 
+\subsection{Analysis}
+
+\TODO{}
+
 \subsection{Results}
 
-\begin{figure}[h]
+\begin{figure}[t]
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{figures/human-pct-vs-rt.pdf}
-        \caption{\textbf{Response times as a function of response.}}
+        \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
+        \caption{\textbf{Response times as a function of response.} \TODO{}}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure}
 
+\subsubsection{Responses}
 
+On average, participants were correct about 76\% of the time ($\mu=0.76$, $\sigma^2=0.00001$), and responded that the ball would go in the hole about half the time ($\mu=0.53$, $\sigma^2=0.00001$). There was a significant effect of feedback type on participants' responses \TODO{}; there was also an effect of hole size, though less so \TODO{}. Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
+
+\subsubsection{Response times}
+
+Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There was a significant effect of feedback type on response time \TODO{}, however, there was not a large effect of hole size on response time, except in the case of the ``far in'' (FI) trials, in which the ball went straight through the center of the hole \TODO{}. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
+
+\subsubsection{Speed-accuracy tradeoff}
+
+As shown in Figure \ref{fig:pct-vs-rt} (right subplot), we found a clear speed-accuracy tradeoff in participants responses and response times. In particular, participants were on average faster to respond on trials that they were more certain about, and slower to respond to trials that they were unsure about. This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ take much longer to make, because it takes longer to get to one threshold versus the other.
+
+\subsubsection{Comparison to SPRT}
+
+Participant responses were well correlated with a SPRT model with $T=2$ ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]).
 
 \section{Discussion}
 
