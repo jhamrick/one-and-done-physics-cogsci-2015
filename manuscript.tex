@@ -1,24 +1,41 @@
-\documentclass[11pt]{article}
+\documentclass[10pt,letterpaper]{article}
 
-\usepackage[margin=1in]{geometry}
+\usepackage{cogsci}
+\usepackage{pslatex}
+\usepackage{apacite}
+
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{graphicx}
-\usepackage{authblk}
-\usepackage{apacite}
 \usepackage{color}
-\usepackage{setspace}
 
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
-\doublespacing{}
+\title{How long to simulate?}
 
-\title{Making decisions from samples with variable time costs}
-\author{Jessica B. Hamrick (\texttt{jhamrick@berkeley.edu})}
-\date{}\bibliographystyle{apacite}
+\author{{\large \bf Jessica B.~Hamrick (jhamrick@berkeley.edu)} \\
+  Department of Psychology \\
+  University of California, Berkeley
+  \AND {\large \bf Kevin A.~Smith (k2smith@ucsd.edu)} \\
+  Department of Psychology \\
+  University of California, San Diego
+  \AND {\large \bf Thomas L.~Griffiths (tom\_griffiths@berkeley.edu)} \\
+  Department of Psychology \\
+  University of California, Berkeley
+  \AND {\large \bf Edward Vul (evul@ucsd.edu)} \\
+  Department of Psychology \\
+  University of California, San Diego}
 
 \begin{document}
 
 \maketitle
+
+\begin{abstract}
+\TODO{}
+
+\textbf{Keywords:} 
+add your choice of indexing terms or keywords; kindly use a
+semicolon; between each term
+\end{abstract}
 
 \section{Introduction}
 
@@ -75,13 +92,13 @@ for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]
 \label{eq:pr-n}
 \end{equation}
 
-\begin{figure}[t]
+\begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/thresholds.pdf}
         \caption{\textbf{Rates of return and optimal thresholds.} In all plots, each line corresponds to a particular cost ratio, $t_a/t_s$. Black dots in the left two subplots show the optimal threshold $T^*$ and corresponding rate of return for each line. Left subplot: rates of return for a fixed time cost. Middle subplot: rates of return for a variable time cost. The distribution of $t_s$ was calculated empirically from simulations of a ball bouncing in a box (see Section \ref{sec:model}). Right subplot: difference in rates of return between the variable time cost and fixed time cost, approximated with Equation \ref{eq:ror-diff}.}
         \label{fig:rors}
     \end{center}
-\end{figure}
+\end{figure*}
 
 Putting together Equations \ref{eq:expected-utility} and \ref{eq:pr-n}, the expected rate or return, or utility over time, is:
 \begin{equation}
@@ -156,13 +173,13 @@ In order to ensure that participants never saw the same initial animation twice,
 
 In addition to the 48 experimental trials, there were seven instruction trials and eight control trials, which were the same for all participants. The control trials were designed to be extremely easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px). Thus, participants saw a total of 63 trials throughout the experiment.
 
-\begin{figure}[t]
+\begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/experiment.png}
         \caption{\textbf{Example experimental trial.} Each panel shows a different part of the trial. The left panel shows the initial screen presented to the participant. The middle panel shows the occluded ball, after observing the stimulus presentation. The faded gray line shows the path the ball took during the initial presentation. The right panel shows the final position of the ball, after observing the feedback. As in the middle panel, the faded gray line shows the path of the ball.}
         \label{fig:experiment}
     \end{center}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Procedure}
 
@@ -172,13 +189,13 @@ On each trial, participants were shown the scene, including the initial position
 
 \subsection{Results}
 
-\begin{figure}[t]
+\begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
         \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time.}
         \label{fig:pct-vs-rt}
     \end{center}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Responses}
 
@@ -203,6 +220,11 @@ In this paper, we asked the question: how should a sample-based agent act when i
 We additionally ran an experiment to see how well SPRT predicts human behavior on a task which enforces unknown time costs (as well as a range of underlying probabilities). While we did find a clear relationship between people's responses and their reaction time, analagous to the type of relationship that would be expected from a SPRT-like policy. However, our SPRT model was only a mediocre explanation of people's response times---less so than even the number of times the ball bounced. However, people did not see the number of times that the ball bounced; thus, the effect of the number of bounces is a fairly clear sign that they \emph{are} using simulations in some manner. Rather than a failing of the SPRT model, this may be a failure of our simulation-based model to appropriately account for additional simulation time from bounces.
 
 However, based on our earlier result that unknown simulation time has little effect, even if we added extra simulation time per bounce to the model, it should not change the best-fitting threshold. Future work will investigate this claim further.
+
+\bibliographystyle{apacite}
+
+\setlength{\bibleftmargin}{.125in}
+\setlength{\bibindent}{-\bibleftmargin}
 
 \bibliography{references}
 
