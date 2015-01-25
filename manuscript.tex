@@ -110,49 +110,7 @@ As discussed in the introduction, recent research suggests that people can reaso
 
 \TODO{talk about adjusting for the number of bounces -- or should this be in the results?}
 
-\section{Experiment 1: Replicating Smith and Vul (2014)}
-
-Experiment 1 was a replication of the ``pong'' experiment from \cite{Smith2012}, with the major difference being a new set of stimuli and that it was run on Amazon's Mechanical Turk rather than in the lab.
-
-\subsection{Participants}
-
-We recruited $N=60$ participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework. Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 5 minutes of work. Additionally, we excluded $N=18$ participants from analysis for failing to catch the ball on more than one control trial, leaving a total of $N=42$ participants.
-
-\subsection{Stimuli}
-
-There were 48 unique stimuli, each consisting of an animation depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px, as well as a ``paddle'' that was fixed at some $x$-coordinate but moveable along the $y$-axis. Each animation had a duration of 0.775 seconds and depicted the ball moving in a particular direction with a velocity of 400px/s. Additionally, the path that the ball had traveled so far was drawn with a faded gray line (see Figure \ref{fig:experiment}).
-
-Each animation was chosen such that were the ball to continue moving after the end of the animation, it would take exactly \TODO{} seconds to reach the $y$-coordinate of the paddle.\footnote{To enforce the constraint that the ball always travel the same distance during the feedback animation, the $x$-coordinate of the wall with the hole in it was allowed to vary across stimuli.} During this ``gap'' period in between the end of the animation and the ball reaching the $x$-coordinate of the paddle, the ball could bounce on the top, right, or bottom walls either 0, 1, or 2 times.
-
-In addition to the 48 experimental trials, there were seven instruction trials and eight control trials. The control trials were designed to be extremely easy and consisted of a ball heading straight towards the $x$-coordinate of the paddle (with a angle of incidence of either $90^\circ$ or close to $90^\circ$. Thus, participants saw a total of 63 trials throughout the experiment.
-
-\subsection{Procedure}
-
-The experiment was divided into two phases: the training phase, and the experimental phase. During the training phase, participants made judgments on the seven instruction trials in order to get used to the task. During the experimental phase, participants made judgments on the 48 experimental trials, presented in a random order, as well as the eight control trials, which were also shown in a random order, but interspersed with the experimental trials such that every 8th trial was a control trial.
-
-On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial. Participants were instructed to press the ``space'' key to begin the trial. Immediately upon pressing ``space'', the initial stimulus presentation began. As soon as the initial stimulus animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). As soon as the occluder appeared, a timer also appeared and begin counting down for \TODO{} seconds. During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.
-
-When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed. If the ball was on the paddle, then participants were told, ``You caught the ball!''. If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.'' Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
-
-Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they caught the ball / the number of trials completed).
-
-\subsection{Results}
-
-\section{Experiment 2}
-
-\subsection{Participants}
-
-We recruited $N=328$ participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework. Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 6.5 minutes of work. Participants were randomly assigned to one of eight conditions, which determined which stimuli they judged based on a latin-square design (see Stimuli). Additionally, we excluded $N=8$ participants from analysis for answering incorrectly on more than one control trial (see Stimuli), leaving a total of $N=320$ participants.
-
-\subsection{Stimuli}
-
-The stimuli were modified versions of those used in Experiment 1, with two main differences. First, instead of a moveable paddle, there was a wall with a fixed hole in it; the wall was at the same $x$-coordinate as the paddle. Second, while the initial stimulus presentation was identical, the stimuli in Experiment 2 had a second animation which was shown after participants responded. The feedback, which picked up immediately where the first animation left off, had a duration of 1.5 seconds. It depicted the ball either going into the hole or bouncing off the wall that contained the hole.
-
-There were 48 different initial animations (corresponding to the animations used in Experiment 1), and for each of these intial animations, there were four different types of feedback and two different hole sizes, giving a total of eight versions of each stimulus. The four feedback types were: ``far in'' (FI), where the ball went directly through the center of the hole; ``far miss'' (FM), where the ball missed the hole by a wide margin; ``close in'' (CI), where the ball just barely went through the hole; and `` close miss'' (CM), where the ball just barely missed the hole. The two hole sizes were 100px and 200px.
-
-In order to ensure that participants never saw the same initial animation twice, we used a latin-square design of Initial Animation $\times$ Hole Type $\times$ Hole Size. Thus, each participant saw each initial animation exactly once, each hole type exactly 12 times, and each hole size exactly 24 times.
-
-The training trials and control trials were also the same as those used in Experiment 1, with feedback animations that were the same across participants. The feedback and hole sizes of the control trials were designed to be extremely easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px).
+\section{Experiment 1}
 
 \begin{figure*}[t]
     \begin{center}
@@ -162,11 +120,29 @@ The training trials and control trials were also the same as those used in Exper
     \end{center}
 \end{figure*}
 
+\subsection{Participants}
+
+We recruited $N=328$ participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework. Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 6.5 minutes of work. Participants were randomly assigned to one of eight conditions, which determined which stimuli they judged based on a latin-square design (see Stimuli). Additionally, we excluded $N=8$ participants from analysis for answering incorrectly on more than one control trial (see Stimuli), leaving a total of $N=320$ participants.
+
+\subsection{Stimuli}
+
+The stimuli consisted of animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px. All stimuli consisted of two separate animations. The first was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction. The second animation was the feedback, which picked up immediately where the first animation left off, and which had a duration of 1.5 seconds and depicted the ball either going into the hole or bouncing off the wall that contained the hole.\footnote{To enforce the constraint that the ball always travel the same distance during the feedback animation, the $x$-coordinate of the wall with the hole in it was allowed to vary across stimuli.} During the feedback animation, the ball could bounce on the other walls either 0, 1, or 2 times before going into the hole hitting the wall with the hole in it. In both animations, the ball had a velocity of 400px/s. Additionally, in the animations, the path that the ball had traveled so far was drawn with a faded gray line (see Figure \ref{fig:experiment}).
+
+There were 48 different initial animations, and for each of these intial animations, there were four different types of feedback and two different hole sizes, giving a total of eight versions of each stimulus. The four feedback types were: ``far in'' (FI), where the ball went directly through the center of the hole; ``far miss'' (FM), where the ball missed the hole by a wide margin; ``close in'' (CI), where the ball just barely went through the hole; and `` close miss'' (CM), where the ball just barely missed the hole. The two hole sizes were 100px and 200px.
+
+In order to ensure that participants never saw the same initial animation twice, we used a latin-square design of Initial Animation $\times$ Hole Type $\times$ Hole Size. Thus, each participant saw each initial animation exactly once, each hole type exactly 12 times, and each hole size exactly 24 times.
+
+In addition to the 48 experimental trials, there were seven instruction trials and eight control trials, which were the same for all participants. The control trials were designed to be extremely easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px). Thus, participants saw a total of 63 trials throughout the experiment.
+
 \subsection{Procedure}
 
-The procedure was very similar to that in Experiment 1, and was identical up until the point that the occluder was shown. Instead of then having a fixed amount of time to answer, participants had unlimited time. Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' to respond in the affirmative, and `p' to respond in the negative. Immediately after responding, text appeared saying ``Correct!'' or ``Incorrect.'', depending on the participants' response. Additionally, the gray occluder was removed, and participants were shown the feedback animation. After the feedback animation was complete, the final frame of the animation remained on the screen until participants pressed ``space'' to advance to the next trial. Figure \ref{fig:experiment} shows a few frames from one of the experimental trials.
+The experiment was divided into two phases: the training phase, and the experimental phase. During the training phase, participants made judgments on the seven instruction trials in order to get used to the task. During the experimental phase, participants made judgements on the 48 experimental trials, presented in a random order, as well as the eight control trials, which were also shown in a random order, but interspersed with the experimental trials such that every 8th trial was a control trial.
 
-\section{Results}
+On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. Participants were instructed to press the ``space'' key to begin the trial. Immediately upon pressing ``space'', the initial stimulus presentation began. As soon as the initial stimulus animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' to respond in the affirmative, and `p' to respond in the negative. Immediately after responding, text appeared saying ``Correct!'' or ``Incorrect.'', depending on the participants' response. Additionally, the gray occluder was removed, and participants were shown the feedback animation. After the feedback animation was complete, the final frame of the animation remained on the screen until participants pressed ``space'' to advance to the next trial. 
+
+Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they answered correctly / the number of trials completed).
+
+\subsection{Results}
 
 \begin{figure*}[t]
     \begin{center}
@@ -176,29 +152,53 @@ The procedure was very similar to that in Experiment 1, and was identical up unt
     \end{center}
 \end{figure*}
 
-\subsection{Responses}
+\subsubsection{Responses}
 
 On average, participants were correct 76.1\% of the time ($N=17686$) and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
 
-\subsection{Response times}
+\subsubsection{Response times}
 
 For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples. Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There were significant effects of both feedback type ($\chi^2(3)=63.611, p<0.001$) and hole size ($\chi^2(1)=8.9808, p<0.01$) on response time, as well as an interaction between feedback type and hole size ($\chi^2(3)=27.146, p<0.001$). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
 
-\subsection{Relationship of responses to reaction time}
+\subsubsection{Relationship of responses to reaction time}
 
 As shown in Figure \ref{fig:pct-vs-rt} (right subplot), we found a clear speed-accuracy tradeoff in participants responses and response times. In particular, participants were on average faster to respond on trials that they were more certain about, and slower to respond to trials that they were unsure about. This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ take much longer to make, because it takes longer to get to one threshold versus the other.
 
-\subsection{Comparison to SPRT}
+\section{Experiment 2}
 
-We fit participant responses and response times to the SPRT model with different values of $T$, and found that $T=2$ to have the best fit. Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. At first glance, this seems like it could contradict the earlier result that unknown sampling times have little effect on the optimal number of samples to take. An alternate possibility is just that each bounce adds time to people's simulations above and beyond what it adds to the model simulations, but does not actually affect the number of samples they take. More investigation will be required to fully understand what is going on here.
+Based on the results of Experiment 1, it is clear that people are spending longer on decisions that they are less confident about. In order to determine whether this could be explained by running mental simulations according to the SPRT strategy, we first needed to better characterize the parameters of people's mental simulations. Experiment 2 was designed as a conceptual replication of \citeA{Smith2012}, which would allow us to affirm that people are using mental simulation on these types of tasks, and if so, what the parameters of those simulations are.
+
+\subsection{Participants}
+
+We recruited $N=60$ participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework. Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 5 minutes of work. Additionally, we excluded $N=18$ participants from analysis for failing to catch the ball on more than one control trial, leaving a total of $N=42$ participants.
+
+\subsection{Stimuli}
+
+The stimuli were modified versions of those used Experiment 1, with two major differences. First, instead of a wall with a hole in it, there was a paddle of length \TODO{}px that could move up and down the $y$-axis. Second, there was no feedback animation; instead, there was just a single feedback image corresponding to the last frame of the feedback animation. Because there was no feedback animation, there were only 48 stimuli (corresponding to the stimulus presentation animations from Experiment 1), plus the seven instruction trials and eight catch trials.
+
+\subsection{Procedure}
+
+Like Experiment 1, the experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed). On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial. Participants were instructed to press the ``space'' key to begin the trial. 
+
+As in Experiment 1, immediately upon pressing ``space'', the initial stimulus presentation began, after which an occluder appeared. However, unlike Experiment 1, as soon as the occluder appeared, a timer also appeared and begin counting down for \TODO{} seconds. During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed. If the ball was on the paddle, then participants were told, ``You caught the ball!''. If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.'' Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
+
+Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they caught the ball / the number of trials completed).
+
+\subsection{Results}
+
+\TODO{summarize results showing that experimen 2 replicates Smith \& Vul (2014), and talk about fitting the model parameters}
+
+\section{Does SPRT explain human judgments?}
+
+We fit participant responses and response times to the SPRT model with different values of $T$, and found that $T=2$ to have the best fit. Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. 
+
+\TODO{explain SPRT results}
+
+
 
 \section{Discussion}
 
-% In this paper, we asked the question: how should a sample-based agent act when it does not know how long it takes to draw a sample? To answer this question, we examined the optimal behavior of agents using the sequential probability ratio test (SPRT) with unknown time costs. Surprisingly, we found that the uncertainty introduced by the unknown sample times did not have a large effect: in most cases, the optimal threshold is the same regardless.
-
-% We additionally ran an experiment to see how well SPRT predicts human behavior on a task which enforces unknown time costs (as well as a range of underlying probabilities). While we did find a clear relationship between people's responses and their reaction time, analagous to the type of relationship that would be expected from a SPRT-like policy. However, our SPRT model was only a mediocre explanation of people's response times---less so than even the number of times the ball bounced. However, people did not see the number of times that the ball bounced; thus, the effect of the number of bounces is a fairly clear sign that they \emph{are} using simulations in some manner. Rather than a failing of the SPRT model, this may be a failure of our simulation-based model to appropriately account for additional simulation time from bounces.
-
-% However, based on our earlier result that unknown simulation time has little effect, even if we added extra simulation time per bounce to the model, it should not change the best-fitting threshold. Future work will investigate this claim further.
+\TODO{}
 
 \bibliographystyle{apacite}
 
