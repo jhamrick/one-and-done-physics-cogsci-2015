@@ -10,7 +10,7 @@
 
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
-\title{How long to simulate?}
+\title{Think again?\\ Optimal mental simulation tracks problem difficulty}
 
 \author{{\large \bf Jessica B.~Hamrick (jhamrick@berkeley.edu)} \\
   Department of Psychology \\
@@ -39,120 +39,78 @@ semicolon; between each term
 
 \section{Introduction}
 
-% % How do sample-based agents make decisions based on samples that take a variable amount of time?
-% Bayesian agents must often make judgments about situations that require computing a difficult, if not intractable, posterior distribution. One popular method to handle this issue is to use a Monte Carlo approximation to the posterior, where the agent draws some number of samples and bases its decision on those samples. However, even this approach is not always feasible for agents with limited computational computational power, as it can take thousands or even millions of samples to approach a decent approximation. The situation is further complicated by the fact that samples can vary in a variety of ways: for example, some samples may provide more information than others, and some samples may vary in how \emph{long} they take to compute. Given these constraints, what is the optimal sampling behavior for a sample-based agent?
+%% The question we're interested in: how many simulations do people take?
+Imagine you are playing a video game---for example, Angry Birds or Desert Golf---in which you need to predict where an object will end up. Recent research in the domain of intuitive physics and mental simulation has suggested that people make predictions like these by running noisy physical simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. For example, if people are running mental simulations, \emph{how many} simulations do they run?
 
-% % One and done: the best thing to do is take very few samples
-% Recent research by \citeA{Vul:2014ba} asked how many samples an agent should take before making a decision. Surprisingly, they found that to optimize success in the \emph{long} run, it is not useful for sample-based agents to take more than a few samples. For example, suppose that there is a reward for correct answers and no penalty for incorrect answers, and that the agent can take ten samples in the time it takes to actually execute the action that reflects the decision. Then, the optimal number of samples that the agent should base their decision on is only one! While this is obviously suboptimal for each \emph{individual} decision, over many decisions, this strategy trades off between the amount of time one can actually spend taking actions versus thinking.
+\TODO{something discussing that there are scenarios in which it's useful to take more simulations than others?}
 
-% % SPRT
-% \citeA{Vul:2014ba} examined not just the case where an agent can take a fixed number of samples, but also several policies for taking a variable number of samples depending on how useful the samples are. For example, consider the case where an agent must decide between two options. If they draw samples favoring one of the options with probability 0.95, then the agent can be fairly confident about which is the better option after only a few samples. In contrast, if the probability is 0.55, then the agent would need many samples to be confident about which option is better. Of course, the agent doesn't know what the probability is: that is the point of sampling. One strategy which addresses this issue is known as the \emph{sequential probability ratio test} \cite{wald1947sequential}, or SPRT, and has been used extensively to model a variety of decision making tasks in humans \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}. An agent using SPRT accumulates evidence for one option versus another, and stops sampling once a particular threshold of evidence has been reached. So, rather than optimizing for a fixed number of samples, the agent should optimize for the threshold.
+%% What's already been done
+Previous research by \citeA{Vul:2014ba} has asked, in the abstract, how many samples an agent should take before making a decision. Surprisingly, they found that to optimize success in the long run, it is not useful for sample-based agents to take more than a few samples. For example, suppose that there is a reward for correct answers and no penalty for incorrect answers, and that the agent can take ten samples in the time it takes to actually execute the action that reflects the decision. Then, the optimal number of samples that the agent should base their decision on is only one! While this is obviously suboptimal for each individual decision, over many decisions, this strategy trades off between the amount of time one can actually spend taking actions versus thinking.
 
-% % But one and done assumes that sampling cost is fixed -- what if samples take a variable amount of time?
-% One piece of the puzzle not addressed by \citeA{Vul:2014ba} was the case where samples themselves take a variable amount of time. This case is not unheard of: for example, recent research studying how people reason about the physical world suggests that people may rely on samples from noisy physical simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. If people are, in fact, using physical simulations, then it is likely that each simulation will take a different amount of time to run, due to the sequential nature of the simulation. For example, if the task is to predict whether a bouncing ball will hit a green or red target first \cite{Smith:2013ug}, the time it takes to run the simulation is unknown until the ball actually hits one of the targets. 
+%% What's missing
+So far, the theoretical results from \citeA{Vul:2014ba} have largely not been applied to the domain of mental simulation, and lead to several questions regarding how people use their mental simulations. First, do people run multiple mental simulations? If so, do they run a fixed number of simulations, or vary the number of simulations based on the difficult? A supplementary analysis by \citeA{Battaglia2013} suggests that people do run multiple simulation. In their analysis, they attempted to determine the number of samples taken by people in several tasks concerning towers of building blocks. They did find a consistent story with \citeA{Vul:2014ba}: participants in their experiments seemed to use between three and seven samples per judgment. However, their analysis only concerned the variability of responses and did not take into account response time.
 
-% However, in nearly all the research on intuitive physics, people have been compared to a simulation-based model which took a large number of samples---rather than a small number of samples which would be optimal in the long run---and those samples have been assumed to take constant time. In their appendix, \citeA{Battaglia2013}, attempted to determine the number of samples taken by people in several tasks concerning towers of building blocks. They did find a consistent story with \citeA{Vul:2014ba}: participants in their experiments seemed to use between three and seven samples per judgment. Despite this analysis, the samples were still assumed to be constant in time cost.
+%% What we're going to do and how we're going to do it
+In this paper, we investigate how many mental simulations people run when making decisions in a two alternative force choice task, analyzing both their response times and the variability of responses. \TODO{plan of the paper}
 
-% % Summary
-% In this paper, we ask the question: what SPRT threshold should sample-based agents use when making decisions, if the time cost of taking samples is unknown? We find the counterintuitive result that the uncertainty in time cost largely doesn't matter; it is nearly optimal for the agent to act using a fixed time cost set to the expected value of the time cost. To show this, we first summarize the formal model as described by \citeA{Vul:2014ba}. Then, we extend this model to handle the case where samples take a variable amount of time. Finally, we apply the SPRT model to a behavioral case study in order to understand how people treat variable-time samples. 
+\section{Modeling mental simulation with SPRT}
 
-% \section{Sampling with variable time costs}
+% SPRT
+\citeA{Vul:2014ba} examined not just the case where an agent can take a fixed number of samples, but also several policies for taking a variable number of samples depending on how useful the samples are. For example, consider the case where an agent must decide between two options. If they draw samples favoring one of the options with probability 0.95, then the agent can be fairly confident about which is the better option after only a few samples. In contrast, if the probability is 0.55, then the agent would need many samples to be confident about which option is better. Of course, the agent doesn't know what the probability is: that is the point of sampling. One strategy which addresses this issue is known as the \emph{sequential probability ratio test} \cite{wald1947sequential}, or SPRT, and has been used extensively to model a variety of decision making tasks in humans \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}. An agent using SPRT accumulates evidence for one option versus another, and stops sampling once a particular threshold of evidence has been reached. So, rather than optimizing for a fixed number of samples, the agent should optimize for the threshold.
 
-% \citeA{Vul:2014ba} previously found that optimal sample-based agents should take only a few samples before making a decision, subject to the time cost of taking those samples. In this section, we first briefly summarize their formulation of the problem. Then, we describe how this formulation must be adjusted to account for samples with variable time costs.
+\TODO{probably don't actually need to go through all the math here, can just cite the appendix of one and done?}
 
-% \subsection{Background}
+% briefly go over one and done math
+Here, we consider the binary (or two-alternative forced choice) case, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
 
-% % briefly go over one and done math
-% Here, we consider the binary (or two-alternative forced choice) case, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
+In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
+\begin{equation}
+\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
+\label{eq:pr-choose-h1}
+\end{equation}
+and so the marginal probability of correctly choosing the MAP hypothesis is:
+\begin{equation}
+\Pr[\mathrm{correct}]=\frac{p^{T+1}+(1-p)^{T+1}}{p^T+(1-p)^T}.
+\label{eq:pr-correct}
+\end{equation}
+Then, the expected utility for a decision, given a threshold and the true probability, is:
+\begin{equation}
+\mathbb{E}[U\,|\,T,p]=\Pr[\mathrm{correct}]\cdot{}u^{(+)}+(1-\Pr[\mathrm{correct}])\cdot{}u^{(-)},
+\label{eq:expected-utility}
+\end{equation}
+where $u^{(+)}$ is the utility for a correct answer and $u^{(-)}$ is the utility for an incorrect answer.
 
-% In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
-% \begin{equation}
-% \Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
-% \label{eq:pr-choose-h1}
-% \end{equation}
-% and so the marginal probability of correctly choosing the MAP hypothesis is:
-% \begin{equation}
-% \Pr[\mathrm{correct}]=\frac{p^{T+1}+(1-p)^{T+1}}{p^T+(1-p)^T}.
-% \label{eq:pr-correct}
-% \end{equation}
-% Then, the expected utility for a decision, given a threshold and the true probability, is:
-% \begin{equation}
-% \mathbb{E}[U\,|\,T,p]=\Pr[\mathrm{correct}]\cdot{}u^{(+)}+(1-\Pr[\mathrm{correct}])\cdot{}u^{(-)},
-% \label{eq:expected-utility}
-% \end{equation}
-% where $u^{(+)}$ is the utility for a correct answer and $u^{(-)}$ is the utility for an incorrect answer.
+We are interested not just in how much utility is gained from a single decision, but how much utility is gained from \emph{each additional sample}. Under the SPRT strategy, the probability of taking $N$ samples and then choosing $H_1$ is:
+\begin{equation}
+\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
+\end{equation}
+for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
+\begin{equation}
+\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
+\label{eq:pr-n}
+\end{equation}
 
-% We are interested not just in how much utility is gained from a single decision, but how much utility is gained from \emph{each additional sample}. Under the SPRT strategy, the probability of taking $N$ samples and then choosing $H_1$ is:
-% \begin{equation}
-% \Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
-% \end{equation}
-% for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
-% \begin{equation}
-% \Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
-% \label{eq:pr-n}
-% \end{equation}
+Putting together Equations \ref{eq:expected-utility} and \ref{eq:pr-n}, the expected rate or return, or utility over time, is:
+\begin{equation}
+\mathbb{E}[U/t\,|\,T,t_a,t_s]=\int_0^1 \sum_{N=T}^\infty \frac{\mathbb{E}[U\,|\,T,p]\cdot{}t_a}{Nt_s+t_a}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p,
+\label{eq:ror-fixed}
+\end{equation}
+where $t_s$ is the time it takes to draw a single sample, and $t_a$ is the time it takes to make a decision or execute an action \cite{Vul:2014ba}. Finally, given this equation, we can compute the optimal threshold for an agent using the SPRT strategy:
+\begin{equation}
+T^*=\mathrm{arg}\max_T \mathbb{E}[U/t\,|\,T,t_a,t_s].
+\label{eq:optimal-threshold}
+\end{equation}
 
-% \begin{figure*}[t]
-%     \begin{center}
-%         \includegraphics[width=\textwidth]{figures/thresholds.pdf}
-%         \caption{\textbf{Rates of return and optimal thresholds.} In all plots, each line corresponds to a particular cost ratio, $t_a/t_s$. Black dots in the left two subplots show the optimal threshold $T^*$ and corresponding rate of return for each line. Left subplot: rates of return for a fixed time cost. Middle subplot: rates of return for a variable time cost. The distribution of $t_s$ was calculated empirically from simulations of a ball bouncing in a box (see Section \ref{sec:model}). Right subplot: difference in rates of return between the variable time cost and fixed time cost, approximated with Equation \ref{eq:ror-diff}.}
-%         \label{fig:rors}
-%     \end{center}
-% \end{figure*}
-
-% Putting together Equations \ref{eq:expected-utility} and \ref{eq:pr-n}, the expected rate or return, or utility over time, is:
-% \begin{equation}
-% \mathbb{E}[U/t\,|\,T,t_a,t_s]=\int_0^1 \sum_{N=T}^\infty \frac{\mathbb{E}[U\,|\,T,p]\cdot{}t_a}{Nt_s+t_a}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p,
-% \label{eq:ror-fixed}
-% \end{equation}
-% where $t_s$ is the time it takes to draw a single sample, and $t_a$ is the time it takes to make a decision or execute an action \cite{Vul:2014ba}. Finally, given this equation, we can compute the optimal threshold for an agent using the SPRT strategy:
-% \begin{equation}
-% T^*=\mathrm{arg}\max_T \mathbb{E}[U/t\,|\,T,t_a,t_s].
-% \label{eq:optimal-threshold}
-% \end{equation}
-
-% The rate of return and corresponding optimal thresholds for a variety of time costs, as computed by Equations \ref{eq:ror-fixed} and \ref{eq:optimal-threshold}, are shown in the left subplot of Figure \ref{fig:rors}.
-
-% \subsection{Variable time costs}
-
-% % convert one and done math to variable time costs
-% We now turn to the case where $t_s$ is variable and unknown. Let $t_N:=\sum_{i=1}^N t_s^{(i)}$ be the time it takes to draw $N$ samples. Then, the rate of return becomes:
-% \begin{equation}
-% \mathbb{E}[U/t\,|\,T,t_a]=\int_0^1 \sum_{N=T}^\infty \mathbb{E}[U\,|\,T,p]\cdot{}t_a\cdot{}\mathbb{E}\left[\frac{1}{t_N+t_a}\right]\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p.
-% \label{eq:ror}
-% \end{equation}
-
-% Because $t_N$ is always positive, $(t_N+t_a)^{-1}$ is convex. Using Jensen's inequality:
-% \begin{equation}
-% \mathbb{E}\left[\frac{1}{t_N+t_a}\right]\geq \frac{1}{N\cdot{}\mathbb{E}[t_s]+t_a},
-% \end{equation}
-% where the right hand side of the inequality corresponds to the original formulation by \citeA{Vul:2014ba}. Thus, the rate of return when the time cost is unknown will always be greater than when it is known. Intuitively, this makes sense: when an agent knows less to begin with, the samples it takes will give it more information, ultimately resulting in a higher rate of return.
-
-% We can approximate the extent to which samples are more useful when the time cost is unknown by computing using a Taylor expansion around $N\cdot{}\mathbb{E}[t_s]$:
-% \begin{equation}
-% \mathbb{E}\left[\frac{1}{t_N+t_a}\right]\approx \frac{1}{N\cdot{}\mathbb{E}[t_s]+t_a}+\frac{\mathrm{Var}(t_N)}{(N\cdot{}\mathbb{E}[t_s]+t_a)^3}-\ldots{}
-% \end{equation}
-% Thus, the difference is approximated by:
-% \begin{equation}
-% \mathbb{E}\left[\frac{1}{t_s+t_a}\right]-\frac{1}{N\cdot{}\mathbb{E}[t_s]+t_a}\approx \frac{\mathrm{Var}(t_N)}{(N\cdot{}\mathbb{E}[t_s]+t_a)^3}
-% \end{equation}
-% Plugging this back into Equation \ref{eq:ror}, we obtain the overall difference on the rate of return:
-% \begin{equation}
-% \Delta=\int_0^1 \sum_{N=T}^\infty \mathbb{E}[U\,|\,T,p]\cdot{}t_a\cdot{}\frac{\mathrm{Var}(t_N)}{(N\cdot{}\mathbb{E}[t_s]+t_a)^3}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p.
-% \label{eq:ror-diff}
-% \end{equation}
-
-% In practice, this difference is quite small. The middle subplot of Figure \ref{fig:rors} shows the rates of return using a variable time cost,\footnote{The times used for this plot were computed empirically using physical simulations of a ball boucing in a box. See Section \ref{sec:model} for details.} and the right subplot shows the difference computed from \ref{eq:ror-diff}. Even the largest difference, which occurs at $T=1$ and $t_a=\mathbb{E}[t_s]$, is so small that it does not change the value of $T^*$; the difference would need to be about 100 times greater in order to have an effect. Using different distributions for $\Pr[t_s]$ may have larger effects, but even these are not substantial. For example, using a uniform distribution can change $T^*$ from 0 to 1 for smaller cost ratios.
-
-% To summarize, we find that the introduction of uncertainty into the time cost has very little effect. The implication of this result is that even if it \emph{does} takes a variable amount of time to draw a sample, an agent need not bother taking its uncertainty into account: it can rely solely on its estimate of the average sample time to determine an optimal threshold.
-
-\section{Model}
-\label{sec:model}
+\section{Modeling physical predictions}
 
 % describe model from sources of uncertainty
 As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). We fit these model parameters to human judgments in a related but separate task. Then, to determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. From these samples, we estimated a truncated normal distribution along the wall with the hole in it, and then computed the probability density lying within the region of the hole.
 
-\section{Experiment 1}
+\TODO{talk about standard deviation adjustment}
+
+\TODO{talk about adjusting for the number of bounces -- or should this be in the results?}
+
+\section{Experiment 1: Replicating Smith and Vul (2014)}
 
 Experiment 1 was a replication of the ``pong'' experiment from \cite{Smith2012}, with the major difference being a new set of stimuli and that it was run on Amazon's Mechanical Turk rather than in the lab.
 
