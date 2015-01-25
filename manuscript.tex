@@ -47,71 +47,6 @@ According to previous research by \citeA{Vul:2014ba}, a sample-based agent shoul
 
 A second question concerns the actual strategy used to take samples. Do people always take exactly the same number of samples for each decision, or do they vary the number of samples based on problem difficulty? While \citeA{Vul:2014ba} looked at a variety of strategies, they concluded that regardless of strategy, the optimal solution was still roughly the same: the agent should take very few samples. However, that does not make the choice of strategy irrelevant. If the strategy tells the agent to vary the number of samples, then we should see variability in the agent's response times. Indeed, such variability can be observed in other types of decision-making tasks, and has been well-modeled by the \textit{sequential probability ratio test} \cite{wald1947sequential}, or SPRT \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}. In SPRT, the agent takes samples until it reaches a threshold number of samples in support of one hypothesis over another hypothesis.
 
-%% What we're going to do and how we're going to do it
-In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? And, if so, do they do so in a manner consistent with SPRT? To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
-
-%% What we're going to do and how we're going to do it
-The plan of the paper is as follows. First, we formalize our hypothesis for how people respond to the question, ``will the ball go through the hole?'', specifying both a simulation-based model as well as the SPRT strategy. Second, we describe two behavioral experiments, one in which we asked people to respond to the question of ``will the ball go through the hole?'', and a related experiment that we used to determine the parameters for the simulation-based model. Third, we describe the results of the experiments, and compare people's judgments and response times to those from the model. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
-
-\section{Modeling mental simulation with SPRT}
-
-% SPRT
-\citeA{Vul:2014ba} examined not just the case where an agent can take a fixed number of samples, but also several policies for taking a variable number of samples depending on how useful the samples are. For example, consider the case where an agent must decide between two options. If they draw samples favoring one of the options with probability 0.95, then the agent can be fairly confident about which is the better option after only a few samples. In contrast, if the probability is 0.55, then the agent would need many samples to be confident about which option is better. Of course, the agent doesn't know what the probability is: that is the point of sampling. One strategy which addresses this issue is known as the \emph{sequential probability ratio test} \cite{wald1947sequential}, or SPRT, and has been used extensively to model a variety of decision making tasks in humans \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}. An agent using SPRT accumulates evidence for one option versus another, and stops sampling once a particular threshold of evidence has been reached. So, rather than optimizing for a fixed number of samples, the agent should optimize for the threshold.
-
-\TODO{probably don't actually need to go through all the math here, can just cite the appendix of one and done?}
-
-% briefly go over one and done math
-Here, we consider the binary (or two-alternative forced choice) case, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
-
-In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
-\begin{equation}
-\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
-\label{eq:pr-choose-h1}
-\end{equation}
-and so the marginal probability of correctly choosing the MAP hypothesis is:
-\begin{equation}
-\Pr[\mathrm{correct}]=\frac{p^{T+1}+(1-p)^{T+1}}{p^T+(1-p)^T}.
-\label{eq:pr-correct}
-\end{equation}
-Then, the expected utility for a decision, given a threshold and the true probability, is:
-\begin{equation}
-\mathbb{E}[U\,|\,T,p]=\Pr[\mathrm{correct}]\cdot{}u^{(+)}+(1-\Pr[\mathrm{correct}])\cdot{}u^{(-)},
-\label{eq:expected-utility}
-\end{equation}
-where $u^{(+)}$ is the utility for a correct answer and $u^{(-)}$ is the utility for an incorrect answer.
-
-We are interested not just in how much utility is gained from a single decision, but how much utility is gained from \emph{each additional sample}. Under the SPRT strategy, the probability of taking $N$ samples and then choosing $H_1$ is:
-\begin{equation}
-\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
-\end{equation}
-for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
-\begin{equation}
-\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
-\label{eq:pr-n}
-\end{equation}
-
-Putting together Equations \ref{eq:expected-utility} and \ref{eq:pr-n}, the expected rate or return, or utility over time, is:
-\begin{equation}
-\mathbb{E}[U/t\,|\,T,t_a,t_s]=\int_0^1 \sum_{N=T}^\infty \frac{\mathbb{E}[U\,|\,T,p]\cdot{}t_a}{Nt_s+t_a}\Pr[N\,|\,T,p]\Pr[p]\ \mathrm{d}p,
-\label{eq:ror-fixed}
-\end{equation}
-where $t_s$ is the time it takes to draw a single sample, and $t_a$ is the time it takes to make a decision or execute an action \cite{Vul:2014ba}. Finally, given this equation, we can compute the optimal threshold for an agent using the SPRT strategy:
-\begin{equation}
-T^*=\mathrm{arg}\max_T \mathbb{E}[U/t\,|\,T,t_a,t_s].
-\label{eq:optimal-threshold}
-\end{equation}
-
-\section{Modeling physical predictions}
-
-% describe model from sources of uncertainty
-As discussed in the introduction, recent research suggests that people can reason about physical scenarios by running noisy physics simulations \cite<e.g.>{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. Here, we assume this to be the case, and use the model from \citeA{Smith2012}. Briefly, their model incorporates four sources of uncertainty into the physical simulations: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$). We fit these model parameters to human judgments in a related but separate task. Then, to determine the probability that the ball goes in the hole, we simulated $M=10000$ samples from the model. From these samples, we estimated a truncated normal distribution along the wall with the hole in it, and then computed the probability density lying within the region of the hole.
-
-\TODO{talk about standard deviation adjustment}
-
-\TODO{talk about adjusting for the number of bounces -- or should this be in the results?}
-
-\section{Experiment 1}
-
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/experiment.png}
@@ -119,6 +54,55 @@ As discussed in the introduction, recent research suggests that people can reaso
         \label{fig:experiment}
     \end{center}
 \end{figure*}
+
+%% What we're going to do and how we're going to do it
+In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? And, if so, do they do so in a manner consistent with SPRT? To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
+
+%% What we're going to do and how we're going to do it
+The plan of the paper is as follows. First, we formalize our hypothesis for how people respond to the question, ``will the ball go through the hole?'', specifying both a simulation-based model as well as the SPRT strategy. Second, we describe two behavioral experiments, one in which we asked people to respond to the question of ``will the ball go through the hole?'', and a related experiment that we used to determine the parameters for the simulation-based model. Third, we describe the results of the experiments, and compare people's judgments and response times to those from the model. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
+
+\section{Modeling mental simulations}
+
+Consider the task in Figure \ref{fig:experiment}, in which people observe a blue ball moving around in a box, and are then asked, ``will the ball go through the hole?''. How do people make this type of judgment? We hypothesize that they predict where the ball will go by running noisy physical simulations, and that they run a variable number of simulations on each trial according to the \textit{sequential probability ratio test}, or SPRT \cite{wald1947sequential}. In this section, we lay out the formalism for both the simulation-based model and the SPRT strategy.
+
+\subsection{The ``Noisy Newton'' hypothesis}
+
+There is a growing body of evidence that people reason about physical scenes by running noisy simulations. This hypothesis, referred to as the ``Noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics. Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. In particular, \citeA{Smith2012} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty and dynamics uncertainty.
+
+Specifically, \citeA{Smith2012} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis. In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through four parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$).
+
+\subsection{The SPRT strategy}
+
+In this paper, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
+
+In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
+\begin{equation}
+\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
+\label{eq:pr-choose-h1}
+\end{equation}
+
+Given the threshold, the probability of taking $N$ samples and then choosing $H_1$ is:
+\begin{multline}
+\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\cdot{}\\
+\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
+\end{multline}
+for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
+\begin{equation}
+\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
+\label{eq:pr-n}
+\end{equation}
+and so the expected number of samples for a particular decision is:
+\begin{equation}
+\mathbb{E}[N\,|\,T,p]=\sum_{N=T}^\infty N\cdot{}\Pr[N\,|\,T,p]
+\end{equation}
+
+To combine the ``Noisy Newton'' hypothesis with the SPRT strategy, we needed to compute the probability, $p$, that the ball goes in the hole. To do this, we simulated $M=10000$ samples from the model. From these samples, we estimated a truncated normal distribution along the wall with the hole in it, and then computed the probability density lying within the region of the hole.
+
+\TODO{talk about standard deviation adjustment}
+
+\TODO{talk about adjusting for the number of bounces -- or should this be in the results?}
+
+\section{Experiment 1}
 
 \subsection{Participants}
 
