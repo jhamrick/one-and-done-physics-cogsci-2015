@@ -12,25 +12,19 @@
 
 \title{Think again?\\ Optimal mental simulation tracks problem difficulty}
 
-\author{{\large \bf Jessica B.~Hamrick (jhamrick@berkeley.edu)} \\
-  Department of Psychology \\
-  University of California, Berkeley
-  \AND {\large \bf Kevin A.~Smith (k2smith@ucsd.edu)} \\
-  Department of Psychology \\
-  University of California, San Diego
-  \AND {\large \bf Thomas L.~Griffiths (tom\_griffiths@berkeley.edu)} \\
-  Department of Psychology \\
-  University of California, Berkeley
-  \AND {\large \bf Edward Vul (evul@ucsd.edu)} \\
-  Department of Psychology \\
-  University of California, San Diego}
+\author{{\large \bf Jessica B.~Hamrick$^1$ (jhamrick@berkeley.edu),
+    Kevin A.~Smith$^2$ (k2smith@ucsd.edu),}\\
+    {\large \bf Thomas L.~Griffiths$^1$ (tom\_griffiths@berkeley.edu),
+      \& Edward Vul$^2$ (evul@ucsd.edu)}\\
+    $^1$University of California, Berkeley, Department of Psychology, Berkeley CA 94720 USA\\
+    $^2$University of California, San Diego, Department of Psychology, La Jolla, CA 92093 USA}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-\TODO{}
+In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? And, if so, do they do so in a manner consistent with SPRT? To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy. \TODO{this is identical to a paragraph in the introduction, and probably should be a little different at least}
 
 \textbf{Keywords:} 
 add your choice of indexing terms or keywords; kindly use a
@@ -40,7 +34,7 @@ semicolon; between each term
 \section{Introduction}
 
 %% The question we're interested in: how many simulations do people take?
-Imagine you are playing a video game---for example, Angry Birds or Desert Golf---in which you need to predict where an object will end up. How do you know where to aim, and how long do you spend thinking about each shot before you take it? Recent research in the domain of intuitive physics and mental simulation has revealed that people make predictions like these by running noisy physical simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. If people are running mental simulations, \emph{how many} simulations do they run?
+Imagine you are playing a video game---for example, Angry Birds or Desert Golf---in which you need to predict where an object will end up. How do you know where to aim, and how long do you spend thinking about each shot before you take it? Recent research in the domain of intuitive physics and mental simulation has revealed that people make predictions like these by running noisy physical simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. If people are running mental simulations, \emph{how many} simulations do they run?
 
 %% What's already been done
 According to previous research by \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment---perhaps even just one. While taking a single sample is clearly suboptimal for each individual judgment, over the long run, taking a small number of samples maximizes expected utility across a large number of judgments. Does this story also hold true for mental simulations? There is some evidence that points to ``yes'': \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.
@@ -59,7 +53,7 @@ A second question concerns the actual strategy used to take samples. Do people a
 In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? And, if so, do they do so in a manner consistent with SPRT? To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
 
 %% Plan of the paper
-The plan of the paper is as follows. First, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze people's accuracy and response times. Second, we formalize our hypothesis of how people make judgments in this experiment by specifying a combination of a simulation-based model with the SPRT strategy. Third, we describe a second experiment based on the experiment from \citeA{Smith2012} that was used to fit the parameters of our model. Then, we compare the model's predictions to people's responses in Experiment 1. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
+The plan of the paper is as follows. First, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze people's accuracy and response times. Second, we formalize our hypothesis of how people make judgments in this experiment by specifying a combination of a simulation-based model with the SPRT strategy. Third, we describe a second experiment based on the experiment from \citeA{Smith:2013fc} that was used to fit the parameters of our model. Then, we compare the model's predictions to people's responses in Experiment 1. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
 
 \section{Experiment 1: Will the ball go in the hole?}
 
@@ -115,9 +109,9 @@ How do people make the types of judgments that they did in Experiment 1? We hypo
 
 \subsection{The ``Noisy Newton'' hypothesis}
 
-There is a growing body of evidence that people reason about physical scenes by running noisy simulations. This hypothesis, referred to as the ``Noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics. Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. In particular, \citeA{Smith2012} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty and dynamics uncertainty.
+There is a growing body of evidence that people reason about physical scenes by running noisy simulations. This hypothesis, referred to as the ``Noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics. Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. In particular, \citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty and dynamics uncertainty.
 
-Specifically, \citeA{Smith2012} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis. In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through five parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), uncertainty in the bounce angle ($\kappa_b$), and a ``center bias'' reflecting a bias for people to respond more towards the center of the $y$-axis ($\sigma_0$).
+Specifically, \citeA{Smith:2013fc} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis. In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through five parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), uncertainty in the bounce angle ($\kappa_b$), and a ``center bias'' reflecting a bias for people to respond more towards the center of the $y$-axis ($\sigma_0$).
 
 \subsection{The SPRT strategy}
 
@@ -153,11 +147,11 @@ Assuming every sample takes the same amount of time, response times as predicted
 t = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
 \label{eq:rt}
 \end{equation}
-where $\beta_0$, $\beta_1$, and $\beta_2$ are fitted coefficients. \TODO{figure}
+where $\beta_0$, $\beta_1$, and $\beta_2$ are fitted coefficients.
 
 \section{Experiment 2}
 
-Based on the results of Experiment 1, it is clear that people are spending longer on decisions that they are less confident about. In order to determine whether this could be explained by running mental simulations according to the SPRT strategy, we first needed to better characterize the parameters of people's mental simulations. Experiment 2 was designed as a conceptual replication of \citeA{Smith2012}, which would allow us to affirm that people are using mental simulation on these types of tasks, and if so, what the parameters of those simulations are.
+Based on the results of Experiment 1, it is clear that people are spending longer on decisions that they are less confident about. In order to determine whether this could be explained by running mental simulations according to the SPRT strategy, we first needed to better characterize the parameters of people's mental simulations. Experiment 2 was designed as a conceptual replication of \citeA{Smith:2013fc}, which would allow us to affirm that people are using mental simulation on these types of tasks, and if so, what the parameters of those simulations are.
 
 \subsection{Participants}
 
@@ -183,13 +177,15 @@ We fit the model in two steps. First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$,
 
 From the fitted model, we can estimate the probability that the ball goes in the hole ($p$), with one adjustment. Specifically, it is not clear how many samples people take to solve the paddle task. If they are taking a fixed number of samples, $M$,\footnote{We assume that in the paddle experiment, people are taking a fixed number of samples, as they only have a small, fixed amount of time to respond.} then we can estimate the true standard deviation of their simulations as $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$. As $M$ is unknown, we treat it as an additional free parameter in our model, adjusting the standard deviation of the model's responses by a fixed constant, $\sigma_{adj}=\sqrt{M}$.
 
-We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1. To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it. From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole. From this procedure, we found the best fitting parameters to be $\sigma_{adj}=0.7$ \TODO{what is the exact value?} and $T=2$.
+We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1. To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it. From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole. From this procedure, we found the best fitting parameters to be $\sigma_{adj}=0.7$ \TODO{what is the exact value?} and $T=2$.\footnote{If $\sigma_{adj}=0.7$, then $M=0.49$. How could people be taking fewer than one sample? We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.}
 
 \TODO{what about fitting the coefficients from Equation \ref{eq:rt}?}
 
 \section{Does SPRT explain human judgments?}
 
 Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. 
+
+\TODO{figure}
 
 \TODO{explain SPRT results}
 
