@@ -58,51 +58,10 @@ A second question concerns the actual strategy used to take samples. Do people a
 %% What we're going to do and how we're going to do it
 In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? And, if so, do they do so in a manner consistent with SPRT? To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
 
-%% What we're going to do and how we're going to do it
-The plan of the paper is as follows. First, we formalize our hypothesis for how people respond to the question, ``will the ball go through the hole?'', specifying both a simulation-based model as well as the SPRT strategy. Second, we describe two behavioral experiments, one in which we asked people to respond to the question of ``will the ball go through the hole?'', and a related experiment that we used to determine the parameters for the simulation-based model. Third, we describe the results of the experiments, and compare people's judgments and response times to those from the model. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
+%% Plan of the paper
+The plan of the paper is as follows. First, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze people's accuracy and response times. Second, we formalize our hypothesis of how people make judgments in this experiment by specifying a combination of a simulation-based model with the SPRT strategy. Third, we describe a second experiment based on the experiment from \citeA{Smith2012} that was used to fit the parameters of our model. Then, we compare the model's predictions to people's responses in Experiment 1. Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
 
-\section{Modeling mental simulations}
-
-Consider the task in Figure \ref{fig:experiment}, in which people observe a blue ball moving around in a box, and are then asked, ``will the ball go through the hole?''. How do people make this type of judgment? We hypothesize that they predict where the ball will go by running noisy physical simulations, and that they run a variable number of simulations on each trial according to the \textit{sequential probability ratio test}, or SPRT \cite{wald1947sequential}. In this section, we lay out the formalism for both the simulation-based model and the SPRT strategy.
-
-\subsection{The ``Noisy Newton'' hypothesis}
-
-There is a growing body of evidence that people reason about physical scenes by running noisy simulations. This hypothesis, referred to as the ``Noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics. Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. In particular, \citeA{Smith2012} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty and dynamics uncertainty.
-
-Specifically, \citeA{Smith2012} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis. In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through four parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), and uncertainty in the bounce angle ($\kappa_b$).
-
-\subsection{The SPRT strategy}
-
-In this paper, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
-
-In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
-\begin{equation}
-\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
-\label{eq:pr-choose-h1}
-\end{equation}
-
-Given the threshold, the probability of taking $N$ samples and then choosing $H_1$ is:
-\begin{multline}
-\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\cdot{}\\
-\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
-\end{multline}
-for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
-\begin{equation}
-\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
-\label{eq:pr-n}
-\end{equation}
-and so the expected number of samples for a particular decision is:
-\begin{equation}
-\mathbb{E}[N\,|\,T,p]=\sum_{N=T}^\infty N\cdot{}\Pr[N\,|\,T,p]
-\end{equation}
-
-To combine the ``Noisy Newton'' hypothesis with the SPRT strategy, we needed to compute the probability, $p$, that the ball goes in the hole. To do this, we simulated $M=10000$ samples from the model. From these samples, we estimated a truncated normal distribution along the wall with the hole in it, and then computed the probability density lying within the region of the hole.
-
-\TODO{talk about standard deviation adjustment}
-
-
-
-\section{Experiment 1}
+\section{Experiment 1: Will the ball go in the hole?}
 
 \begin{figure*}[t]
     \begin{center}
@@ -111,6 +70,8 @@ To combine the ``Noisy Newton'' hypothesis with the SPRT strategy, we needed to 
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure*}
+
+In order to determine whether people take multiples samples---and if they vary the number of samples---we designed an experiment in which people had to determine whether a ball would go into a hole (see Figure \ref{fig:experiment}). In particular, we designed the trials in this experiment such that some were harder than others.
 
 \subsection{Participants}
 
@@ -136,8 +97,6 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \subsection{Results}
 
-
-
 \subsubsection{Responses}
 
 On average, participants were correct 76.1\% of the time ($N=17686$) and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
@@ -148,7 +107,53 @@ For all analyses of response time, we computed averages using bootstrapped logar
 
 \subsubsection{Relationship of responses to reaction time}
 
-As shown in Figure \ref{fig:pct-vs-rt} (right subplot), we found a clear speed-accuracy tradeoff in participants responses and response times. In particular, participants were on average faster to respond on trials that they were more certain about, and slower to respond to trials that they were unsure about. This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ take much longer to make, because it takes longer to get to one threshold versus the other.
+As shown in Figure \ref{fig:pct-vs-rt} (right subplot), we found a clear effect of certainty on people's response times. In particular, participants were on average faster to respond on trials that they were more certain about, and slower to respond to trials that they were unsure about. This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ are slower, because it takes longer to get to one threshold versus the other. Thus, it is clear that people are not spending a fixed amount of time thinking about each trial; rather, they spend more time thinking about the ``hard'' trials than the ``easy'' trials.
+
+\section{Modeling mental simulations}
+
+How do people make the types of judgments that they did in Experiment 1? We hypothesized that they predict where the ball will go by running noisy physical simulations, and that they run a variable number of simulations on each trial according to the \textit{sequential probability ratio test}, or SPRT \cite{wald1947sequential}. In this section, we lay out the formalism for both the simulation-based model and the SPRT strategy.
+
+\subsection{The ``Noisy Newton'' hypothesis}
+
+There is a growing body of evidence that people reason about physical scenes by running noisy simulations. This hypothesis, referred to as the ``Noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics. Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith2012,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}. In particular, \citeA{Smith2012} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty and dynamics uncertainty.
+
+Specifically, \citeA{Smith2012} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis. In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through five parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), uncertainty in the bounce angle ($\kappa_b$), and a ``center bias'' reflecting a bias for people to respond more towards the center of the $y$-axis ($\sigma_0$).
+
+\subsection{The SPRT strategy}
+
+In this paper, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$, and from these samples estimate $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
+
+In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. In practice, the agent cannot take infinite samples. Thus, to determine when to stop sampling (i.e., what the value of $N$ is), we use the \emph{sequential probability ratio test} \cite{wald1947sequential}. When using a SPRT strategy, the agent accumulates $Y_N=\sum_{i=1}^N 2X_i-1$, and stops either when $Y_N=T$ or $Y_N=-T$, for some threshold number of samples $T$. 
+
+\subsubsection{Modeling responses} Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
+\begin{equation}
+\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
+\label{eq:pr-choose-h1}
+\end{equation}
+
+We can compute the probability, $p$, that the ball goes in the hole by running simulations from the model.
+
+\subsubsection{Modeling response times} Given the threshold, the probability of taking $N$ samples and then choosing $H_1$ is:
+\begin{multline}
+\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\cdot{}\\
+\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
+\end{multline}
+for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
+\begin{equation}
+\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
+\label{eq:pr-n}
+\end{equation}
+and so the expected number of samples for a particular decision is:
+\begin{equation}
+\mathbb{E}[N\,|\,T,p]=\sum_{N=T}^\infty N\cdot{}\Pr[N\,|\,T,p]
+\end{equation}
+
+Assuming every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$. However, we found the number of bounces to be an extremely strong predictor of response time in Experiment 1: each additional bounce adds a constant amount of time to the response. To account for this, our final response time equation incorporated the number of bounces, $B$, as follows:
+\begin{equation}
+t = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
+\label{eq:rt}
+\end{equation}
+where $\beta_0$, $\beta_1$, and $\beta_2$ are fitted coefficients. \TODO{figure}
 
 \section{Experiment 2}
 
@@ -172,29 +177,19 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \subsection{Results}
 
-\TODO{summarize results showing that experimen 2 replicates Smith \& Vul (2014), and talk about fitting the model parameters}
+\TODO{summarize results showing that experimen 2 replicates Smith \& Vul (2014)}
 
-In order to find the expected number of samples by SPRT, we need to know the probability of the ball going through the hole. We approximated this from the model fits to data from Experiment 2, with one adjustment. Specifically, it is not clear how many samples people would be taking to solve the paddle problem. To resolve this issue, we multiplied the standard deviation calculated from the model by a constant number, since statistics tells us:
+We fit the model in two steps. First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses in Experiment 2. \TODO{explain the procedure by which we did this fitting} Using this procedure, we found the best fitting parameters to be $\sigma_p=31.02$, $\kappa_v=255.60$, $\kappa_m=502850.41$, $\kappa_b=50.42$, and $\sigma_0=167.06$. 
 
-sd_prediction = sd_samples / sqrt(n_samples)
+From the fitted model, we can estimate the probability that the ball goes in the hole ($p$), with one adjustment. Specifically, it is not clear how many samples people take to solve the paddle task. If they are taking a fixed number of samples, $M$,\footnote{We assume that in the paddle experiment, people are taking a fixed number of samples, as they only have a small, fixed amount of time to respond.} then we can estimate the true standard deviation of their simulations as $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$. As $M$ is unknown, we treat it as an additional free parameter in our model, adjusting the standard deviation of the model's responses by a fixed constant, $\sigma_{adj}=\sqrt{M}$.
 
-This provides one of the two free parameters of the model. Given that adjustment, we can approximate the posterior belief over where the ball will go as a Gaussian, then trivially calculate the probability mass of that Gaussian that lies within each hole. From that, we can get the p(success) for each trial / hole combination
+We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1. To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it. From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole. From this procedure, we found the best fitting parameters to be $\sigma_{adj}=0.7$ \TODO{what is the exact value?} and $T=2$.
 
-Next, in order to calculate how many samples people will take on average according to SPRT, we need to know the number of samples for threshold - the second free parameter. But based on this threshold, we can just plug in Equation 12 from the one-and-done appendix, and get the average number of samples for each trial / hole combination.
-
-Finally, we can assume that there are some startup costs to simulation, but that each simulation sample should take an additional, constant amount of time. In which case, there should be a linear relationship between the SPRT sample estimates and the reaction times. So I did a grid search to find the set of sd_adj and T parameters that that would maximize the correlation between the two.
-
-The roughly best fitting parameters for this sets the sd adjustment at 0.7 and the SPRT threshold at 2. You might have one obvious complaint, which is that if people are taking multiple samples to solve the paddle task, then the sd adjustment should be positive (since it should be proportional to the square root of the number of samples), and it's not - in fact, positive adjustments make the fit awful. But I think what's actually going on is that the model overestimates the standard deviation, and interestingly, this is almost exactly by a factor of 1 / 0.7. So I think all that this adjustment is doing is correcting for the overestimation in the model.
+\TODO{what about fitting the coefficients from Equation \ref{eq:rt}?}
 
 \section{Does SPRT explain human judgments?}
 
-As we found the number of bounces to be an extremely strong predictor of response time in Experiment 1, we modified our response time equation to incorporate the number of bounces, $B$:
-\begin{equation}
-t = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
-\end{equation}
-where $\beta_0$, $\beta_1$, and $\beta_2$ are fitted coefficients. \TODO{figure}
-
-We fit participant responses and response times to the SPRT model with different values of $T$, and found that $T=2$ to have the best fit. Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. 
+Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. 
 
 \TODO{explain SPRT results}
 
