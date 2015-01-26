@@ -100,9 +100,17 @@ To combine the ``Noisy Newton'' hypothesis with the SPRT strategy, we needed to 
 
 \TODO{talk about standard deviation adjustment}
 
-\TODO{talk about adjusting for the number of bounces -- or should this be in the results?}
+
 
 \section{Experiment 1}
+
+\begin{figure*}[t]
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
+        \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time. \TODO{fix legends} \TODO{right subplot shouldn't be speed vs. accuracy}}
+        \label{fig:pct-vs-rt}
+    \end{center}
+\end{figure*}
 
 \subsection{Participants}
 
@@ -128,13 +136,7 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \subsection{Results}
 
-\begin{figure*}[t]
-    \begin{center}
-        \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
-        \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time.}
-        \label{fig:pct-vs-rt}
-    \end{center}
-\end{figure*}
+
 
 \subsubsection{Responses}
 
@@ -172,7 +174,25 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \TODO{summarize results showing that experimen 2 replicates Smith \& Vul (2014), and talk about fitting the model parameters}
 
+In order to find the expected number of samples by SPRT, we need to know the probability of the ball going through the hole. We approximated this from the model fits to data from Experiment 2, with one adjustment. Specifically, it is not clear how many samples people would be taking to solve the paddle problem. To resolve this issue, we multiplied the standard deviation calculated from the model by a constant number, since statistics tells us:
+
+sd_prediction = sd_samples / sqrt(n_samples)
+
+This provides one of the two free parameters of the model. Given that adjustment, we can approximate the posterior belief over where the ball will go as a Gaussian, then trivially calculate the probability mass of that Gaussian that lies within each hole. From that, we can get the p(success) for each trial / hole combination
+
+Next, in order to calculate how many samples people will take on average according to SPRT, we need to know the number of samples for threshold - the second free parameter. But based on this threshold, we can just plug in Equation 12 from the one-and-done appendix, and get the average number of samples for each trial / hole combination.
+
+Finally, we can assume that there are some startup costs to simulation, but that each simulation sample should take an additional, constant amount of time. In which case, there should be a linear relationship between the SPRT sample estimates and the reaction times. So I did a grid search to find the set of sd_adj and T parameters that that would maximize the correlation between the two.
+
+The roughly best fitting parameters for this sets the sd adjustment at 0.7 and the SPRT threshold at 2. You might have one obvious complaint, which is that if people are taking multiple samples to solve the paddle task, then the sd adjustment should be positive (since it should be proportional to the square root of the number of samples), and it's not - in fact, positive adjustments make the fit awful. But I think what's actually going on is that the model overestimates the standard deviation, and interestingly, this is almost exactly by a factor of 1 / 0.7. So I think all that this adjustment is doing is correcting for the overestimation in the model.
+
 \section{Does SPRT explain human judgments?}
+
+As we found the number of bounces to be an extremely strong predictor of response time in Experiment 1, we modified our response time equation to incorporate the number of bounces, $B$:
+\begin{equation}
+t = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
+\end{equation}
+where $\beta_0$, $\beta_1$, and $\beta_2$ are fitted coefficients. \TODO{figure}
 
 We fit participant responses and response times to the SPRT model with different values of $T$, and found that $T=2$ to have the best fit. Participant responses were well correlated with the SPRT model ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model ($r=0.35$, 95\% CI [0.27, 0.43]). However, it turns out that the number of bounces is a much better predictor of people's response times than the model itself. 
 
