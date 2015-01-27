@@ -59,7 +59,7 @@ The plan of the paper is as follows. First, we describe an experiment in which w
 
 \begin{figure*}[t]
     \begin{center}
-        \includegraphics[width=\textwidth]{figures/human-pct-vs-rt.pdf}
+        \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
         \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time. \TODO{fix legends} \TODO{right subplot shouldn't be speed vs. accuracy}}
         \label{fig:pct-vs-rt}
     \end{center}
@@ -170,6 +170,14 @@ As in Experiment 1, immediately upon pressing ``space'', the initial stimulus pr
 Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they caught the ball / the number of trials completed).
 
 \section{Results}
+
+\begin{figure}[t]
+    \begin{center}
+        \includegraphics[width=0.4\textwidth]{figures/paddle_responses.pdf}
+        \caption{\textbf{Model vs. human judgments in the paddle task.} \TODO{}}
+        \label{fig:paddle}
+    \end{center}
+\end{figure}
 
 We fit the model to people's responses in two steps. First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses in Experiment 2. \TODO{explain the procedure by which we did this fitting} Using this procedure, we found the best fitting parameters to be $\sigma_p=31.02$, $\kappa_v=255.60$, $\kappa_m=502850.41$, $\kappa_b=50.42$, and $\sigma_0=167.06$. With these parameters, we find very similar results to those from \citeA{Smith:2013fc} (Figure \TODO{}, left subplot). In particular, we found a correlation of $r=0.94$ \TODO{cis} between the model's predicted means of where the ball would end up and people's average location of the paddle.
 
