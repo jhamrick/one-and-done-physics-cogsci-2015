@@ -10,6 +10,9 @@
 
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
+\input{results/params.tex}
+\input{results/corrs.tex}
+
 \title{Think again?\\ Optimal mental simulation tracks problem difficulty}
 
 \author{{\large \bf Jessica B.~Hamrick$^1$ (jhamrick@berkeley.edu),
@@ -60,7 +63,7 @@ The plan of the paper is as follows. First, we describe an experiment in which w
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time. \TODO{fix legends} \TODO{right subplot shouldn't be speed vs. accuracy}}
+        \caption{\textbf{Response times as a function of response.} Left subplot: each bar shows the proportion of participants saying that the ball will go in the hole for a particular feedback type ($x$-axis) and hole size (color). Middle subplot: like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. Right subplot: each point corresponds to a different stimulus, feedback type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time.}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure*}
@@ -93,7 +96,7 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \subsubsection{Responses}
 
-On average, participants were correct 76.1\% of the time ($N=17686$) and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
+On average, participants were correct 76.1\% of the time and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
 
 \subsubsection{Response times}
 
@@ -159,13 +162,13 @@ We recruited $N=60$ participants on Amazon's Mechanical Turk using the psiTurk \
 
 \subsection{Stimuli}
 
-The stimuli were modified versions of those used Experiment 1, with two major differences. First, instead of a wall with a hole in it, there was a paddle of length \TODO{}px that could move up and down the $y$-axis. Second, there was no feedback animation; instead, there was just a single feedback image corresponding to the last frame of the feedback animation. Because there was no feedback animation, there were only 48 stimuli (corresponding to the stimulus presentation animations from Experiment 1), plus the seven instruction trials and eight catch trials.
+The stimuli were modified versions of those used Experiment 1, with two major differences. First, instead of a wall with a hole in it, there was a paddle of length 100px that could move up and down the $y$-axis. Second, there was no feedback animation; instead, there was just a single feedback image corresponding to the last frame of the feedback animation. Because there was no feedback animation, there were only 48 stimuli (corresponding to the stimulus presentation animations from Experiment 1), plus the seven instruction trials and eight catch trials.
 
 \subsection{Procedure}
 
 Like Experiment 1, the experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed). On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial. Participants were instructed to press the ``space'' key to begin the trial. 
 
-As in Experiment 1, immediately upon pressing ``space'', the initial stimulus presentation began, after which an occluder appeared. However, unlike Experiment 1, as soon as the occluder appeared, a timer also appeared and begin counting down for \TODO{} seconds. During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed. If the ball was on the paddle, then participants were told, ``You caught the ball!''. If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.'' Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
+As in Experiment 1, immediately upon pressing ``space'', the initial stimulus presentation began, after which an occluder appeared. However, unlike Experiment 1, as soon as the occluder appeared, a timer also appeared and begin counting down for 2 seconds. During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed. If the ball was on the paddle, then participants were told, ``You caught the ball!''. If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.'' Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
 
 Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they caught the ball / the number of trials completed).
 
@@ -175,19 +178,19 @@ Throughout the experiment, participants saw two counters: one showing their tota
     \begin{center}
         \includegraphics[width=\textwidth]{figures/model_results.pdf}
         \caption{\textbf{Model vs. human judgments in the paddle task.} \TODO{}}
-        \label{fig:paddle}
+        \label{fig:model-results}
     \end{center}
 \end{figure*}
 
-We fit the model to people's responses in two steps. First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses in Experiment 2. \TODO{explain the procedure by which we did this fitting} Using this procedure, we found the best fitting parameters to be $\sigma_p=31.02$, $\kappa_v=255.60$, $\kappa_m=502850.41$, $\kappa_b=50.42$, and $\sigma_0=167.06$. With these parameters, we find very similar results to those from \citeA{Smith:2013fc} (Figure \TODO{}, left subplot). In particular, we found a correlation of $r=0.94$ \TODO{cis} between the model's predicted means of where the ball would end up and people's average location of the paddle.
+We fit the model to people's responses in two steps. First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses in Experiment 2 \cite<for details, see>{Smith:2013fc}. Using this procedure, we found the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. With these parameters, we find very similar results to those from \citeA{Smith:2013fc} (Figure \ref{fig:model-results}, left subplot). In particular, we found a correlation of \PaddleCorr{} between the model's predicted means of where the ball would end up and people's average location of the paddle.
 
 From the fitted model, we can estimate the probability that the ball goes in the hole ($p$), with one adjustment. Specifically, it is not clear how many samples people take to solve the paddle task. If they are taking a fixed number of samples, $M$,\footnote{We assume that in the paddle experiment, people are taking a fixed number of samples, as they only have a small, fixed amount of time to respond.} then we can estimate the true standard deviation of their simulations as $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$. As $M$ is unknown, we treat it as an additional free parameter in our model, adjusting the standard deviation of the model's responses by a fixed constant, $\sigma_{adj}=\sqrt{M}$.
 
-We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1. To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it. From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole. From this procedure, we found the best fitting parameters to be $\sigma_{adj}=0.7$ \TODO{what is the exact value?} and $T=2$.\footnote{If $\sigma_{adj}=0.7$, then $M=0.49$. How could people be taking fewer than one sample? We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.}
+We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1. To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it. From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole. From this procedure, we found the best fitting parameters to be \sdadj{} and \threshold{}.\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample? We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.}
 
-\TODO{what about fitting the coefficients from Equation \ref{eq:rt}?}
+Finally, we fit the coefficients from Equation \ref{eq:rt} to people's responses in Experiment 1 using an ordinary least squares regression, where $\mathbb{E}[B]$ and $\mathbb{E}[N\,|\,T,p]$ were computed directly from model simulations. The best-fitting parameters were \betazero{}, which corresponded to the intercept; \betaone{}, which corresponded to the number of samples before making a decision; and \betatwo{}, which corresponded to the number of bounces before making a decision.
 
-Participant responses were well correlated with a SPRT model with $T=1$ ($r=0.81$, 95\% CI [0.77, 0.84]), and slightly less so with a SPRT model with $T=2$ ($r=0.78$, 95\% CI [0.74, 0.81]). There was also a significant correlation with resonse time for the $T=2$ SPRT model as computed with Equation \ref{eq:rt} ($r=0.71$, \TODO{95\% CI []}). Figure \TODO{} shows human responses as a function of the model's responses for $T=2$ (middle subplot) as well as human response times as a function of the model's response times (right subplot).
+Participant responses were well correlated with a SPRT model with \threshold{} (\HoleResponseCorr{}). There was also a significant correlation with resonse time for the \threshold{} SPRT model as computed with Equation \ref{eq:rt} (\HoleRTCorr{}). Figure \ref{fig:model-results} shows human responses as a function of the model's responses for \threshold{} (middle subplot) as well as human response times as a function of the model's response times (right subplot).
 
 \section{Discussion}
 
