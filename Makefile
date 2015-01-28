@@ -13,3 +13,4 @@ results:
 	rm -f results/*.tex
 	cp ../../research/one-and-done-physics/analysis/latex_results/params.tex results/
 	cp ../../research/one-and-done-physics/analysis/latex_results/corrs.tex results/
+	cp ../../research/one-and-done-physics/analysis/latex_results/hole_empirical_analysis.tex results/

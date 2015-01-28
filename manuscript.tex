@@ -12,6 +12,7 @@
 
 \input{results/params.tex}
 \input{results/corrs.tex}
+\input{results/hole_empirical_analysis.tex}
 
 \title{Think again?\\ Optimal mental simulation tracks problem difficulty}
 
@@ -96,11 +97,11 @@ Throughout the experiment, participants saw two counters: one showing their tota
 
 \subsubsection{Responses}
 
-On average, participants were correct 76.1\% of the time and responded that the ball would go in the hole 52.8\% of the time ($N=17686$). There was a significant effect of feedback type on participants' responses ($\chi^2(3)=4477.2, p<0.001$) as well as a significant effect of hole size ($\chi^2(1)=168.6, p<0.001$). Additionally, there was an interaction between feedback type and hole size ($\chi^2(3)=64.469, p<0.001$). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
+On average, participants were correct \AvgCorrect{} of the time and responded that the ball would go in the hole \AvgResponse{} of the time (\ResponseN{}), excluding catch trials. There was a significant effect of feedback type on participants' responses (\ResponseHoleClass{}) as well as a significant effect of hole size (\ResponseHoleSize{}). Additionally, there was an interaction between feedback type and hole size (\ResponseFull{}). Figure \ref{fig:pct-vs-rt} (left subplot) shows responses as a function of feedback type and hole size.
 
 \subsubsection{Response times}
 
-For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples. Participants had an average response time of $M=1310.9$ milliseconds ($SD=1296.6$ms). There were significant effects of both feedback type ($\chi^2(3)=63.611, p<0.001$) and hole size ($\chi^2(1)=8.9808, p<0.01$) on response time, as well as an interaction between feedback type and hole size ($\chi^2(3)=27.146, p<0.001$). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
+For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples. Participants had an average response time of \AvgRT{} milliseconds (\StdRT{}ms), excluding catch trials. There were significant effects of both feedback type (\RTHoleClass{}) and hole size (\RTHoleSize{}) on response time, as well as an interaction between feedback type and hole size (\RTFull{}). However, the hole size was only significant in the case of the ``far in'' (FI) trials ($p<0.001$), in which the ball went straight through the center of the hole. Figure \ref{fig:pct-vs-rt} (middle subplot) shows the response times as a function of feedback type and hole size.
 
 \subsubsection{Relationship of responses to reaction time}
 
