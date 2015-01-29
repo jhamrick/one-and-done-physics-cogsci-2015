@@ -46,11 +46,40 @@
 	<key>Creator</key>
 	<string>Jess Hamrick</string>
 	<key>DisplayScale</key>
-	<string>1 0/72 in = 1 0/72 in</string>
+	<string>1 0/72 in = 1.0000 in</string>
 	<key>GraphDocumentVersion</key>
 	<integer>8</integer>
 	<key>GraphicsList</key>
 	<array>
+		<dict>
+			<key>AllowConnections</key>
+			<string>NO</string>
+			<key>AllowLabelDrop</key>
+			<false/>
+			<key>AllowToConnect</key>
+			<false/>
+			<key>Class</key>
+			<string>LineGraphic</string>
+			<key>ID</key>
+			<integer>9</integer>
+			<key>Points</key>
+			<array>
+				<string>{328.75, 182}</string>
+				<string>{212.75, 204}</string>
+			</array>
+			<key>Style</key>
+			<dict>
+				<key>stroke</key>
+				<dict>
+					<key>HeadArrow</key>
+					<string>StickArrow</string>
+					<key>Legacy</key>
+					<true/>
+					<key>TailArrow</key>
+					<string>0</string>
+				</dict>
+			</dict>
+		</dict>
 		<dict>
 			<key>Bounds</key>
 			<string>{{720, 0}, {360, 287.02194357366773}}</string>
@@ -201,7 +230,7 @@
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2014-12-19 02:20:53 +0000</string>
+	<string>2015-01-29 21:54:07 +0000</string>
 	<key>Modifier</key>
 	<string>Jess Hamrick</string>
 	<key>NotesVisible</key>
@@ -282,7 +311,7 @@
 			</dict>
 		</array>
 		<key>Frame</key>
-		<string>{{-0, 4}, {1440, 874}}</string>
+		<string>{{122, 90}, {1440, 874}}</string>
 		<key>ListView</key>
 		<true/>
 		<key>OutlineWidth</key>
@@ -296,7 +325,7 @@
 		<key>SidebarWidth</key>
 		<integer>120</integer>
 		<key>VisibleRegion</key>
-		<string>{{-77, -1}, {1305, 735}}</string>
+		<string>{{-77, 0}, {1305, 732}}</string>
 		<key>Zoom</key>
 		<real>1</real>
 		<key>ZoomValues</key>
@@ -304,7 +333,7 @@
 			<array>
 				<string>experiment</string>
 				<real>1</real>
-				<real>1</real>
+				<real>2</real>
 			</array>
 		</array>
 	</dict>
