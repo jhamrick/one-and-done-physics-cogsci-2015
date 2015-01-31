@@ -35,12 +35,12 @@
 \maketitle
 
 \begin{abstract}
-In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. 
+\TODO{In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. 
 Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem?
 To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
 We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
-We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). 
-In brief, we find that judgments of whether the ball goes in and the corresponding response times are well-predicted by a model that combines noisy physical simulation with an optimal sampling strategy known as the \emph{sequential probability ratio test}.
+Following the predictions of the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential}, we hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). 
+In brief, we find that judgments of whether the ball goes in and the corresponding response times are well-predicted by a model that combines noisy physical simulation with SPRT.}
 
 \textbf{Keywords:} 
 add your choice of indexing terms or keywords; kindly use a
@@ -101,8 +101,8 @@ We consider binary (or two-alternative forced choice) decisions, where an agent 
 The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$ (the probability of sampling evidence for $H_1$), and from these samples estimate the probability that $H_1$ is correct: $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. 
 Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
 
-In the best possible case, the agent takes infinite samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. 
-In practice, the agent cannot take infinite samples. 
+In the best possible case, the agent takes infinitely many samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. 
+In practice, the agent cannot take infinitely many samples. 
 Thus, to determine when to stop sampling (i.e., what the value of $N$ is), the agent continues to sample until the net evidence $Y_N$ reaches some threshold, either $Y_N=T$ to select in favor of $H_1$ or $Y_N=-T$ to select in favor of $H_0$. 
 The net evidence is the sum of samples in favor of $H_1$ minus those in favor of $H_0$, or $Y_N=\sum_{i=1}^N 2X_i-1$.
 
