@@ -54,33 +54,25 @@ But on the other hand, if you spend too long aiming, over time your predictions 
 Making this physical prediction requires a tradeoff that underlies many cognitive tasks: spending time and cognitive resources to increase confidence about what will transpire next, versus using that information to make decisions in the moment. 
 In this paper, we study whether people efficiently trade off between information seeking and exploitation in a physical prediction task.
 
-Recent research in the domain of physical reasoning has revealed that people make predictions like these by running noisy physical simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}---the noisy Newton hypothesis \cite{Sanborn2013}. 
+Recent research in the domain of physical reasoning has revealed that people make predictions like these by running noisy physical simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}---the ``noisy Newton'' hypothesis \cite{Sanborn2013}. 
 However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. 
-If we are running mental simulations, how to we choose how many simulations to run?
+In particular, because the simulations are noisy, it may be beneficial to run multiple simulations in order to obtain more accurate predictions.
+So, if we are running mental simulations, how to we choose how many simulations to run?
 
-In this paper, we focus on a dichotomous prediction task---will a ball in motion on a computer screen go through a hole, or miss it? 
-To model this task, we turn to the large body of literature discussing how a sample-based agent should make a decision between two choices. 
+To investigate how many simulations people run, we focus on a dichotomous prediction task---will a ball in motion on a computer screen go through a hole, or miss it?
+To model this task, we combine the simulation mechanism of the ``noisy Newton'' hypothesis with a decision strategy for sample-based agents.
 Specifically, we consider the \textit{sequential probability ratio test}, or SPRT, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
-SPRT has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost / benefit tradeoff between sampling and exploiting information.
-\TODO{Can we claim this? If so, we need a citation}
-While SPRT is traditionally applied to simple binary decisions (e.g., go left or go right), this framework can be extended with probabilistic physical simulations to make binary decisions about our world.
+SPRT has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
 
-Crucially, the SPRT framework allows us to make testable predictions about how quickly people perform these dichotomous tasks. 
+Crucially, the SPRT framework allows us to make testable predictions about how quickly people perform two-alternative forced choice tasks. 
 Because it involves sampling until the net evidence reaches a threshold, the number of samples will depend on the variability of the hypotheses. 
-If samples always provide the same information, this net evidence will reach the threshold quickly, and fewer samples will be taken. 
-On the other hand, if samples are more evenly distributed, it will take more samples to reach the net evidence threshold. 
-Thus, if people are using an SPRT strategy, we would expect that reaction times on a dichotomous task will vary systematically with task difficulty.
-
-%% What we're going to do and how we're going to do it
-In this paper, we investigate whether peoples' behavior on a dichotomous physical prediction task can be explained by taking samples from a noisy Newton physical prediction model, where the number of samples taken is determined by SPRT. 
-To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
-We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
-We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). 
-In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
+If every sample gives the same information (e.g., that the ball goes in the hole), then this net evidence will reach the threshold quickly, and fewer samples will be taken. 
+On the other hand, if the samples are more variable, it will take more samples to reach the net evidence threshold. 
+Thus, if people are relying on SPRT to decide how many simulations to run, we should observe faster response times for obvious cases (such as the ball hitting the wall far away from the hole) than for ambiguous ones (such as the ball just barely missing the hole).
 
 %% Plan of the paper
-Here we first explain the SPRT framework and how it makes predictions about the number of samples required based on variability in sampling. 
-Next we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' accuracy and response times. 
+In this paper, we first explain the SPRT framework and how it makes predictions about the number of samples required based on variability in sampling. 
+Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' accuracy and response times. 
 We then demonstrate that combining the physical prediction model from \citeA{Smith:2013fc} with SPRT can explain the empirical pattern of accuracy and response times we observed. 
 Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
 
@@ -140,8 +132,8 @@ and so the expected number of samples for a particular decision is:
 \section{Experiment}
 
 In order to determine whether people take physical simulation samples in a way consistent with SPRT, we designed an experiment in which people made a binary judgment about what will happen in the future---will a ball traveling through a computer screen go through a hole or not (see Figure \ref{fig:experiment})?
-In particular, we designed the trials such that some were harder than others. 
-If people are using an SPRT sampling strategy, we would expect people to take longer (due to more sampling) when it was more ambiguous whether the ball would go through the hole.
+Specifically, we desiged the trials such that some were harder than others by varying the margin by which the ball either missed or went through the hole.
+We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
 
 \subsection{Participants}
 
