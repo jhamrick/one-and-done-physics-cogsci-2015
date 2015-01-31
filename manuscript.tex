@@ -15,6 +15,12 @@
 \input{results/hole_empirical_analysis.tex}
 \input{results/num_participants.tex}
 
+% space below "Figure 1: ...", but only for inline figures
+%\addtolength{\textfloatsep}{-0.1cm}
+
+\addtolength{\abovecaptionskip}{-0.25cm}
+\addtolength{\belowcaptionskip}{-0.5cm}
+
 \title{Think again?\\ Optimal mental simulation tracks problem difficulty}
 
 \author{{\large \bf Jessica B.~Hamrick$^1$ (jhamrick@berkeley.edu),
@@ -30,13 +36,11 @@
 
 \begin{abstract}
 In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. 
-Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem? 
-And, if so, do they do so in a manner consistent with SPRT? 
+Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem?
 To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
 We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
 We hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). 
-In brief, find that people's responses are well-predicted by a model of simulation, and that their response times are well-predicted by combining that model with a SPRT strategy.
-\TODO{this is identical to a paragraph in the introduction, and probably should be a little different at least}
+In brief, we find that judgments of whether the ball goes in and the corresponding response times are well-predicted by a model that combines noisy physical simulation with an optimal sampling strategy known as the \emph{sequential probability ratio test}.
 
 \textbf{Keywords:} 
 add your choice of indexing terms or keywords; kindly use a
@@ -76,7 +80,7 @@ Next, we describe an experiment in which we asked participants to respond to the
 We then demonstrate that combining the physical prediction model from \citeA{Smith:2013fc} with SPRT can explain the empirical pattern of accuracy and response times we observed. 
 Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
 
-\begin{figure*}[t]
+\begin{figure*}[t!]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/experiment.png}
         \caption{\textbf{Example experimental trial.} 
@@ -102,15 +106,11 @@ In practice, the agent cannot take infinite samples.
 Thus, to determine when to stop sampling (i.e., what the value of $N$ is), the agent continues to sample until the net evidence $Y_N$ reaches some threshold, either $Y_N=T$ to select in favor of $H_1$ or $Y_N=-T$ to select in favor of $H_0$. 
 The net evidence is the sum of samples in favor of $H_1$ minus those in favor of $H_0$, or $Y_N=\sum_{i=1}^N 2X_i-1$.
 
-\subsection{Selecting responses} 
-
-Independent of the number of samples actually taken, the probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
+The probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
 \begin{equation}
-\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T},
+\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T}
 \label{eq:pr-choose-h1}
 \end{equation}
-
-\subsection{Expected number of samples} 
 
 Given the threshold $T$, the probability of taking $N$ samples and then choosing $H_1$ is:
 \begin{multline}
@@ -118,16 +118,15 @@ Given the threshold $T$, the probability of taking $N$ samples and then choosing
 \sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
 \end{multline}
 for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. 
-Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then:
-\begin{equation}
-\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p].
-\label{eq:pr-n}
-\end{equation}
-and so the expected number of samples for a particular decision is:
+Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then $\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p]$.
+So, the expected number of samples for a particular decision is:
 \begin{equation}
 \mathbb{E}[N\,|\,T,p]=\sum_{N=T}^\infty N\cdot{}\Pr[N\,|\,T,p]
 \label{eq:expsamp}
 \end{equation}
+
+To summarize thus far, Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp} give us a formal hypothesis for what decisions people make, and how long they choose to make them. 
+In the next section, we present an experiment to empirically test this hypothesis.
 
 \section{Experiment}
 
@@ -157,8 +156,6 @@ After the feedback animation was complete, the final frame of the animation rema
 During the experiment, participants made judgements on 48 experimental trials, presented in a random order, as well as eight control trials, which were also shown in a random order, but interspersed with the experimental trials such that every 8th trial was a control trial.
 In addition, participants were given seven instruction trials prior to the experiment to familiarize them with the procedure.
 
-Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they answered correctly / the number of trials completed).
-
 \subsection{Stimuli}
 
 The stimuli consisted of animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px.
@@ -186,7 +183,7 @@ Thus, participants saw a total of 63 trials throughout the experiment.
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response times as a function of response.} \emph{Left:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{Middle:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{Right:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$ axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
+        \caption{\textbf{Response times as a function of response.} \emph{Left:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{Middle:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{Right:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure*}
@@ -222,13 +219,12 @@ While this may be partially modulated by difficulty---people make more variable 
 For each number of bounces, we fit participants' response times to a second-order polynomial function of their responses.
 From these fits, we see that the intercepts are significantly different across the different numbers of bounces: for zero bounces, the intercept was \InterceptZeroBounces{}; for one bounce, \InterceptOneBounces{}; and for two bounces, \InterceptTwoBounces{}.
 This suggests that it takes additional time to resolve a collision between the ball and a wall in the course of a simulation.
-We will use this theory to further explain expected reaction times in \TODO{Add section here}.
 
 \section{Modeling mental sampling}
 
-How do people make the judgment that the ball will go through the hole?
-Following the success of SPRT, we hypothesized that they predict where the ball will go by running noisy physical simulations, and that they run a variable number of simulations on each trial based on SPRT principles \cite{wald1947sequential}.
-In this section, we lay out the formalism for the simulation-based sampling model, consisting of a physical simulator and SPRT sampler.
+In the previous section, we presented an experiment in which participants had to judge whether a ball would go through a hole.
+The results indicate a clear relationship between people's responses and response times---one which appears qualitatively similar to the one we would expect from SPRT.
+In this section, we flesh out our hypothesis that people predict where the ball will go by running noisy physical simulations, and that they run a variable number of simulations on each trial based on SPRT principles \cite{wald1947sequential}.
 
 \subsection{The physical simulator}
 
@@ -242,68 +238,63 @@ In order to predict where people would place the paddle on each trial, their mod
 
 Here, we used the model of \citeA{Smith:2013fc} to describe how people simulate individual possible physical events.
 Because the hole-choice experiment was performed online, we performed an online replication of that experiment to set model parameters (see the Appendix for details).
-Thus the physical prediction parameters were set independently of the performance on this experiment.
+Thus, the physical prediction parameters were set independently of the results of the experiment in this paper.
 
 \subsection{The SPRT sampler}
 
+\begin{figure}[t]
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/model_rt_results.pdf}
+        \caption{\textbf{Model vs. human response times.} Each point corresponds to a different stimulus, trial type, and hole size; color and shape indicate the number of times the ball bounced during feedback. The $x$-axis is the fitted model response times, and the $y$-axis is the logarithmic mean response times of participants.}
+        \label{fig:model-rt-results}
+    \end{center}
+\end{figure}
+
 The physical prediction model provides a posterior predictive distribution of where the ball will be when it encounters the plane of the wall.
 However, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
-Assuming they took on average $M$ samples, then the standard deviation we are estimating using the physical simulator ($\sigma_{judgments}$) is not equal to the standard deviation of distributions of simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$.
+Assuming they took on average $M$ samples, then the standard deviation we estimate using the physical simulator ($\sigma_{judgments}$) is not equal to the standard deviation of distributions of simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$.
 Therefore, we allowed for one free parameter to adjust this variance such that $\sigma_{adj}=\sqrt{M}$.
 
-If sampling is pulling from this distribution, the probability of a ball going `in' ($H_1$) on any given sample is simply the density of the probability distribution that overlaps with the hole ($p$).
-So for a given threshold $T$, we can calculate the expected number of samples for any trial using equation \ref{eq:expsamp}.
+If sampling pulls from this distribution, the probability of a ball going `in' ($H_1$) on any given sample is simply the density of the probability distribution that overlaps with the hole ($p$).
+So, for a given threshold $T$, we can calculate the expected number of samples for any trial using equation \ref{eq:expsamp}.
 
 \subsection{Modeling reaction time}
 
-If we assume that every same takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
+If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
 However, we found the number of bounces to be an extremely strong predictor of response time: each additional bounce adds a constant amount of time to the response.
 To account for this, our final response time equation incorporated the number of bounces, $B$, as follows:
 \begin{equation}
-t = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
+RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
 \label{eq:rt}
 \end{equation}
 
-We could use the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
-We then fit all coefficients ($\beta_0$, $\beta_1$, and $\beta_2$, $\sigma_{adj}$, and $T$) to minimize sum squared error between modeled and observed reaction times.
+To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
+We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
+The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
+We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.} \betazero{}, \betaone{}, and \betatwo{}.
 
 \subsection{Results}
 
-\begin{figure*}[t]
-    \begin{center}
-        \includegraphics[width=\textwidth]{figures/model_results.pdf}
-        \caption{\textbf{Model vs. human judgments in the paddle task.} \TODO{}}
-        \label{fig:model-results}
-    \end{center}
-\end{figure*}
-
-The fitted model explained participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}), and was additionally able to account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}).
-Even if the number of bounces is not included, the SPRT model with $T=2$ is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
+The fitted model explains participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-response-results}), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-rt-results}).
+Even if the number of bounces is not included, the SPRT model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
 In contrast, a simpler model that takes only a single sample each time (equivalent to SPRT with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times beyond the number of bounces.
-
-In addition, the parameters of the sampling process can further inform us about how people accomplish physical prediction.
-The best fitting threshold was \threshold{}, suggesting people gather little information before making a decision (in line with the theory of \cite{Vul:2014ba}, see the Discussion).
-\TODO{KS ENDED EDITS HERE}
-
-We fit $\sigma_{adj}$ and $T$ using a grid search to maximize the correlation between SPRT response times (Equation \ref{eq:rt}) and actual response times in Experiment 1.
-To compute Equation \ref{eq:rt}, we ran $n=10000$ samples from the model, and from these samples (as well as the $\sigma_{adj}$ adjustment) estimated a truncated normal distribution along the wall with the hole in it.
-From this truncated normal, we computed the value of $p$ as the the probability density lying within the region of the hole.
-From this procedure, we found the best fitting parameters to be \sdadj{} and \threshold{}.
-\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
-We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.}
-
-Finally, we fit the coefficients from Equation \ref{eq:rt} to people's responses in Experiment 1 using an ordinary least squares regression, where $\mathbb{E}[B]$ and $\mathbb{E}[N\,|\,T,p]$ were computed directly from model simulations. 
-The best-fitting parameters were \betazero{}, which corresponded to the intercept; \betaone{}, which corresponded to the number of samples before making a decision; and \betatwo{}, which corresponded to the number of bounces before making a decision.
-
-Participant responses were well correlated with a SPRT model with \threshold{} (\HoleResponseCorr{}).
-There was also a significant correlation with resonse time for the \threshold{} SPRT model as computed with Equation \ref{eq:rt} (\HoleRTCorr{}).
-Figure \ref{fig:model-results} shows human responses as a function of the model's responses for \threshold{} (middle subplot) as well as human response times as a function of the model's response times (right subplot).
 
 \section{Discussion}
 
 In this paper, we asked the question: how many simulations do people run?
 We hypothesized that although people probably take a very small number of samples \cite{Vul:2014ba}, people still vary the number of samples that they take in order to exploit the fact that some judgments are easier to make than others.
 Specifically, we hypothesized that people take samples in a manner consistent with the SPRT strategy, in which evidence for hypotheses is accumulated until one hypothesis has a fixed amount of evidence over the other.
+
+In addition, the parameters of the sampling process can further inform us about how people accomplish physical prediction.
+The best fitting threshold was \threshold{}, suggesting people gather little information before making a decision (in line with the theory of \cite{Vul:2014ba}, see the Discussion).
+
+\begin{figure}[t]
+    \begin{center}
+        \includegraphics[width=0.45\textwidth]{figures/model_response_results.pdf}
+        \caption{\textbf{Model vs. human judgments.} Each point corresponds to a different stimulus, trial type, and hole size. The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole.}
+        \label{fig:model-response-results}
+    \end{center}
+\end{figure}
 
 \TODO{MOVE THIS TO THE DISCUSSION TO EXPLAIN THE LOW THRESHOLD WE FIND: According to previous research by \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment so long as there is any cost to taking samples---perhaps even just one. While taking a single sample clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, taking a small number of samples maximizes expected utility across a large number of judgments. Does this story also hold true for mental simulations? There is some evidence that points to ``yes'': \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.}
 
@@ -313,11 +304,9 @@ To demonstrate quantitatively that SPRT is a good account for people's responses
 In Experiment 2, replicated the experiment from \citeA{Smith:2013fc}, and used the results to fit our model.
 Comparing people's responses and response times in Experiment 1 to those of the model, we found an extremely strong fit, suggesting that people are relying both on simulations from approximate physical simulations, and that they vary the number of simulations that they run according to SPRT.
 
-\section{Appendix: Experiment for setting physical model parameters}
+\section{Appendix}
 
-Based on the results of Experiment 1, it is clear that people are spending longer on decisions that they are less confident about.
-In order to determine whether this could be explained by running mental simulations according to the SPRT strategy, we first needed to better characterize the parameters of people's mental simulations.
-Experiment 2 was designed as a conceptual replication of \citeA{Smith:2013fc}, which would allow us to affirm that people are using mental simulation on these types of tasks, and if so, what the parameters of those simulations are.
+In order to fit the parameters for the physical simulation model, we ran an online replication of the experiment from \citeA{Smith:2013fc}.
 
 \subsection{Participants}
 
@@ -337,7 +326,7 @@ Because there was no feedback animation, there were only 48 stimuli (correspondi
 Like Experiment 1, the experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed).
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole.
 The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial.
-Participants were instructed to press the ``space'' key to begin the trial. 
+Participants were instructed to press ``space'' to begin the trial. 
 
 As in Experiment 1, immediately upon pressing ``space'', the initial stimulus presentation began, after which an occluder appeared.
 However, unlike Experiment 1, as soon as the occluder appeared, a timer also appeared and begin counting down for 2 seconds.
@@ -347,20 +336,11 @@ If the ball was on the paddle, then participants were told, ``You caught the bal
 If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.''
 Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
 
-Throughout the experiment, participants saw two counters: one showing their total progress (the number of trials completed / total trials), and their score (the number of times they caught the ball / the number of trials completed).
-
 \subsection{Results}
 
-We fit the model to people's responses in two steps. 
-First, we fit $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses in Experiment 2 \cite<for details, see>{Smith:2013fc}. 
-Using this procedure, we found the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. 
-With these parameters, we find very similar results to those from \citeA{Smith:2013fc} (Figure \ref{fig:model-results}, left subplot).
+We fit the model parameters of $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses \cite<for details, see>{Smith:2013fc}, finding the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. 
+With these parameters, we found very similar results to those from \citeA{Smith:2013fc}.
 In particular, we found a correlation of \PaddleCorr{} between the model's predicted means of where the ball would end up and people's average location of the paddle.
-
-From the fitted model, we can estimate the probability that the ball goes in the hole ($p$), with one adjustment. 
-Specifically, it is not clear how many samples people take to solve the paddle task.
-If they are taking a fixed number of samples, $M$,\footnote{We assume that in the paddle experiment, people are taking a fixed number of samples, as they only have a small, fixed amount of time to respond.} then we can estimate the true standard deviation of their simulations as $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$.
-As $M$ is unknown, we treat it as an additional free parameter in our model, adjusting the standard deviation of the model's responses by a fixed constant, $\sigma_{adj}=\sqrt{M}$.
 
 \bibliographystyle{apacite}
 
