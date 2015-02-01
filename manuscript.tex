@@ -259,11 +259,7 @@ This suggests that it takes additional time to resolve a collision between the b
 
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
 However, we found the number of bounces to be an extremely strong predictor of response time: each additional bounce adds a constant amount of time to the response.
-To account for this, our final response time equation incorporated the number of bounces, $B$, as follows:
-\begin{equation}
-RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]
-\label{eq:rt}
-\end{equation}
+To account for this, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
 
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
 We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
@@ -276,21 +272,26 @@ In contrast, a simpler model that takes only a single sample each time (equivale
 
 \section{Discussion}
 
-In this paper, we asked the question: how do people make best use of their mental simulations?
-Specifically, how do people determine how many simulations to run?
-We hypothesized that people still vary the number of samples that they take in order to exploit the fact that some judgments are easier to make than others.
-Specifically, we hypothesized that people take samples in a manner consistent with the SPRT strategy, in which evidence for hypotheses is accumulated until one hypothesis has a fixed amount of evidence over the other.
+In this paper, we asked the question: do people optimally use mental simulations?
+We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
+Specifically, if people are making the best use of their mental simulations, then they should take samples in a manner consistent with the SPRT strategy, in which evidence for hypotheses is accumulated until one hypothesis has a fixed amount of evidence over the other.
 
-In addition, the parameters of the sampling process can further inform us about how people accomplish physical prediction.
-The best fitting threshold was \threshold{}, suggesting people gather little information before making a decision (in line with the theory of \cite{Vul:2014ba}, see the Discussion).
+The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on more difficult trials.
+Comparing people's responses and response times to those of the model, we found an extremely strong fit.
+This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to SPRT.
 
-\TODO{MOVE THIS TO THE DISCUSSION TO EXPLAIN THE LOW THRESHOLD WE FIND: According to previous research by \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment so long as there is any cost to taking samples---perhaps even just one. While taking a single sample clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, taking a small number of samples maximizes expected utility across a large number of judgments. Does this story also hold true for mental simulations? There is some evidence that points to ``yes'': \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.}
+If SPRT is the optimal strategy, then what is the optimal threshold?
+We found the best fitting SPRT threshold to be \threshold{}, which is consistent with previous research.
+According to \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment so long as there is any cost to taking samples.
+While taking a small number of samples clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, this strategy maximizes expected utility across a large number of judgments.
+There has been some evidence that this story also holds true for mental simulations.
+For example, \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.
+However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they systematically vary the number of simulations.
 
-The results of Experiment 1 paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on ``hard'' trials (i.e., trials which people are less confident about).
-This pattern of taking longer to respond on trials with $p\approx 0.5$ is qualitatively consistent with the strategy of SPRT.
-To demonstrate quantitatively that SPRT is a good account for people's responses, we formulated a model of people's responses based on the ``Noisy Newton'' hypothesis and SPRT.
-In Experiment 2, replicated the experiment from \citeA{Smith:2013fc}, and used the results to fit our model.
-Comparing people's responses and response times in Experiment 1 to those of the model, we found an extremely strong fit, suggesting that people are relying both on simulations from approximate physical simulations, and that they vary the number of simulations that they run according to SPRT.
+Mental simulation is a powerful and flexible tool, as it offers us a way to make predictions about scenarios that have not yet come to pass, or which may never come to pass.
+In this work, we demonstrated that when people use mental simulation, they are sensitive to the difficulty of the task and accordingly adjust how many simulations they run.
+This results joins others \cite<e.g.>{Hamrick:2014wq} in explaining not just \emph{that} people use simulation to reason about the world, but specifically \emph{how} they use it.
+While there are still many questions left unanswered---e.g., how do people use simulations in non-binary tasks?---this work brings us one step closer to understanding of how mental simulation is used.
 
 \section{Appendix}
 
