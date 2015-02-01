@@ -35,12 +35,15 @@
 \maketitle
 
 \begin{abstract}
-\TODO{In this paper, we investigate the number of simulations that people run when reasoning about a task that requires mental simulation of physics. 
-Specifically, we ask the question: do people vary the number of mental simulations that they run depending on the difficulty of the problem?
-To answer these questions, we ran a behavioral experiment in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
+In this paper, we investigate how people use mental simulations.
+In particular, do people vary the number of mental simulations that they run in order to optimally balance speed and accuracy?
+To answer this question, we focused on the particular domain of intuitive physics, for which there is prior evidence that people use mental simulation to make predictions about the world \cite<e.g.>{Smith:2013fc,Battaglia2013}.
+We combined a model of approximate, noisy physical simulation with a well-known strategy in decision making called the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential}.
+Our model predicted that people should vary the number of simulations that they run depending on the difficulty of the task.
+Specifically, they should use more samples when it is harder to make an accurate prediction.
+We tested this hypothesis through a task in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
 We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
-Following the predictions of the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential}, we hypothesized that people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole). 
-In brief, we find that judgments of whether the ball goes in and the corresponding response times are well-predicted by a model that combines noisy physical simulation with SPRT.}
+Both people's judgments and their response times were well-predicted by our model, demonstrating that people have a systematic strategy by which they use their mental simulations.
 
 \textbf{Keywords:} 
 mental simulation; intuitive physics; SPRT; computational modeling
@@ -84,7 +87,7 @@ Importantly, the SPRT strategy predicts that people need to take more samples---
 %% Plan of the paper
 Drawing on the results from both physical simulation and decision-making, we hypothesize that people make predictions by running mental simulations, and that they vary the number of simulations based on the difficulty of the task.
 In this paper, we first formalize our model, combining the physical prediction model from \citeA{Smith:2013fc} with the SPRT decision strategy. 
-Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' accuracy and response times. 
+Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' judgments and response times. 
 We then demonstrate that our model can explain the empirical pattern of responses and response times we observed. 
 Finally, we discuss the implications of our results on the broader, underlying question: how do people optimally make use of mental simulations?
 
@@ -101,32 +104,28 @@ This hypothesis, referred to as the ``noisy Newton'' hypothesis \cite{Sanborn201
 Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 
 \citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty (noise in exactly where objects are and their motion trajectories) and dynamic uncertainty (stochastic noise added to account for unknowable variation in motion---e.g., a textured floor would cause a ball rolling along it to deviate from a straight line).
-Specifically, \citeA{Smith:2013fc} asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis.
-In order to predict where people would place the paddle on each trial, their model incorporated uncertainty in its physical simulations through five parameters: perceptual uncertainty over the position of the ball ($\sigma_p$), uncertainty in the initial direction of velocity ($\kappa_v$), ongoing uncertainty in the direction of movement ($\kappa_m$), uncertainty in the bounce angle ($\kappa_b$), and a ``center bias'' reflecting a bias for people to respond more towards the center of the $y$-axis ($\sigma_0$).
+Specifically, they asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis.
 
-Here, we used the model of \citeA{Smith:2013fc} to describe how people simulate individual possible physical events.
-Because the experiment in Figure \ref{fig:experiment} (see Experiment) was performed online, we additionally performed an online replication of the experiment from \citeA{Smith:2013fc} to set model parameters (see the Appendix for details).
-Thus, the physical prediction parameters were set independently of the results of the experiment in this paper.
+Here, we also used the model of \citeA{Smith:2013fc} to describe how people simulate individual possible physical events, with a few small differences.
+First, because our experiment (see the Experiment section) was performed online, we needed to refit the model parameters to reflect these different viewing conditions.
+To do this independently of the results of the experiment in this paper, we performed an online replication of the experiment from \citeA{Smith:2013fc} (see the Appendix for details).
 
-The physical prediction model provides a posterior predictive distribution of where the ball will be when it encounters the plane of the wall.
-However, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
+Second, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
 Assuming they took on average $M$ samples, then the standard deviation we estimate using the physical simulator ($\sigma_{judgments}$) is not equal to the standard deviation of distributions of simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$.
 Therefore, we allowed for one free parameter to adjust this variance such that $\sigma_{adj}=\sqrt{M}$.
-
 If sampling pulls from this distribution, the probability of a ball going `in' ($H_1$) on any given sample is simply the density of the probability distribution that overlaps with the hole ($p$).
-So, for a given threshold $T$, we can calculate the expected number of samples for any trial using equation \ref{eq:expsamp}.
 
 \subsection{The SPRT strategy}
 
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response times as a function of response.} \emph{Left:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{Middle:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{Right:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
+        \caption{\textbf{Response times as a function of response.} \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure*}
 
-If people are running simulations to reason about physical scenes, then a natural question is: how many simulations do they run?
+If people are running simulations to reason about physical scenes, then how many simulations do they run?
 Because the simulations are noisy, it might be benefial to run multiple simulations in order to get a better estimate of the outcome.
 However, each simulation comes with a time cost.
 To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential} to the samples drawn from the physical simulation.
@@ -160,12 +159,12 @@ So, the expected number of samples for a particular decision is:
 \label{eq:expsamp}
 \end{equation}
 
-To summarize thus far, Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp} give us a formal hypothesis for what decisions people make, and how long they choose to make them. 
+To summarize thus far, Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp} give us a formal hypothesis for what decisions people make, and how long they take to make them. 
 In the next section, we present an experiment to empirically test this hypothesis.
 
 \section{Experiment: Will the ball go in the hole?}
 
-In order to determine whether people take physical simulation samples in a way consistent with SPRT, we designed an experiment in which people made a binary judgment about what will happen in the future.
+In order to determine whether people run simulations in a way consistent with SPRT, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
 We designed the trials such that some were harder than others by varying the margin by which the ball either missed or went through the hole.
 According to SPRT, people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
@@ -180,27 +179,25 @@ Additionally, we excluded \HoleNumFailed{} participants from analysis for answer
 \subsection{Procedure}
 
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. 
-Participants were instructed to press the ``space'' key to begin the trial. 
-Immediately upon pressing ``space'', the initial stimulus presentation began. 
-As soon as the initial stimulus animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). 
-Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' to respond in the affirmative, and `p' to respond in the negative. 
-Immediately after responding, text appeared saying ``Correct!'' or ``Incorrect.'', depending on the participants' response.
-Additionally, the gray occluder was removed, and participants were shown feedback animation of the path of the ball.
-After the feedback animation was complete, the final frame of the animation remained on the screen until participants pressed ``space'' to advance to the next trial.
+Participants were instructed to press ``space'' to begin the trial. 
+Immediately upon pressing ``space'', an animation of the initial stimulus began (see Stimuli). 
+As soon as this animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). 
+Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' if they thought it would, and `p' if they thought it would not. 
+After responding, text appeared saying ``Correct!'' or ``Incorrect.''
+The gray occluder was removed, and participants were shown a feedback animation of the path of the ball (see Stimuli).
+The final frame of this animation remained on the screen until participants pressed ``space'' to advance to the next trial.
 
-During the experiment, participants made judgements on 48 experimental trials, presented in a random order, as well as eight control trials, which were also shown in a random order, but interspersed with the experimental trials such that every 8th trial was a control trial.
+During the experiment, participants made judgments on 48 experimental trials, presented in a random order, as well as eight control trials, which were shown after every seven experiment trials, also in a random order.
 In addition, participants were given seven instruction trials prior to the experiment to familiarize them with the procedure.
 
 \subsection{Stimuli}
 
-The stimuli consisted of animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px.
-All stimuli consisted of two separate animations.
-The first was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction.
-The second animation was the feedback, which picked up immediately where the first animation left off, and which had a duration of 1.5 seconds and depicted the ball either going into the hole or bouncing off the wall that contained the hole.%
-\footnote{To enforce the constraint that the ball always travel the same distance during the feedback animation, the $x$-coordinate of the wall with the hole in it was allowed to vary across stimuli.}
-During the feedback animation, the ball could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
-In both animations, the ball had a velocity of 400px/s.
-Additionally, in the animations, the path that the ball had traveled so far was drawn with a faded gray line (see Figure \ref{fig:experiment}).
+The stimuli consisted of two animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px.
+The first animation was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction.
+The second animation was 1.5 seconds of feedback, and picked up immediately where the first animation left off.
+The feedback depicted the ball either going into the hole or bouncing off the wall that contained the hole.
+Across all stimuli, the ball always traveled the same distance during the feedback animation, and could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
+In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a faded gray line on the floor (see Figure \ref{fig:experiment}).
 
 There were 48 different initial animations, equally balanced by number of bounces during feedback (16 each for 0, 1, and 2 bounces). 
 For each of these initial animations, there were four different trial types and two different hole sizes, giving a total of eight versions of each stimulus. 
@@ -238,7 +235,7 @@ Figure \ref{fig:pct-vs-rt}B shows the response times as a function of trial type
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/model_results.pdf}
-        \caption{\textbf{Model vs. human comparison.} In both plots, each point corresponds to a different stimulus, trial type, and hole size. Dashed lines indicate perfect correspondence between model and people. \emph{Left}: The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole. \emph{Right}: Color and shape indicate the number of times the ball bounced during feedback. The $x$-axis is the model response times, and the $y$-axis is the logarithmic mean response times of participants.}
+        \caption{\textbf{Model vs. human comparison.} In both plots, each point corresponds to a different stimulus, trial type, and hole size. Dashed lines indicate perfect correspondence between model and people. \emph{A:} The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole. \emph{B:} Color and shape indicate the number of times the ball bounced during feedback. The $x$-axis is the model response times, and the $y$-axis is the logarithmic mean response times of participants.}
         \label{fig:model-results}
     \end{center}
 \end{figure*}
