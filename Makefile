@@ -9,8 +9,7 @@ pdf: figures results
 figures:
 	rm -f figures/*.pdf
 	cp $(ANALYSIS_PATH)/figures/hole_empirical_results.pdf figures/
-	cp $(ANALYSIS_PATH)/figures/model_response_results.pdf figures/
-	cp $(ANALYSIS_PATH)/figures/model_rt_results.pdf figures/
+	cp $(ANALYSIS_PATH)/figures/model_results.pdf figures/
 
 results:
 	rm -f results/*.tex
