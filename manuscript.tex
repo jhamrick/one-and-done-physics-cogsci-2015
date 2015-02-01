@@ -117,14 +117,6 @@ If sampling pulls from this distribution, the probability of a ball going `in' (
 
 \subsection{The SPRT strategy}
 
-\begin{figure*}[t]
-    \begin{center}
-        \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response times as a function of response.} \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
-        \label{fig:pct-vs-rt}
-    \end{center}
-\end{figure*}
-
 If people are running simulations to reason about physical scenes, then how many simulations do they run?
 Because the simulations are noisy, it might be benefial to run multiple simulations in order to get a better estimate of the outcome.
 However, each simulation comes with a time cost.
@@ -163,6 +155,14 @@ To summarize thus far, Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp} give
 In the next section, we present an experiment to empirically test this hypothesis.
 
 \section{Experiment: Will the ball go in the hole?}
+
+\begin{figure*}[t]
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
+        \caption{\textbf{Response times as a function of response.} \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
+        \label{fig:pct-vs-rt}
+    \end{center}
+\end{figure*}
 
 In order to determine whether people run simulations in a way consistent with SPRT, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
@@ -210,7 +210,7 @@ This also ensured that the ball would go through the hole exactly half the time,
 
 In addition to the 48 experimental trials, there were seven instruction trials and eight control trials, which were the same for all participants.
 The control trials were designed to be extremely easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px).
-Thus, participants saw a total of 63 trials throughout the experiment.
+Thus, participants saw a total of 63 trials.
 
 \subsection{Results}
 
@@ -219,7 +219,7 @@ Thus, participants saw a total of 63 trials throughout the experiment.
 On average, participants were correct \AvgCorrect{} of the time and responded that the ball would go in the hole \AvgResponse{} of the time (\ResponseN{}), excluding catch trials.
 There was a significant effect of trial type on participants' responses (\ResponseHoleClass{}) as well as a significant effect of hole size (\ResponseHoleSize{}).
 Additionally, there was an interaction between trial type and hole size (\ResponseFull{}).
-For three out of the four trial types, there was a significant difference between responses for the two different hole sizes (for CI, \ResponseCIttest{}; for FI, \ResponseCIttest{}; and for FM, \ResponseFMttest{}), with the exception being the ``close miss'' (CM) trials (\ResponseCMttest{}).
+For three out of the four trial types, there was a significant difference between responses for the two different hole sizes (for CI, \ResponseCIttest{}; for FI, \ResponseCIttest{}; and for FM, \ResponseFMttest{}), with the exception being the CM trials (\ResponseCMttest{}).
 Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole size.
 
 \subsubsection{Response times}
@@ -227,8 +227,7 @@ Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole
 For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples.
 Participants had an average response time of \AvgRT{}, excluding catch trials.
 There were significant effects of both trial type (\RTHoleClass{}) and hole size (\RTHoleSize{}) on response time, as well as an interaction between trial type and hole size (\RTFull{}).
-However, there was only evidence for a difference in reaction times by hole size in the case of the ``far in'' (FI) trials (\ResponsetimeFIttest{}), in which the ball went straight through the center of the hole (for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
-Figure \ref{fig:pct-vs-rt}B shows the response times as a function of trial type and hole size.
+As shown in Figure \ref{fig:pct-vs-rt}B, there was only evidence for a difference in reaction times by hole size in the case of the FI trials (\ResponsetimeFIttest{}), in which the ball went straight through the center of the hole (for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
 
 \subsubsection{Relationship of responses to reaction time}
 
@@ -243,13 +242,12 @@ Figure \ref{fig:pct-vs-rt}B shows the response times as a function of trial type
 As shown in Figure \ref{fig:pct-vs-rt}C, we found a clear effect of certainty on people's response times.
 In particular, on trials when there was more agreement amongst participants (the fraction saying `in' is closer to $0$ or $1$), participants were faster to respond than when responses were more variable.
 This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ are slower, because it on average takes more samples to get to one threshold versus the other.
-Thus, it is clear that people are not spending a fixed amount of time thinking about each trial; rather, they spend more time thinking about the ``hard'' trials than the ``easy'' trials.
 
 In addition, we found that response time is affected by the number of bounces during feedback.
 Participants were fastest to respond on trials with zero bounces (\RTZeroBounces{}), slower to respond on trials with once bounce (\RTOneBounces{}), and slowest to respond on trials with two bounces (\RTTwoBounces{}).
 While this may be partially modulated by difficulty---people make more variable predictions as bounces are added \cite{Smith:2013fc}, and more variable trials have longer reaction times---there appears to be an additional time cost.
 For each number of bounces, we fit participants' response times to a second-order polynomial function of their responses.
-From these fits, we see that the intercepts are significantly different across the different numbers of bounces: for zero bounces, the intercept was \InterceptZeroBounces{}; for one bounce, \InterceptOneBounces{}; and for two bounces, \InterceptTwoBounces{}.
+From these fits, we see that the intercepts increase as a function of the number of bounces: for zero bounces, the intercept was \InterceptZeroBounces{}; for one, \InterceptOneBounces{}; and for two, \InterceptTwoBounces{}.
 This suggests that it takes additional time to resolve a collision between the ball and a wall in the course of a simulation.
 
 \subsubsection{Model comparison}
@@ -257,22 +255,19 @@ This suggests that it takes additional time to resolve a collision between the b
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
 However, we found the number of bounces to be an extremely strong predictor of response time: each additional bounce adds a constant amount of time to the response.
 To account for this, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
-
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
 We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
-We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is adjusting for both the inflated uncertainty in the model as well increased certainty in people's judgments on the paddle task.} \betazero{}, \betaone{}, and \betatwo{}.
+We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model.} \betazero{}, \betaone{}, and \betatwo{}.
 
 The fitted model explains participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
 Even if the number of bounces is not included, the SPRT model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
-In contrast, a simpler model that takes only a single sample each time (equivalent to SPRT with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times beyond the number of bounces.
+In contrast, a simpler model that takes only a single sample each time (equivalent to SPRT with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times.
 
 \section{Discussion}
 
 In this paper, we asked the question: do people optimally use mental simulations?
 We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
-Specifically, if people are making the best use of their mental simulations, then they should take samples in a manner consistent with the SPRT strategy, in which evidence for hypotheses is accumulated until one hypothesis has a fixed amount of evidence over the other.
-
 The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on more difficult trials.
 Comparing people's responses and response times to those of the model, we found an extremely strong fit.
 This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to SPRT.
@@ -290,9 +285,7 @@ In this work, we demonstrated that when people use mental simulation, they are s
 This results joins others \cite<e.g.>{Hamrick:2014wq} in explaining not just \emph{that} people use simulation to reason about the world, but specifically \emph{how} they use it.
 While there are still many questions left unanswered---e.g., how do people use simulations in non-binary tasks?---this work brings us one step closer to understanding of how mental simulation is used.
 
-\section{Appendix}
-
-In order to fit the parameters for the physical simulation model, we ran an online replication of the experiment from \citeA{Smith:2013fc}.
+\section{Appendix: Replication of \citeA{Smith:2013fc}}
 
 \subsubsection{Participants}
 
@@ -302,25 +295,23 @@ Additionally, we excluded \PaddleNumFailed{} participants from analysis for fail
 
 \subsubsection{Stimuli}
 
-The stimuli were modified versions of those used Experiment 1, with two major differences.
+The stimuli were modified versions of those used the main experiment, with two differences.
 First, instead of a wall with a hole in it, there was a paddle of length 100px that could move up and down the $y$-axis.
-Second, there was no feedback animation; instead, there was just a single feedback image corresponding to the last frame of the feedback animation.
-Because there was no feedback animation, there were only 48 stimuli (corresponding to the stimulus presentation animations from Experiment 1), plus the seven instruction trials and eight catch trials.
+Second, instead of a full feedback animation, we just displayed the last frame of the animation.
+Because there was no feedback animation, there were only 48 stimuli, plus the seven instruction trials and eight catch trials.
 
 \subsubsection{Procedure}
 
-Like Experiment 1, the experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed).
+The experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed).
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole.
 The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial.
-Participants were instructed to press ``space'' to begin the trial. 
-
-As in Experiment 1, immediately upon pressing ``space'', the initial stimulus presentation began, after which an occluder appeared.
-However, unlike Experiment 1, as soon as the occluder appeared, a timer also appeared and begin counting down for 2 seconds.
+Participants were instructed to press ``space'' to begin the trial and display the stimulus presentation animation.
+After the stimulus presentation, a gray occluder appeared, as well as a timer that began counting down for 2 seconds.
 During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.
 When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed.
 If the ball was on the paddle, then participants were told, ``You caught the ball!''.
 If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.''
-Participants were then instructed to press ``space'' to continue, at which point the next trial would begin.
+Participants were then instructed to press ``space'' to begin the next trial.
 
 \subsubsection{Results}
 
