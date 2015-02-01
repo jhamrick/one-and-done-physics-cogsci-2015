@@ -49,23 +49,22 @@ mental simulation; intuitive physics; SPRT; computational modeling
 \section{Introduction}
 
 %% The question we're interested in: how many simulations do people take?
-Imagine you are playing the game Angry Birds, where the goal is to launch a bird to knock down a tower. 
-As you aim the bird, you need to predict where the bird will go to decide whether your shot will have the desired effect. 
+How does the mind best make use of its computational resources?
+For example, imagine you are playing a game of Angry Birds, where the goal is to launch a bird to knock down a tower. 
+As you aim, you need to predict where the bird will go to decide whether your shot will have the desired effect. 
 How do you know where to aim, and how long do you spend thinking about each shot before you take it? 
-If you shoot the bird without spending time to consider where it will go, your shot will likely be far off. 
-But on the other hand, if you spend too long aiming, over time your predictions will only get marginally better, and you eat into the time you have to play until your next meeting. 
-Making this physical prediction requires a tradeoff that underlies many cognitive tasks: spending time and cognitive resources to increase confidence about what will transpire next, versus using that information to make decisions in the moment. 
-In this paper, we study whether people efficiently trade off between information seeking and exploitation in a physical prediction task.
+More generally, if an agent has the ability to make predictions about scenarios such as these, how long do they spend making predictions versus taking actions?
 
-Recent research in the domain of physical reasoning has revealed that people make predictions like these by running noisy physical simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}---the ``noisy Newton'' hypothesis \cite{Sanborn2013}. 
+Recent research in the domain of physical reasoning has revealed that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. 
 In particular, because the simulations are noisy, it may be beneficial to run multiple simulations in order to obtain more accurate predictions.
 So, if we are running mental simulations, how to we choose how many simulations to run?
 
 To investigate how many simulations people run, we focus on a dichotomous prediction task---will a ball in motion on a computer screen go through a hole, or miss it?
-To model this task, we combine the simulation mechanism of the ``noisy Newton'' hypothesis with a decision strategy for sample-based agents.
+To model this task, we combine a mechanism of noisy physical simulation with a decision strategy for sample-based agents.
 Specifically, we consider the \textit{sequential probability ratio test}, or SPRT, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
 SPRT has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
+Importantly, the SPRT strategy predicts that people need to take more samples---and thus also will take a longer time to respond---on more difficult tasks.
 
 \begin{figure*}[t!]
     \begin{center}
@@ -82,27 +81,23 @@ SPRT has been used successfully to explain behavior in a number of decision-maki
     \end{center}
 \end{figure*}
 
-Crucially, the SPRT framework allows us to make testable predictions about how quickly people perform two-alternative forced choice tasks. 
-Because it involves sampling until the net evidence reaches a threshold, the number of samples will depend on the variability of the hypotheses. 
-If every sample gives the same information (e.g., that the ball goes in the hole), then this net evidence will reach the threshold quickly, and fewer samples will be taken. 
-On the other hand, if the samples are more variable, it will take more samples to reach the net evidence threshold. 
-Thus, if people are relying on SPRT to decide how many simulations to run, we should observe faster response times for obvious cases (such as the ball hitting the wall far away from the hole) than for ambiguous ones (such as the ball just barely missing the hole).
-
 %% Plan of the paper
-In this paper, we first explain the SPRT framework and how it makes predictions about the number of samples required based on variability in sampling. 
+Drawing on the results from both physical simulation and decision-making, we hypothesize that people make predictions by running mental simulations, and that they vary the number of simulations based on the difficulty of the task.
+In this paper, we first formalize our model, combining the physical prediction model from \citeA{Smith:2013fc} with the SPRT decision strategy. 
 Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' accuracy and response times. 
-We then demonstrate that combining the physical prediction model from \citeA{Smith:2013fc} with SPRT can explain the empirical pattern of accuracy and response times we observed. 
-Finally, we discuss the implications of our results on the broader, underlying question: how do people use mental simulation?
+We then demonstrate that our model can explain the empirical pattern of responses and response times we observed. 
+Finally, we discuss the implications of our results on the broader, underlying question: how do people optimally make use of mental simulations?
 
 \section{Making decisions from mental simulations}
 
-Consider the task in Figure \ref{fig:experiment}, in which people observe a ball moving inside a box, and must predict whether it will go through a hole or not. How do people solve this problem?
+Consider the task in Figure \ref{fig:experiment}, in which people observe a ball moving inside a box, and must predict whether it will go through a hole or not.
+How do people solve this problem?
 In this section, we formalize a model that answers this question by combining noisy physical simulations with a decision-making strategy known as the \emph{sequential probability ratio test}, or SPRT.
 
 \subsection{Modeling physical simulation}
 
 There is a growing body of evidence that people reason about physical scenes like the one in Figure \ref{fig:experiment} by running noisy simulations.
-This hypothesis, referred to as the ``noisy Newton'' hypothesis, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics.
+This hypothesis, referred to as the ``noisy Newton'' hypothesis \cite{Sanborn2013}, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics.
 Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 
 \citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty (noise in exactly where objects are and their motion trajectories) and dynamic uncertainty (stochastic noise added to account for unknowable variation in motion---e.g., a textured floor would cause a ball rolling along it to deviate from a straight line).
@@ -281,8 +276,9 @@ In contrast, a simpler model that takes only a single sample each time (equivale
 
 \section{Discussion}
 
-In this paper, we asked the question: how many simulations do people run?
-We hypothesized that although people probably take a very small number of samples \cite{Vul:2014ba}, people still vary the number of samples that they take in order to exploit the fact that some judgments are easier to make than others.
+In this paper, we asked the question: how do people make best use of their mental simulations?
+Specifically, how do people determine how many simulations to run?
+We hypothesized that people still vary the number of samples that they take in order to exploit the fact that some judgments are easier to make than others.
 Specifically, we hypothesized that people take samples in a manner consistent with the SPRT strategy, in which evidence for hypotheses is accumulated until one hypothesis has a fixed amount of evidence over the other.
 
 In addition, the parameters of the sampling process can further inform us about how people accomplish physical prediction.
