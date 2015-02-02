@@ -38,7 +38,7 @@
 In this paper, we investigate how people use mental simulations.
 In particular, do people vary the number of mental simulations that they run in order to optimally balance speed and accuracy?
 To answer this question, we focused on the particular domain of intuitive physics, for which there is prior evidence that people use mental simulation to make predictions about the world \cite<e.g.>{Smith:2013fc,Battaglia2013}.
-We combined a model of approximate, noisy physical simulation with a well-known strategy in decision making called the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential}.
+We combined a model of approximate, noisy physical simulation with a well-known strategy in decision making called the \emph{sequential probability ratio test}, or \textsc{sprt} \cite{wald1947sequential}.
 Our model predicted that people should vary the number of simulations that they run depending on the difficulty of the task.
 Specifically, they should use more samples when it is harder to make an accurate prediction.
 We tested this hypothesis through a task in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
@@ -46,28 +46,31 @@ We varied the difficulty of each trial by changing the size of the holes and the
 Both people's judgments and their response times were well-predicted by our model, demonstrating that people have a systematic strategy by which they use their mental simulations.
 
 \textbf{Keywords:} 
-mental simulation; intuitive physics; SPRT; computational modeling
+mental simulation; intuitive physics; \textsc{sprt}; computational modeling
 \end{abstract}
 
 \section{Introduction}
 
 %% The question we're interested in: how many simulations do people take?
-How does the mind best make use of its computational resources?
-For example, imagine you are playing a game of Angry Birds, where the goal is to launch a bird to knock down a tower. 
-As you aim, you need to predict where the bird will go to decide whether your shot will have the desired effect. 
-How do you know where to aim, and how long do you spend thinking about each shot before you take it? 
-More generally, if an agent has the ability to make predictions about scenarios such as these, how long do they spend making predictions versus taking actions?
+How does the mind optimally allocate its resources?
+Consider the game of Angry Birds, where the goal is to launch birds to knock down a tower.
+To take a shot, the player can imagine---or \emph{mentally simulate}---the path the bird will take and how it will affect the tower.
+How long should the player spend thinking before they let each bird fly?
+If they spend no time thinking, they are likely to miss the target.
+But, if they spend too long thinking, it will take much longer to receive the satisfaction of beating the level.
+More generally, if an agent can mentally simulate the results of an action, how long should they spend simulating before acting?
 
-Recent research in the domain of physical reasoning has revealed that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
-However, while this research has investigated the \emph{mechanism} by which people make these types of predictions, there has been very little investigation into \emph{how} people actually use this mechanism. 
+In the domain of physical reasoning, research has revealed that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
+However, while this research has investigated the \emph{mechanism} for making these predictions, there has been very little investigation into how people \emph{use} this mechanism. 
 In particular, because the simulations are noisy, it may be beneficial to run multiple simulations in order to obtain more accurate predictions.
-So, if we are running mental simulations, how to we choose how many simulations to run?
+Is there an optimal number of simulations to run in these situations?
+If so, do people behave optimally?
 
 To investigate how many simulations people run, we focus on a dichotomous prediction task---will a ball in motion on a computer screen go through a hole, or miss it?
 To model this task, we combine a mechanism of noisy physical simulation with a decision strategy for sample-based agents.
-Specifically, we consider the \textit{sequential probability ratio test}, or SPRT, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
-SPRT has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
-Importantly, the SPRT strategy predicts that people need to take more samples---and thus also will take a longer time to respond---on more difficult tasks.
+Specifically, we consider the \textit{sequential probability ratio test}, or \textsc{sprt}, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
+Often under the name of the \emph{drift-diffusion} model, \textsc{sprt} has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
+Importantly, the \textsc{sprt} strategy predicts that people need to take more samples---and thus also will take a longer time to respond---on more difficult tasks.
 
 \begin{figure*}[t!]
     \begin{center}
@@ -86,16 +89,16 @@ Importantly, the SPRT strategy predicts that people need to take more samples---
 
 %% Plan of the paper
 Drawing on the results from both physical simulation and decision-making, we hypothesize that people make predictions by running mental simulations, and that they vary the number of simulations based on the difficulty of the task.
-In this paper, we first formalize our model, combining the physical prediction model from \citeA{Smith:2013fc} with the SPRT decision strategy. 
+In this paper, we first formalize our model, combining the simulation model from \citeA{Smith:2013fc} with the \textsc{sprt} decision strategy. 
 Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' judgments and response times. 
 We then demonstrate that our model can explain the empirical pattern of responses and response times we observed. 
-Finally, we discuss the implications of our results on the broader, underlying question: how do people optimally make use of mental simulations?
+Finally, we discuss the implications of our results on the broader, underlying question: how should people optimally make use of mental simulations?
 
 \section{Making decisions from mental simulations}
 
 Consider the task in Figure \ref{fig:experiment}, in which people observe a ball moving inside a box, and must predict whether it will go through a hole or not.
 How do people solve this problem?
-In this section, we formalize a model that answers this question by combining noisy physical simulations with a decision-making strategy known as the \emph{sequential probability ratio test}, or SPRT.
+In this section, we formalize a model that answers this question by combining noisy physical simulations with a decision-making strategy known as the \emph{sequential probability ratio test}, or \textsc{sprt}.
 
 \subsection{Modeling physical simulation}
 
@@ -115,12 +118,12 @@ Assuming they took on average $M$ samples, then the standard deviation we estima
 Therefore, we allowed for one free parameter to adjust this variance such that $\sigma_{adj}=\sqrt{M}$.
 If sampling pulls from this distribution, the probability of a ball going `in' ($H_1$) on any given sample is simply the density of the probability distribution that overlaps with the hole ($p$).
 
-\subsection{The SPRT strategy}
+\subsection{The \textsc{sprt} strategy}
 
 If people are running simulations to reason about physical scenes, then how many simulations do they run?
 Because the simulations are noisy, it might be beneficial to run multiple simulations in order to get a better estimate of the outcome.
 However, each simulation comes with a time cost.
-To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential} to the samples drawn from the physical simulation.
+To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or \textsc{sprt} \cite{wald1947sequential} to the samples drawn from the physical simulation.
 By combining these two models, we can make predictions both for people's judgments, and how long they take to make those judgments.
 
 Formally, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. 
@@ -164,10 +167,10 @@ In the next section, we present an experiment to empirically test this hypothesi
     \end{center}
 \end{figure*}
 
-In order to determine whether people run simulations in a way consistent with SPRT, we designed an experiment in which people made a binary judgment about what will happen in the future.
+In order to determine whether people run simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
 We designed the trials such that some were harder than others by varying the margin by which the ball either missed or went through the hole.
-According to SPRT, people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
+According to \textsc{sprt}, people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
 
 \subsection{Participants}
 
@@ -241,7 +244,7 @@ As shown in Figure \ref{fig:pct-vs-rt}B, there was only evidence for a differenc
 
 As shown in Figure \ref{fig:pct-vs-rt}C, we found a clear effect of certainty on people's response times.
 In particular, on trials when there was more agreement amongst participants (the fraction saying `in' is closer to $0$ or $1$), participants were faster to respond than when responses were more variable.
-This tradeoff mirrors the same tradeoff found in SPRT: decisions for which $p\approx0.5$ are slower, because it on average takes more samples to get to one threshold versus the other.
+This tradeoff mirrors the same tradeoff found in \textsc{sprt}: decisions for which $p\approx0.5$ are slower, because it on average takes more samples to get to one threshold versus the other.
 
 In addition, we found that response time is affected by the number of bounces during feedback.
 Participants were fastest to respond on trials with zero bounces (\RTZeroBounces{}), slower to respond on trials with once bounce (\RTOneBounces{}), and slowest to respond on trials with two bounces (\RTTwoBounces{}).
@@ -261,8 +264,8 @@ The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then
 We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model.} \betazero{}, \betaone{}, and \betatwo{}.
 
 The fitted model explains participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
-Even if the number of bounces is not included, the SPRT model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
-In contrast, a simpler model that takes only a single sample each time (equivalent to SPRT with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times.
+Even if the number of bounces is not included, the \textsc{sprt} model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
+In contrast, a simpler model that takes only a single sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times.
 
 \section{Discussion}
 
@@ -270,10 +273,10 @@ In this paper, we asked the question: do people optimally use mental simulations
 We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
 The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on more difficult trials.
 Comparing people's responses and response times to those of the model, we found an extremely strong fit.
-This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to SPRT.
+This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
 
-If SPRT is the optimal strategy, then what is the optimal threshold?
-We found the best fitting SPRT threshold to be \threshold{}, which is consistent with previous research.
+If \textsc{sprt} is the optimal strategy, then what is the optimal threshold?
+We found the best fitting \textsc{sprt} threshold to be \threshold{}, which is consistent with previous research.
 According to \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment so long as there is any cost to taking samples.
 While taking a small number of samples clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, this strategy maximizes expected utility across a large number of judgments.
 There has been some evidence that this story also holds true for mental simulations.
