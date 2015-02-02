@@ -118,7 +118,7 @@ If sampling pulls from this distribution, the probability of a ball going `in' (
 \subsection{The SPRT strategy}
 
 If people are running simulations to reason about physical scenes, then how many simulations do they run?
-Because the simulations are noisy, it might be benefial to run multiple simulations in order to get a better estimate of the outcome.
+Because the simulations are noisy, it might be beneficial to run multiple simulations in order to get a better estimate of the outcome.
 However, each simulation comes with a time cost.
 To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or SPRT \cite{wald1947sequential} to the samples drawn from the physical simulation.
 By combining these two models, we can make predictions both for people's judgments, and how long they take to make those judgments.
@@ -304,7 +304,7 @@ Because there was no feedback animation, there were only 48 stimuli, plus the se
 
 The experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed).
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole.
-The paddle begin at the center of the $y$-axis, and was freely moveable along the $y$-axis from the very beginning of the trial.
+The paddle begin at the center of the $y$-axis, and was freely movable along the $y$-axis from the very beginning of the trial.
 Participants were instructed to press ``space'' to begin the trial and display the stimulus presentation animation.
 After the stimulus presentation, a gray occluder appeared, as well as a timer that began counting down for 2 seconds.
 During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.
@@ -315,7 +315,7 @@ Participants were then instructed to press ``space'' to begin the next trial.
 
 \subsubsection{Results}
 
-We fit the model parameters of $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to particant's responses \cite<for details, see>{Smith:2013fc}, finding the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. 
+We fit the model parameters of $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to participant's responses \cite<for details, see>{Smith:2013fc}, finding the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. 
 With these parameters, we found very similar results to those from \citeA{Smith:2013fc}.
 In particular, we found a correlation of \PaddleCorr{} between the model's predicted means of where the ball would end up and people's average location of the paddle.
 
