@@ -43,7 +43,7 @@ Our model predicted that people should vary the number of simulations that they 
 Specifically, they should use more samples when it is harder to make an accurate prediction.
 We tested this hypothesis through a task in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
 We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
-Both people's judgments and their response times were well-predicted by our model, demonstrating that people have a systematic strategy by which they use their mental simulations.
+Both people's judgments and their response times were well-predicted by our model, demonstrating that people have a systematic strategy to allocate their resources for mental simulation.
 
 \textbf{Keywords:} 
 mental simulation; intuitive physics; \textsc{sprt}; computational modeling
@@ -230,7 +230,7 @@ Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole
 For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples.
 Participants had an average response time of \AvgRT{}, excluding catch trials.
 There were significant effects of both trial type (\RTHoleClass{}) and hole size (\RTHoleSize{}) on response time, as well as an interaction between trial type and hole size (\RTFull{}).
-As shown in Figure \ref{fig:pct-vs-rt}B, there was only evidence for a difference in reaction times by hole size in the case of the FI trials (\ResponsetimeFIttest{}), in which the ball went straight through the center of the hole (for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
+As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of the FI trials (\ResponsetimeFIttest{}; for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
 
 \subsubsection{Relationship of responses to reaction time}
 
@@ -256,8 +256,9 @@ This suggests that it takes additional time to resolve a collision between the b
 \subsubsection{Model comparison}
 
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
-However, we found the number of bounces to be an extremely strong predictor of response time: each additional bounce adds a constant amount of time to the response.
+However, we found the number of bounces to be a strong predictor of response time.
 To account for this, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
+Briefly, $\beta_0$ is the time to set up the simulation and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
 We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
@@ -281,7 +282,7 @@ According to \citeA{Vul:2014ba}, a sample-based agent should only take a small n
 While taking a small number of samples clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, this strategy maximizes expected utility across a large number of judgments.
 There has been some evidence that this story also holds true for mental simulations.
 For example, \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.
-However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they systematically vary the number of simulations.
+However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they systematically vary the number of simulations rationally in response to task demands.
 
 Mental simulation is a powerful and flexible tool, as it offers us a way to make predictions about scenarios that have not yet come to pass, or which may never come to pass.
 In this work, we demonstrated that when people use mental simulation, they are sensitive to the difficulty of the task and accordingly adjust how many simulations they run.
