@@ -21,7 +21,7 @@
 \addtolength{\abovecaptionskip}{-0.25cm}
 \addtolength{\belowcaptionskip}{-0.5cm}
 
-\title{Think again?\\ Optimal mental simulation tracks problem difficulty}
+\title{Think again?\\ The amount of mental simulation tracks uncertainty in the outcome}
 
 \author{{\large \bf Jessica B.~Hamrick$^1$ (jhamrick@berkeley.edu),
     Kevin A.~Smith$^2$ (k2smith@ucsd.edu),}\\
@@ -39,10 +39,10 @@ In this paper, we investigate how people use mental simulations.
 In particular, do people vary the number of mental simulations that they run in order to optimally balance speed and accuracy?
 To answer this question, we focused on the particular domain of intuitive physics, for which there is prior evidence that people use mental simulation to make predictions about the world \cite<e.g.>{Smith:2013fc,Battaglia2013}.
 We combined a model of approximate, noisy physical simulation with a well-known strategy in decision making called the \emph{sequential probability ratio test}, or \textsc{sprt} \cite{wald1947sequential}.
-Our model predicted that people should vary the number of simulations that they run depending on the difficulty of the task.
-Specifically, they should use more samples when it is harder to make an accurate prediction.
+Our model predicted that people should vary the number of simulations that they run depending on their own uncertainty about the outcome.
+Specifically, they should use more samples when it is harder to make an accurate prediction due to higher uncertainty in their simulations.
 We tested this hypothesis through a task in which people watched a ball bouncing around in a box, and had to judge whether it would first go through a hole in the wall, or bounce off that wall. 
-We varied the difficulty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
+We varied the uncertainty of each trial by changing the size of the holes and the margin by which the ball either went through the hole or missed the hole. 
 Both people's judgments and their response times were well-predicted by our model, demonstrating that people have a systematic strategy to allocate their resources for mental simulation.
 
 \textbf{Keywords:} 
@@ -52,7 +52,7 @@ mental simulation; intuitive physics; \textsc{sprt}; computational modeling
 \section{Introduction}
 
 %% The question we're interested in: how many simulations do people take?
-How does the mind optimally allocate its resources?
+How should the mind optimally allocate its computational resources?
 Consider the game of Angry Birds, where the goal is to launch birds to knock down a tower.
 To take a shot, the player can imagine---or \emph{mentally simulate}---the path the bird will take and how it will affect the tower.
 How long should the player spend thinking before they let each bird fly?
@@ -60,7 +60,7 @@ If they spend no time thinking, they are likely to miss the target.
 But, if they spend too long thinking, it will take much longer to receive the satisfaction of beating the level.
 More generally, if an agent can mentally simulate the results of an action, how long should they spend simulating before acting?
 
-In the domain of physical reasoning, research has revealed that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
+In the domain of physical reasoning, research suggests that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 However, while this research has investigated the \emph{mechanism} for making these predictions, there has been very little investigation into how people \emph{use} this mechanism. 
 In particular, because the simulations are noisy, it may be beneficial to run multiple simulations in order to obtain more accurate predictions.
 Is there an optimal number of simulations to run in these situations?
@@ -70,7 +70,7 @@ To investigate how many simulations people run, we focus on a dichotomous predic
 To model this task, we combine a mechanism of noisy physical simulation with a decision strategy for sample-based agents.
 Specifically, we consider the \textit{sequential probability ratio test}, or \textsc{sprt}, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
 Often under the name of the \emph{drift-diffusion} model, \textsc{sprt} has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
-Importantly, the \textsc{sprt} strategy predicts that people need to take more samples---and thus also will take a longer time to respond---on more difficult tasks.
+Importantly, the \textsc{sprt} strategy predicts that people need to take more samples---and thus also will take a longer time to respond---when there is roughly equal evidence for both hypotheses.
 
 \begin{figure*}[t!]
     \begin{center}
@@ -88,7 +88,7 @@ Importantly, the \textsc{sprt} strategy predicts that people need to take more s
 \end{figure*}
 
 %% Plan of the paper
-Drawing on the results from both physical simulation and decision-making, we hypothesize that people make predictions by running mental simulations, and that they vary the number of simulations based on the difficulty of the task.
+Drawing on the results from both physical simulation and decision-making, we hypothesize that people make predictions by running mental simulations, and that they vary the number of simulations based on their uncertainty.
 In this paper, we first formalize our model, combining the simulation model from \citeA{Smith:2013fc} with the \textsc{sprt} decision strategy. 
 Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' judgments and response times. 
 We then demonstrate that our model can explain the empirical pattern of responses and response times we observed. 
@@ -104,19 +104,10 @@ In this section, we formalize a model that answers this question by combining no
 
 There is a growing body of evidence that people reason about physical scenes like the one in Figure \ref{fig:experiment} by running noisy simulations.
 This hypothesis, referred to as the ``noisy Newton'' hypothesis \cite{Sanborn2013}, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics.
-Using this model, they can extrapolate the future of physical scenes by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
+Using this model, they can extrapolate the future by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 
 \citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty (noise in exactly where objects are and their motion trajectories) and dynamic uncertainty (stochastic noise added to account for unknowable variation in motion---e.g., a textured floor would cause a ball rolling along it to deviate from a straight line).
-Specifically, they asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis.
-
-Here, we also used the model of \citeA{Smith:2013fc} to describe how people simulate individual possible physical events, with a few small differences.
-First, because our experiment (see the Experiment section) was performed online, we needed to refit the model parameters to reflect these different viewing conditions.
-To do this independently of the results of the experiment in this paper, we performed an online replication of the experiment from \citeA{Smith:2013fc} (see the Appendix for details).
-
-Second, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
-Assuming they took on average $M$ samples, then the standard deviation we estimate using the physical simulator ($\sigma_{judgments}$) is not equal to the standard deviation of distributions of simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{sims} = \sigma_{judgments} / \sqrt{M}$.
-Therefore, we allowed for one free parameter to adjust this variance such that $\sigma_{adj}=\sqrt{M}$.
-If sampling pulls from this distribution, the probability of a ball going `in' ($H_1$) on any given sample is simply the density of the probability distribution that overlaps with the hole ($p$).
+Using a model like this, we can hypothesize how people reason about the task in Figure \ref{fig:experiment}: that they run noisy physical simulations to estimate where the ball will go.
 
 \subsection{The \textsc{sprt} strategy}
 
@@ -135,29 +126,33 @@ In practice, the agent cannot take infinitely many samples.
 Thus, to determine when to stop sampling (i.e., what the value of $N$ is), the agent continues to sample until the net evidence $Y_N$ reaches some threshold, either $Y_N=T$ to select in favor of $H_1$ or $Y_N=-T$ to select in favor of $H_0$. 
 The net evidence is the sum of samples in favor of $H_1$ minus those in favor of $H_0$, or $Y_N=\sum_{i=1}^N 2X_i-1$.
 
-The probability of choosing $H_1$ given that $H_1$ is the MAP hypothesis is:
+Independent of the actual number of samples taken, the probability of choosing the MAP hypothesis ($H_1$) is:
 \begin{equation}
-\Pr[\hat{H}(Y_N)=H_1\,|\,H_1]=\frac{p^T}{p^T+(1-p)^T}
+\Pr[\hat{H}(Y_N)=H_1\,|\,H_1,T,p]=\frac{p^T}{p^T+(1-p)^T},
 \label{eq:pr-choose-h1}
 \end{equation}
-
-Given the threshold $T$, the probability of taking $N$ samples and then choosing $H_1$ is:
-\begin{multline}
-\Pr[N,H_1\,|\,T,p]=\left(\frac{2^N}{2T}\right)p^{\frac{N+T}{2}}(1-p)^{\frac{N-T}{2}}\cdot{}\\
-\sum_{\nu=1}^{2T-1}\cos\left(\frac{\nu\pi}{2T}\right)^{N-1}\sin\left(\frac{\nu\pi}{2T}\right)\sin\left(\frac{\nu\pi}{2}\right)
-\end{multline}
-for $N\geq T$ and where $N$ is of the same parity as $T$ \cite[ch.~XIV, eq. 5.7]{Feller:1968ut}. 
-Because we are dealing with binary hypotheses, the marginal probability of $N$ samples is then $\Pr[N\,|\,T,p]=\Pr[N,H_1\,|\,T,p]+\Pr[N,H_1\,|\,T,1-p]$.
-So, the expected number of samples for a particular decision is:
+and the expected number of samples taken before reaching either $Y_N=T$ or $Y_N=-T$ is given by:
 \begin{equation}
-\mathbb{E}[N\,|\,T,p]=\sum_{N=T}^\infty N\cdot{}\Pr[N\,|\,T,p]
+\mathbb{E}[N\,|\,T,p]=\frac{T}{1-2p}-\frac{2T}{1-2p}\cdot{}\frac{1-((1-p)/p)^T}{1-((1-p)/p)^{2T}},
 \label{eq:expsamp}
 \end{equation}
+which is derived by \citeA[ch.~XIV, eq. 3.4]{Feller:1968ut}.
 
-To summarize thus far, Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp} give us a formal hypothesis for what decisions people make, and how long they take to make them. 
-In the next section, we present an experiment to empirically test this hypothesis.
+\subsection{Combining simulation and \textsc{sprt}}
 
-\section{Experiment: Will the ball go in the hole?}
+In order to combine simulation and \textsc{sprt}, we used the model from \citeA{Smith:2013fc} to sample possible trajectories of the ball.
+We then used those trajectories to estimate a posterior predictive distribution of where the ball will go.
+Specifically, this distribution was a truncated normal, with the mean and standard deviation estimated from samples from the physical simulation model.
+Then, the probability $p$ that the ball goes in the hole is the probability mass overlapping the hole.
+This probability can then be used to compute Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp}, which give a formal hypothesis for what decisions people make, and how long they choose to make them.
+
+Because our experiment (described in the next section) was performed online, we needed to fit the parameters of the model from \citeA{Smith:2013fc} to reflect these different viewing conditions.
+To do this independently of the results of the experiment in this paper, we performed an online replication of the experiment from \citeA{Smith:2013fc} in which we asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis (see the Appendix for details).
+However, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
+Assuming they took on average $M$ samples, then the standard deviation of their judgments ($\sigma_{judgments}$) is not equal to the standard deviation of their simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{judgments} = \sigma_{sims} / \sqrt{M}$.
+Therefore, to estimate $\sigma_{sims}$, we allowed for a free parameter, $\sigma_{adj}=\sqrt{M}$, which multiplied our original estimate of the standard deviation.
+
+\section{Testing the \textsc{sprt} model of mental simulation}
 
 \begin{figure*}[t]
     \begin{center}
@@ -169,8 +164,10 @@ In the next section, we present an experiment to empirically test this hypothesi
 
 In order to determine whether people run simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
-We designed the trials such that some were harder than others by varying the margin by which the ball either missed or went through the hole.
-According to \textsc{sprt}, people should be faster to respond on ``easy'' trials (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole), and slower to respond on ``hard'' trials (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
+We designed the trials such that, if people were using mental simulations, those trials should be more uncertain.
+Specifically, we varied the margin by which the ball either missed or went through the hole.
+According to \textsc{sprt}, people should be slower to respond on trials where, according to their simulations, the probability that the ball goes in the hole is close to $p=0.5$ (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
+They should be faster to respond when their simulations are more certain (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole).
 
 \subsection{Participants}
 
@@ -272,7 +269,7 @@ In contrast, a simpler model that takes only a single sample each time (equivale
 
 In this paper, we asked the question: do people optimally use mental simulations?
 We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
-The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on more difficult trials.
+The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on the trials they were most uncertain about.
 Comparing people's responses and response times to those of the model, we found an extremely strong fit.
 This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
 
@@ -285,7 +282,7 @@ For example, \citeA{Battaglia2013} analyzed the variability of people's response
 However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they systematically vary the number of simulations rationally in response to task demands.
 
 Mental simulation is a powerful and flexible tool, as it offers us a way to make predictions about scenarios that have not yet come to pass, or which may never come to pass.
-In this work, we demonstrated that when people use mental simulation, they are sensitive to the difficulty of the task and accordingly adjust how many simulations they run.
+In this work, we demonstrated that when people use mental simulation, they are sensitive to their own uncertainty in reasoning about the task and accordingly adjust how many simulations they run.
 This results joins others \cite<e.g.>{Hamrick:2014wq} in explaining not just \emph{that} people use simulation to reason about the world, but specifically \emph{how} they use it.
 While there are still many questions left unanswered---e.g., how do people use simulations in non-binary tasks?---this work brings us one step closer to understanding of how mental simulation is used.
 
