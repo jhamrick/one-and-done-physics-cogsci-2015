@@ -58,7 +58,7 @@ To take a shot, the player can imagine---or \emph{mentally simulate}---the path 
 How long should the player spend thinking before they let each bird fly?
 If they spend no time thinking, they are likely to miss the target.
 But, if they spend too long thinking, it will take much longer to receive the satisfaction of beating the level.
-More generally, if an agent can mentally simulate the results of an action, how long should they spend simulating before acting?
+More generally, if running simulations will provide a more accurate forecast but incur a sampling cost, how long should an agent spend simulating before acting?
 
 In the domain of physical reasoning, research suggests that people make predictions about physical scenes---such as those found in Angry Birds---by running noisy physical simulations \cite{Sanborn2013,Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 However, while this research has investigated the \emph{mechanism} for making these predictions, there has been very little investigation into how people \emph{use} this mechanism. 
@@ -77,11 +77,11 @@ Importantly, the \textsc{sprt} strategy predicts that people need to take more s
         \includegraphics[width=\textwidth]{figures/experiment.png}
         \caption{\textbf{Example experimental trial.} 
         Each panel shows a different part of the trial. 
-        \emph{Left:} the initial screen presented to the participant.
+        \emph{A:} the initial screen presented to the participant.
         The arrow was not part of the actual stimuli; it has been added to reflect the animation that participants observed after pressing ``space''. 
-        \emph{Middle:}  the screen is occluded after observing the stimulus presentation. 
+        \emph{B:}  the screen is occluded after observing the stimulus presentation. 
         The faded gray line shows the path the ball took during the initial presentation. 
-        \emph{Right:} the final position of the ball, after observing the feedback. 
+        \emph{C:} the final position of the ball, after observing the feedback. 
         As in the middle panel, the faded gray line shows the path of the ball.}
         \label{fig:experiment}
     \end{center}
@@ -117,11 +117,12 @@ However, each simulation comes with a time cost.
 To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or \textsc{sprt} \cite{wald1947sequential} to the samples drawn from the physical simulation.
 By combining these two models, we can make predictions both for people's judgments, and how long they take to make those judgments.
 
-Formally, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$. 
+Formally, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$.
+In the case of the task in Figure \ref{fig:experiment}, we can think of $H_1$ as the hypothesis that the ball goes in, and $H_0$ as the hypothesis that it does not. 
 The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$ (the probability of sampling evidence for $H_1$), and from these samples estimate the probability that $H_1$ is correct: $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. 
 Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
 
-In the best possible case, the agent takes infinitely many samples and chooses the maximum \emph{a posteriori} (MAP) hypothesis with probability $p$. 
+In the best possible case, the agent takes infinitely many samples and chooses the \emph{maximum a posteriori} (MAP) hypothesis with probability $p$. 
 In practice, the agent cannot take infinitely many samples. 
 Thus, to determine when to stop sampling (i.e., what the value of $N$ is), the agent continues to sample until the net evidence $Y_N$ reaches some threshold, either $Y_N=T$ to select in favor of $H_1$ or $Y_N=-T$ to select in favor of $H_0$. 
 The net evidence is the sum of samples in favor of $H_1$ minus those in favor of $H_0$, or $Y_N=\sum_{i=1}^N 2X_i-1$.
@@ -157,17 +158,20 @@ Therefore, to estimate $\sigma_{sims}$, we allowed for a free parameter, $\sigma
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response times as a function of response.} \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color). \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
+        \caption{\textbf{Response characteristics as a function of trial type.}
+        \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color).
+        \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. 
+        \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  
+        The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. 
+        The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
         \label{fig:pct-vs-rt}
     \end{center}
 \end{figure*}
 
 In order to determine whether people run simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
-We designed the trials such that, if people were using mental simulations, those trials should be more uncertain.
-Specifically, we varied the margin by which the ball either missed or went through the hole.
-According to \textsc{sprt}, people should be slower to respond on trials where, according to their simulations, the probability that the ball goes in the hole is close to $p=0.5$ (e.g., where the ball just barely goes through the hole, or just barely misses the hole).
-They should be faster to respond when their simulations are more certain (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole).
+We designed the trials to elicit a range of responses by varying the margin by which the ball either missed or went through the hole.
+According to \textsc{sprt}, people should be slower to respond on trials where, according to their simulations, the probability that the ball goes in the hole is close to $p=0.5$ (e.g., where the ball just barely goes through the hole, or just barely misses the hole), and they should be faster to respond when their simulations are more certain (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole).
 
 \subsection{Participants}
 
@@ -192,12 +196,12 @@ In addition, participants were given seven instruction trials prior to the exper
 
 \subsection{Stimuli}
 
-The stimuli consisted of two animations depicting a blue ball with a radius of 10px bouncing around in a box with dimensions 900px $\times$ 650px.
+The stimuli consisted of two animations depicting a blue ball with a radius of 10px moving in a box with dimensions 900px $\times$ 650px.
 The first animation was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction.
 The second animation was 1.5 seconds of feedback, and picked up immediately where the first animation left off.
-The feedback depicted the ball either going into the hole or bouncing off the wall that contained the hole.
+The feedback showed the ball either going into the hole or bouncing off the wall that contained the hole.
 Across all stimuli, the ball always traveled the same distance during the feedback animation, and could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
-In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a faded gray line on the floor (see Figure \ref{fig:experiment}).
+In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a gray line on the floor (see Figure \ref{fig:experiment}).
 
 There were 48 different initial animations, equally balanced by number of bounces during feedback (16 each for 0, 1, and 2 bounces). 
 For each of these initial animations, there were four different trial types and two different hole sizes, giving a total of eight versions of each stimulus. 
@@ -234,7 +238,12 @@ As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of t
 \begin{figure*}[t]
     \begin{center}
         \includegraphics[width=\textwidth]{figures/model_results.pdf}
-        \caption{\textbf{Model vs. human comparison.} In both plots, each point corresponds to a different stimulus, trial type, and hole size. Dashed lines indicate perfect correspondence between model and people. \emph{A:} The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole. \emph{B:} Color and shape indicate the number of times the ball bounced during feedback. The $x$-axis is the model response times, and the $y$-axis is the logarithmic mean response times of participants.}
+        \caption{\textbf{Model vs. human comparison.} 
+        In both plots, each point corresponds to a different stimulus, trial type, and hole size. 
+        Dashed lines indicate perfect correspondence between model and people. 
+        \emph{A:} The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole. 
+        \emph{B:} Color and shape indicate the number of times the ball bounced during feedback. 
+        The $x$-axis is the model response times, and the $y$-axis is the logarithmic mean response times of participants.}
         \label{fig:model-results}
     \end{center}
 \end{figure*}
@@ -253,13 +262,12 @@ This suggests that it takes additional time to resolve a collision between the b
 \subsubsection{Model comparison}
 
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
-However, we found the number of bounces to be a strong predictor of response time.
-To account for this, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
+However, because bounces were a strong predictor of response time, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
 Briefly, $\beta_0$ is the time to set up the simulation and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
 We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
-We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model.} \betazero{}, \betaone{}, and \betatwo{}.
+We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model, and people are taking approximately one sample to catch the ball.} \betazero{}, \betaone{}, and \betatwo{}.
 
 The fitted model explains participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
 Even if the number of bounces is not included, the \textsc{sprt} model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
@@ -299,7 +307,7 @@ Additionally, we excluded \PaddleNumFailed{} participants from analysis for fail
 The stimuli were modified versions of those used the main experiment, with two differences.
 First, instead of a wall with a hole in it, there was a paddle of length 100px that could move up and down the $y$-axis.
 Second, instead of a full feedback animation, we just displayed the last frame of the animation.
-Because there was no feedback animation, there were only 48 stimuli, plus the seven instruction trials and eight catch trials.
+Because there was no hole that could vary by trial, there were only 48 stimuli, plus the seven instruction trials and eight catch trials.
 
 \subsubsection{Procedure}
 
