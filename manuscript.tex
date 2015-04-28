@@ -13,6 +13,7 @@
 \input{results/params.tex}
 \input{results/corrs.tex}
 \input{results/hole_empirical_analysis.tex}
+\input{results/hole_empirical_learning.tex}
 \input{results/num_participants.tex}
 \input{results/model_comparison.tex}
 
@@ -146,7 +147,7 @@ In order to combine simulation and \textsc{sprt}, we used the model from \citeA{
 We then used those trajectories to estimate a posterior predictive distribution of where the ball will go.
 Specifically, this distribution was a truncated normal, with the mean and standard deviation estimated from samples from the physical simulation model.
 Then, the probability $p$ that the ball goes in the hole is the probability mass overlapping the hole.
-This probability can then be used to compute Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp}, which give a formal hypothesis for what decisions people make, and how long they choose to make them.
+This probability can then be used to compute Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp}, which give a formal hypothesis for what decisions people make, and how long it takes them.
 
 Because our experiment (described in the next section) was performed online, we needed to fit the parameters of the model from \citeA{Smith:2013fc} to reflect these different viewing conditions.
 To do this independently of the results of the experiment in this paper, we performed an online replication of the experiment from \citeA{Smith:2013fc} in which we asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis (see the Appendix for details).
@@ -169,7 +170,7 @@ Therefore, to estimate $\sigma_{sims}$, we allowed for a free parameter, $\sigma
     \end{center}
 \end{figure*}
 
-In order to determine whether people run simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
+To determine whether people choose the number of simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
 Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
 We designed the trials to elicit a range of responses by varying the margin by which the ball either missed or went through the hole.
 According to \textsc{sprt}, people should be slower to respond on trials where, according to their simulations, the probability that the ball goes in the hole is close to $p=0.5$ (e.g., where the ball just barely goes through the hole, or just barely misses the hole), and they should be faster to respond when their simulations are more certain (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole).
@@ -229,10 +230,17 @@ Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole
 
 \subsubsection{Response times}
 
-For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 1000 bootstrap samples.
+For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 10000 bootstrap samples.
 Participants had an average response time of \AvgRT{}, excluding catch trials.
 There were significant effects of both trial type (\RTHoleClass{}) and hole size (\RTHoleSize{}) on response time, as well as an interaction between trial type and hole size (\RTFull{}).
 As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of the FI trials (\ResponsetimeFIttest{}; for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
+
+\subsubsection{Effect of practice}
+
+To check for any effect of practice on participants responses, we computed Spearman rank correlations (with 95\% confidence intervals computed from 10000 bootstrap samples) between trial number and accuracy, as well as between trial number and response time.
+We found an overall effect of practice on accuracy (\ResponseTrialCorr{}), though in the second half of the experiment, this effect had disappeared (\ResponseTrialCorrLate{}).
+There was also an overall effect of practice on response time (\RTTrialCorr{}), which was strong both in the first (\RTTrialCorrEarly{}) and second (\RTTrialCorrLate{}) halves of the experiment.
+Future work will need to include a longer training period to alleviate these practice effects.
 
 \subsubsection{Relationship of responses to reaction time}
 
@@ -250,29 +258,36 @@ As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of t
 \end{figure*}
 
 As shown in Figure \ref{fig:pct-vs-rt}C, we found a clear effect of certainty on people's response times.
-In particular, on trials when there was more agreement amongst participants (the fraction saying `in' is closer to $0$ or $1$), participants were faster to respond than when responses were more variable.
+We fit both 1st- and 2nd-order polynomial functions to the relationship between responses and response times, and found the 2nd-order function to be a much better fit according to both AIC and BIC (for the 1st-order function, \AicFirstOrder{} and \BicFirstOrder{}; for the 2nd-order function, \AicSecondOrder{} and \BicSecondOrder{}).
+These results indicate that on trials when there was more agreement amongst participants (the fraction saying `in' is closer to $0$ or $1$), participants were faster to respond than when responses were more variable.
 This tradeoff mirrors the same tradeoff found in \textsc{sprt}: decisions for which $p\approx0.5$ are slower, because it on average takes more samples to get to one threshold versus the other.
 
 In addition, we found that response time is affected by the number of bounces during feedback.
 Participants were fastest to respond on trials with zero bounces (\RTZeroBounces{}), slower to respond on trials with one bounce (\RTOneBounces{}), and slowest to respond on trials with two bounces (\RTTwoBounces{}).
 While this may be partially modulated by difficulty---people make more variable predictions as bounces are added \cite{Smith:2013fc}, and more variable trials have longer reaction times---there appears to be an additional time cost.
-For each number of bounces, we fit participants' response times to a second-order polynomial function of their responses.
-From these fits, we see that the intercepts increase as a function of the number of bounces: for zero bounces, the intercept was \InterceptZeroBounces{}; for one, \InterceptOneBounces{}; and for two, \InterceptTwoBounces{}.
-This suggests that it takes additional time to resolve a collision between the ball and a wall in the course of a simulation.
+We fit a new 2nd-order polynomial function to participants' responses, and included the number of bounces as an additional regressor.
+With this new model, we find that the number of bounces is a strong predictor of response time above and beyond uncertainty (with bounces, \AicSecondOrderWithBounces{} and \BicSecondOrderWithBounces{}; without bounces, \AicSecondOrder{} and \BicSecondOrder{}).
+By looking at the coefficient for the number of bounces, we find that the each bounce adds approximately \RTBounceCoef{} to the overall response time.
+Thus, even if people are using a \textsc{sprt}-like strategy, there is an additional time cost per bounce that cannot be explained by simulation variance alone.
 
 \subsubsection{Model comparison}
 
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
-However, because bounces were a strong predictor of response time, our final response time equation incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
+However, because bounces were a strong predictor of response time, our final response time equation also incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
 Briefly, $\beta_0$ is the time to set up the simulation and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
-We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using $n=10000$ samples from the physical simulation model.
+We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using 10000 samples from the physical simulation model.
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
 We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model, and people are taking approximately one sample to catch the ball.} \betazero{}, \betaone{}, and \betatwo{}.
 
-The fitted model explains participants' judgments of whether the ball would go in the whole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
+We computed Pearson correlations between the model and people with 95\% confidence intervals computed from 10000 bootstrap samples. The fitted model explains participants' judgments of whether the ball would go in the hole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
 Even if the number of bounces is not included, the \textsc{sprt} model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
-In contrast, a simpler model that takes only a single sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) but cannot explain the variation in response times.
+
+A model that takes only one sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) and about as well at explaining RT (\NoSamplesHoleRTCorr{}) as the full model.
+However, this model cannot explain the variation of RT within bounces, while the full model can.
+For the model with $T=1$, the correlation of RT for zero bounces was \NoSamplesHoleRTCorrZeroBounces{}; for one bounce, it was \NoSamplesHoleRTCorrOneBounce{}; and for two bounces, it was \NoSamplesHoleRTCorrTwoBounces{}.
+In contrast, for the model with $T=2$, the correlation of RT for zero bounces was \HoleRTCorrZeroBounces{}; for one bounce, it was \HoleRTCorrOneBounce{}; and for two bounces, it was \HoleRTCorrTwoBounces{}.
+The model with $T=1$ also fares slightly worse overall according to both BIC and AIC (for $T=1$, \BicNoSamples{} and \AicNoSamples{}; for $T=2$, \BicFull{} and \AicFull{}).
 
 \section{Discussion}
 
@@ -280,7 +295,7 @@ In this paper, we asked the question: do people optimally use mental simulations
 We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
 The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on the trials they were most uncertain about.
 Comparing people's responses and response times to those of the model, we found an extremely strong fit.
-This provides evidence that people not only rely approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
+This provides evidence that people not only rely on approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
 
 If \textsc{sprt} is the optimal strategy, then what is the optimal threshold?
 We found the best fitting \textsc{sprt} threshold to be \threshold{}, which is consistent with previous research.

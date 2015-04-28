@@ -16,5 +16,6 @@ results:
 	cp $(ANALYSIS_PATH)/latex_results/params.tex results/
 	cp $(ANALYSIS_PATH)/latex_results/corrs.tex results/
 	cp $(ANALYSIS_PATH)/latex_results/hole_empirical_analysis.tex results/
+	cp $(ANALYSIS_PATH)/latex_results/hole_empirical_learning.tex results/
 	cp $(ANALYSIS_PATH)/latex_results/num_participants.tex results/
 	cp $(ANALYSIS_PATH)/latex_results/model_comparison.tex results/
