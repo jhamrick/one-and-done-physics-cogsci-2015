@@ -7,6 +7,7 @@
 \usepackage{amsmath, amsthm, amssymb}
 \usepackage{graphicx}
 \usepackage{color}
+\usepackage{booktabs}
 
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
 
@@ -18,7 +19,7 @@
 \input{results/model_comparison.tex}
 
 % space below "Figure 1: ...", but only for inline figures
-%\addtolength{\textfloatsep}{-0.1cm}
+\addtolength{\textfloatsep}{0.1cm}
 
 \addtolength{\abovecaptionskip}{-0.25cm}
 \addtolength{\belowcaptionskip}{-0.5cm}
@@ -280,14 +281,12 @@ We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\bet
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
 We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model, and people are taking approximately one sample to catch the ball.} \betazero{}, \betaone{}, and \betatwo{}.
 
-We computed Pearson correlations between the model and people with 95\% confidence intervals computed from 10000 bootstrap samples. The fitted model explains participants' judgments of whether the ball would go in the hole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and can additionally account for how quickly participants responded to trials (\HoleRTCorr{}, see Figure \ref{fig:model-results}B).
-Even if the number of bounces is not included, the \textsc{sprt} model with \threshold{} is able to account for a moderate amount of the variance in response times (\NoBouncesHoleRTCorr{}).
-
-A model that takes only one sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}) and about as well at explaining RT (\NoSamplesHoleRTCorr{}) as the full model.
-However, this model cannot explain the variation of RT within bounces, while the full model can.
-For the model with $T=1$, the correlation of RT for zero bounces was \NoSamplesHoleRTCorrZeroBounces{}; for one bounce, it was \NoSamplesHoleRTCorrOneBounce{}; and for two bounces, it was \NoSamplesHoleRTCorrTwoBounces{}.
-In contrast, for the model with $T=2$, the correlation of RT for zero bounces was \HoleRTCorrZeroBounces{}; for one bounce, it was \HoleRTCorrOneBounce{}; and for two bounces, it was \HoleRTCorrTwoBounces{}.
-The model with $T=1$ also fares slightly worse overall according to both BIC and AIC (for $T=1$, \BicNoSamples{} and \AicNoSamples{}; for $T=2$, \BicFull{} and \AicFull{}).
+We computed Pearson correlations between the model and people with 95\% confidence intervals computed from 10000 bootstrap samples. The fitted model explains participants' judgments of whether the ball would go in the hole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A).
+A model that takes only one sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}).
+As shown in Table \ref{tbl:rt}, both models do equally well at explaining overall RT in terms of correlation.
+According to both BIC and AIC, the $T=1$ model does slightly worse (\BicNoSamples{} and \AicNoSamples{}) than the full model (\BicFull{} and \AicFull{}).
+Moreover, the $T=1$ model cannot explain variance in RTs within bounces, whereas the full model with $T=2$ can (Table \ref{tbl:rt}).
+If the number of bounces is excluded entirely, the full model can predict human RTs to a moderate degree (\NoBouncesHoleRTCorr{}), while the model with $T=1$ cannot predict RTs at all.
 
 \section{Discussion}
 
@@ -296,6 +295,26 @@ We hypothesized that people use noisy physical simulations to predict whether a 
 The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on the trials they were most uncertain about.
 Comparing people's responses and response times to those of the model, we found an extremely strong fit.
 This provides evidence that people not only rely on approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
+
+\begin{table}
+    \begin{tabular}{ccl}
+    \toprule
+    \textbf{Threshold} & \textbf{Bounces} & \textbf{Correlation} \\
+    \midrule
+    $T=1$ & 0   & \NoSamplesHoleRTCorrZeroBounces{} \\
+          & 1   & \NoSamplesHoleRTCorrOneBounce{} \\
+          & 2   & \NoSamplesHoleRTCorrTwoBounces{} \\
+          & all & \NoSamplesHoleRTCorr{} \\
+    \midrule
+    $T=2$ & 0   & \HoleRTCorrZeroBounces{} \\
+          & 1   & \HoleRTCorrOneBounce{} \\
+          & 2   & \HoleRTCorrTwoBounces{} \\
+          & all & \HoleRTCorr{} \\
+    \bottomrule
+    \end{tabular}
+    \caption{Correlations between human and model RTs.}
+    \label{tbl:rt}
+\end{table}
 
 If \textsc{sprt} is the optimal strategy, then what is the optimal threshold?
 We found the best fitting \textsc{sprt} threshold to be \threshold{}, which is consistent with previous research.
