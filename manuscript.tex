@@ -58,7 +58,7 @@ How should the mind optimally allocate its computational resources?
 Consider the game of Angry Birds, where the goal is to launch birds to knock down a tower.
 To take a shot, the player can imagine---or \emph{mentally simulate}---the path the bird will take and how it will affect the tower.
 How long should the player spend thinking before they let each bird fly?
-If they spend no time thinking, they are likely to miss the target.
+If they spend very little time thinking, they are likely to miss the target.
 But, if they spend too long thinking, it will take much longer to receive the satisfaction of beating the level.
 More generally, if running simulations will provide a more accurate forecast but incur a sampling cost, how long should an agent spend simulating before acting?
 
@@ -202,7 +202,7 @@ The stimuli consisted of two animations depicting a blue ball with a radius of 1
 The first animation was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction.
 The second animation was 1.5 seconds of feedback, and picked up immediately where the first animation left off.
 The feedback showed the ball either going into the hole or bouncing off the wall that contained the hole.
-Across all stimuli, the ball always traveled the same distance during the feedback animation, and could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
+Across all stimuli, the ball always traveled the same distance during both the stimulus and feedback animations, and could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
 In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a gray line on the floor (see Figure \ref{fig:experiment}).
 
 There were 48 different initial animations, equally balanced by number of bounces during feedback (16 each for 0, 1, and 2 bounces). 
@@ -274,7 +274,7 @@ Thus, even if people are using a \textsc{sprt}-like strategy, there is an additi
 
 If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
 However, because bounces were a strong predictor of response time, our final response time equation also incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
-Briefly, $\beta_0$ is the time to set up the simulation and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
+Briefly, $\beta_0$ is the time to set up the simulation(s) and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
 To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
 We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using 10000 samples from the physical simulation model.
 The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
