@@ -55,7 +55,7 @@ mental simulation; intuitive physics; \textsc{sprt}; computational modeling
 \section{Introduction}
 
 %% The question we're interested in: how many simulations do people take?
-How should the mind optimally allocate its computational resources?
+How should the mind allocate its computational resources?
 Consider the game of Angry Birds, where the goal is to launch birds to knock down a tower.
 To take a shot, the player can imagine---or \emph{mentally simulate}---the path the bird will take and how it will affect the tower.
 How long should the player spend thinking before they let each bird fly?
@@ -71,8 +71,8 @@ If so, do people behave optimally?
 
 To investigate how many simulations people run, we focus on a dichotomous prediction task---will a ball in motion on a computer screen go through a hole, or miss it?
 To model this task, we combine a mechanism of noisy physical simulation with a decision strategy for sample-based agents.
-Specifically, we consider the \textit{sequential probability ratio test}, or \textsc{sprt}, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
-Often under the name of the \emph{drift-diffusion} model, \textsc{sprt} has been used successfully to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
+We consider the \textit{sequential probability ratio test}, or \textsc{sprt}, in which an agent takes samples that point to one hypothesis or another, and continues to do so until the net samples in favor of one hypothesis reaches a threshold, at which point that hypothesis wins \cite{wald1947sequential}. 
+Often under the name of the \emph{drift-diffusion} model, \textsc{sprt} has been used to explain behavior in a number of decision-making tasks \cite<e.g.>{Gold:2007fo,Ratcliff:2008ux,Bitzer:2014ea}, as it provides an optimal cost-benefit tradeoff between sampling and exploiting information \cite{Wald:1950uw}.
 Importantly, the \textsc{sprt} strategy predicts that people need to take more samples---and thus also will take a longer time to respond---when there is roughly equal evidence for both hypotheses.
 
 \begin{figure*}[t!]
@@ -95,13 +95,13 @@ Drawing on the results from both physical simulation and decision-making, we hyp
 In this paper, we first formalize our model, combining the simulation model from \citeA{Smith:2013fc} with the \textsc{sprt} decision strategy. 
 Next, we describe an experiment in which we asked participants to respond to the question of, ``will the ball go through the hole?'', and analyze peoples' judgments and response times. 
 We then demonstrate that our model can explain the empirical pattern of responses and response times we observed. 
-Finally, we discuss the implications of our results on the broader, underlying question: how should people optimally make use of mental simulations?
+Finally, we discuss the implications of our results on the broader, underlying question: how should people make use of mental simulations?
 
 \section{Making decisions from mental simulations}
 
-Consider the task in Figure \ref{fig:experiment}, in which people observe a ball moving inside a box, and must predict whether it will go through a hole or not.
+Consider the task in Figure \ref{fig:experiment}, in which people observe a ball moving inside a box, and must predict whether it will go through the hole.
 How do people solve this problem?
-In this section, we formalize a model that answers this question by combining noisy physical simulations with a decision-making strategy known as the \emph{sequential probability ratio test}, or \textsc{sprt}.
+Here, we formalize a model that answers this question by combining noisy physical simulations with a decision-making strategy known as the \emph{sequential probability ratio test}, or \textsc{sprt}.
 
 \subsection{Modeling physical simulation}
 
@@ -109,8 +109,8 @@ There is a growing body of evidence that people reason about physical scenes lik
 This hypothesis, referred to as the ``noisy Newton'' hypothesis \cite{Sanborn2013}, states that people have approximate knowledge of physical laws instantiated in a runnable model of intuitive physics.
 Using this model, they can extrapolate the future by running a series of noisy simulations \cite{Smith:2013fc,Battaglia2013,Smith:2013ug,Smith:2013th,Smith:2014tx,Ullman:2014ut,Hamrick:2015}.
 
-\citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty (noise in exactly where objects are and their motion trajectories) and dynamic uncertainty (stochastic noise added to account for unknowable variation in motion---e.g., a textured floor would cause a ball rolling along it to deviate from a straight line).
-Using a model like this, we can hypothesize how people reason about the task in Figure \ref{fig:experiment}: that they run noisy physical simulations to estimate where the ball will go.
+\citeA{Smith:2013fc} investigated the various sources of uncertainty in these simulations, finding that people's judgments were best captured by a model that took into account both perceptual uncertainty (noise in object locations and their trajectories) and dynamic uncertainty (noise in the object's motion---e.g., a textured floor would cause a ball to deviate from a straight line).
+Using this model, we hypothesize that people reason about the task in Figure \ref{fig:experiment} by running noisy physical simulations to estimate where the ball will go.
 
 \subsection{The \textsc{sprt} strategy}
 
@@ -120,10 +120,23 @@ However, each simulation comes with a time cost.
 To optimize this speed-accuracy tradeoff, we apply the \emph{sequential probability ratio test}, or \textsc{sprt} \cite{wald1947sequential} to the samples drawn from the physical simulation.
 By combining these two models, we can make predictions both for people's judgments, and how long they take to make those judgments.
 
-Formally, we consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$.
-In the case of the task in Figure \ref{fig:experiment}, we can think of $H_1$ as the hypothesis that the ball goes in, and $H_0$ as the hypothesis that it does not. 
-The agent may take samples $X_i$ from a Bernoulli distribution parameterized by an unknown parameter $p$ (the probability of sampling evidence for $H_1$), and from these samples estimate the probability that $H_1$ is correct: $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. 
+We consider binary (or two-alternative forced choice) decisions, where an agent must choose one of two hypotheses, $H_0$ or $H_1$.
+In the case of the task in Figure \ref{fig:experiment}, $H_1$ is the hypothesis that the ball goes in, and $H_0$ is the hypothesis that it does not. 
+The agent may take samples $X_i$ from a Bernoulli distribution with an unknown parameter $p$ (the probability of sampling evidence for $H_1$), and from these samples estimate the probability that $H_1$ is correct: $\hat{p}=\frac{1}{N}\sum_{i=1}^N X_i$, where $N$ is the total number of samples. 
 Then, the decision rule which minimizes the probability of error is $\hat{H}(X_1,\ldots{},X_N)=H_0$ when $\hat{p}<0.5$ and $\hat{H}(X_1,\ldots{},X_N)=H_1$ when $\hat{p}>0.5$.
+
+\begin{figure*}[t]
+    \begin{center}
+        \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
+        \caption{\textbf{Response characteristics as a function of trial type.}
+        \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color).
+        \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of RTs. 
+        \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  
+        The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean RT. 
+        The black line indicates a 2nd-order polynomial fit between responses and RTs and the shaded gray region indicates the 95\% confidence interval around the fit.}
+        \label{fig:pct-vs-rt}
+    \end{center}
+\end{figure*}
 
 In the best possible case, the agent takes infinitely many samples and chooses the \emph{maximum a posteriori} (MAP) hypothesis with probability $p$. 
 In practice, the agent cannot take infinitely many samples. 
@@ -144,106 +157,42 @@ which is derived by \citeA[ch.~XIV, eq. 3.4]{Feller:1968ut}.
 
 \subsection{Combining simulation and \textsc{sprt}}
 
-In order to combine simulation and \textsc{sprt}, we used the model from \citeA{Smith:2013fc} to sample possible trajectories of the ball.
-We then used those trajectories to estimate a posterior predictive distribution of where the ball will go.
-Specifically, this distribution was a truncated normal, with the mean and standard deviation estimated from samples from the physical simulation model.
-Then, the probability $p$ that the ball goes in the hole is the probability mass overlapping the hole.
+In order to combine simulation and \textsc{sprt}, we used the model from \citeA{Smith:2013fc} to sample possible trajectories of the ball, from which we estimated a truncated normal posterior predictive distribution of where the ball will go.
+From this distribution, we compute the probability $p$ that the ball goes in the hole as the probability mass overlapping the hole.
 This probability can then be used to compute Equations \ref{eq:pr-choose-h1} and \ref{eq:expsamp}, which give a formal hypothesis for what decisions people make, and how long it takes them.
 
 Because our experiment (described in the next section) was performed online, we needed to fit the parameters of the model from \citeA{Smith:2013fc} to reflect these different viewing conditions.
-To do this independently of the results of the experiment in this paper, we performed an online replication of the experiment from \citeA{Smith:2013fc} in which we asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis (see the Appendix for details).
-However, it is possible that the participants in the auxiliary experiment used more than one sample to determine where the ball would go.
-Assuming they took on average $M$ samples, then the standard deviation of their judgments ($\sigma_{judgments}$) is not equal to the standard deviation of their simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{judgments} = \sigma_{sims} / \sqrt{M}$.
+To do this, we performed an online replication of the experiment from \citeA{Smith:2013fc} in which we asked people to catch a ball like the one in Figure \ref{fig:experiment} using a paddle that could move up and down along the $y$-axis (see Appendix).
+If we assume participants in this auxiliary experiment took on average $M$ samples, then the standard deviation of their judgments ($\sigma_{judgments}$) is not equal to the standard deviation of their simulations ($\sigma_{sims}$), but is instead related by the equation: $\sigma_{judgments} = \sigma_{sims} / \sqrt{M}$.
 Therefore, to estimate $\sigma_{sims}$, we allowed for a free parameter, $\sigma_{adj}=\sqrt{M}$, which multiplied our original estimate of the standard deviation.
 
 \section{Testing the \textsc{sprt} model of mental simulation}
 
-\begin{figure*}[t]
-    \begin{center}
-        \includegraphics[width=\textwidth]{figures/hole_empirical_results.pdf}
-        \caption{\textbf{Response characteristics as a function of trial type.}
-        \emph{A:} each bar shows the proportion of participants saying that the ball will go in the hole for a particular trial type ($x$-axis) and hole size (color).
-        \emph{B:} like the left subplot, but the $y$-axis shows bootstrapped logarithmic means of response times. 
-        \emph{C:} each point corresponds to a different stimulus, trial type, and hole size.  
-        The $x$-axis is the proportion of participants saying the ball will go in the hole, and the $y$-axis is the logarithmic mean response time. 
-        The black line indicates a 2nd-order polynomial fit between responses and response times and the shaded gray region indicates the 95\% confidence interval around the fit.}
-        \label{fig:pct-vs-rt}
-    \end{center}
-\end{figure*}
-
-To determine whether people choose the number of simulations in a way consistent with \textsc{sprt}, we designed an experiment in which people made a binary judgment about what will happen in the future.
-Specifically, we asked participants to reason about whether a ball traveling across a computer screen would go through a hole or not (see Figure \ref{fig:experiment}).
+To determine whether people choose simulations in a way consistent with \textsc{sprt}, we ran an experiment in which people made a binary judgment about whether a ball traveling across a computer screen would go through a hole (see Figure \ref{fig:experiment}).
 We designed the trials to elicit a range of responses by varying the margin by which the ball either missed or went through the hole.
-According to \textsc{sprt}, people should be slower to respond on trials where, according to their simulations, the probability that the ball goes in the hole is close to $p=0.5$ (e.g., where the ball just barely goes through the hole, or just barely misses the hole), and they should be faster to respond when their simulations are more certain (e.g., where the ball goes directly through the center of a large hole, or hits the wall very far away from the hole).
+According to \textsc{sprt}, when people's simulations are uncertain---i.e., when the probability that the ball goes in the hole is close to $p=0.5$, such as when the ball just barely goes through the hole---they should be slower to respond.
+People should be faster to respond when their simulations are more certain, such as when the ball misses the hole by a wide margin.
 
 \subsection{Participants}
 
 We recruited \HoleNumComplete{} participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework.
-Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 6.5 minutes of work.
-Participants were randomly assigned to one of eight conditions, which determined which stimuli they judged based on a latin-square design (see Stimuli). 
-Additionally, we excluded \HoleNumFailed{} participants from analysis for answering incorrectly on more than one control trial (see Stimuli), leaving a total of \HoleNumOk{} participants.
+Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for 6.5 minutes of work.
+Participants were randomly assigned to one of eight conditions, which determined which stimuli they judged (see Stimuli). 
+We excluded \HoleNumFailed{} participants for answering incorrectly on more than one control trial (see Stimuli), leaving a total of \HoleNumOk{} participants.
 
 \subsection{Procedure}
 
 On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole. 
-Participants were instructed to press ``space'' to begin the trial. 
-Immediately upon pressing ``space'', an animation of the initial stimulus began (see Stimuli). 
-As soon as this animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder to participants of where the ball had come from). 
-Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' if they thought it would, and `p' if they thought it would not. 
+Participants were instructed to press ``space'' to begin the trial, after which an animation of the initial stimulus began (see Stimuli). 
+As soon as this animation concluded, a gray box was drawn over the screen, occluding the ball (but not the line depicting the path it had traveled so far; this was left in as a reminder of where the ball had come from). 
+Participants were asked, ``will the ball go in the hole?'', and were instructed to press `q' if they thought it would, and `p' otherwise. 
 After responding, text appeared saying ``Correct!'' or ``Incorrect.''
 The gray occluder was removed, and participants were shown a feedback animation of the path of the ball (see Stimuli).
 The final frame of this animation remained on the screen until participants pressed ``space'' to advance to the next trial.
 
-During the experiment, participants made judgments on 48 experimental trials, presented in a random order, as well as eight control trials, which were shown after every seven experiment trials, also in a random order.
-In addition, participants were given seven instruction trials prior to the experiment to familiarize them with the procedure.
-
-\subsection{Stimuli}
-
-The stimuli consisted of two animations depicting a blue ball with a radius of 10px moving in a box with dimensions 900px $\times$ 650px.
-The first animation was the stimulus presentation, which had a duration of 0.775 seconds and depicted the ball moving in a particular direction.
-The second animation was 1.5 seconds of feedback, and picked up immediately where the first animation left off.
-The feedback showed the ball either going into the hole or bouncing off the wall that contained the hole.
-Across all stimuli, the ball always traveled the same distance during both the stimulus and feedback animations, and could bounce on the other walls either 0, 1, or 2 times before going into the hole or hitting the wall with the hole in it.
-In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a gray line on the floor (see Figure \ref{fig:experiment}).
-
-There were 48 different initial animations, equally balanced by number of bounces during feedback (16 each for 0, 1, and 2 bounces). 
-For each of these initial animations, there were four different trial types and two different hole sizes, giving a total of eight versions of each stimulus. 
-The four trial types were: ``far in'' (FI), where the ball went directly through the center of the hole; ``far miss'' (FM), where the ball missed the hole by a wide margin; ``close in'' (CI), where the ball just barely went through the hole; and `` close miss'' (CM), where the ball just barely missed the hole. 
-The two hole sizes were 100px and 200px.
-
-In order to ensure that participants never saw the same initial animation twice, we used a latin-square design of Initial Animation $\times$ Trial Type $\times$ Hole Size.
-Thus, each participant saw each initial animation exactly once, each trial type exactly 12 times, and each hole size exactly 24 times.
-This also ensured that the ball would go through the hole exactly half the time, so that participants would not be biased to respond either way based on statistical contingencies.
-
-In addition to the 48 experimental trials, there were seven instruction trials and eight control trials, which were the same for all participants.
-The control trials were designed to be extremely easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px).
-Thus, participants saw a total of 63 trials.
-
-\subsection{Results}
-
-\subsubsection{Responses}
-
-On average, participants were correct \AvgCorrect{} of the time and responded that the ball would go in the hole \AvgResponse{} of the time (\ResponseN{}), excluding catch trials.
-There was a significant effect of trial type on participants' responses (\ResponseHoleClass{}) as well as a significant effect of hole size (\ResponseHoleSize{}).
-Additionally, there was an interaction between trial type and hole size (\ResponseFull{}).
-For three out of the four trial types, there was a significant difference between responses for the two different hole sizes (for CI, \ResponseCIttest{}; for FI, \ResponseCIttest{}; and for FM, \ResponseFMttest{}), with the exception being the CM trials (\ResponseCMttest{}).
-Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole size.
-
-\subsubsection{Response times}
-
-For all analyses of response time, we computed averages using bootstrapped logarithmic means (exponential of the mean of the log response times), using 10000 bootstrap samples.
-Participants had an average response time of \AvgRT{}, excluding catch trials.
-There were significant effects of both trial type (\RTHoleClass{}) and hole size (\RTHoleSize{}) on response time, as well as an interaction between trial type and hole size (\RTFull{}).
-As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of the FI trials (\ResponsetimeFIttest{}; for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
-
-\subsubsection{Effect of practice}
-
-To check for any effect of practice on participants responses, we computed Spearman rank correlations (with 95\% confidence intervals computed from 10000 bootstrap samples) between trial number and accuracy, as well as between trial number and response time.
-We found an overall effect of practice on accuracy (\ResponseTrialCorr{}), though in the second half of the experiment, this effect had disappeared (\ResponseTrialCorrLate{}).
-There was also an overall effect of practice on response time (\RTTrialCorr{}), which was strong both in the first (\RTTrialCorrEarly{}) and second (\RTTrialCorrLate{}) halves of the experiment.
-Future work will need to include a longer training period to alleviate these practice effects.
-
-\subsubsection{Relationship of responses to reaction time}
+Participants were given seven instruction trials prior to the experiment to familiarize them with the procedure.
+Then, participants made judgments on 48 experimental trials in a random order.
+There were also eight control trials, which were shown in a random order after every seven experiment trials.
 
 \begin{figure*}[t]
     \begin{center}
@@ -253,53 +202,78 @@ Future work will need to include a longer training period to alleviate these pra
         Dashed lines indicate perfect correspondence between model and people. 
         \emph{A:} The $x$-axis is the probability the model says the ball will go in the hole, and the $y$-axis is the proportion of participants saying the ball will go in the hole. 
         \emph{B:} Color and shape indicate the number of times the ball bounced during feedback. 
-        The $x$-axis is the model response times, and the $y$-axis is the logarithmic mean response times of participants.}
+        The $x$-axis is the model RTs, and the $y$-axis is the logarithmic mean RTs of participants.}
         \label{fig:model-results}
     \end{center}
 \end{figure*}
 
-As shown in Figure \ref{fig:pct-vs-rt}C, we found a clear effect of certainty on people's response times.
-We fit both 1st- and 2nd-order polynomial functions to the relationship between responses and response times, and found the 2nd-order function to be a much better fit according to both AIC and BIC (for the 1st-order function, \AicFirstOrder{} and \BicFirstOrder{}; for the 2nd-order function, \AicSecondOrder{} and \BicSecondOrder{}).
-These results indicate that on trials when there was more agreement amongst participants (the fraction saying `in' is closer to $0$ or $1$), participants were faster to respond than when responses were more variable.
-This tradeoff mirrors the same tradeoff found in \textsc{sprt}: decisions for which $p\approx0.5$ are slower, because it on average takes more samples to get to one threshold versus the other.
+\subsection{Stimuli}
 
-In addition, we found that response time is affected by the number of bounces during feedback.
+The stimuli consisted of two animations---the \emph{stimulus presentation} and the \emph{feedback} animations---depicting a blue ball with a radius of 10px moving in a box with dimensions 900px $\times$ 650px.
+In both animations, the ball had a velocity of 400px/s, and as it moved, it traced a gray line (see Figure \ref{fig:experiment}).
+The stimulus presentation had a duration of 0.775s and depicted the ball moving in a particular direction.
+The feedback had a duration of 1.5s and picked up where the stimulus presentation left off; it showed the ball either going into the hole or bouncing off the wall that contained the hole for.
+Across all stimuli, the ball traveled the same distance during both animations, and could bounce on the other walls 0, 1, or 2 times before going into the hole or hitting the wall with the hole.
+
+There were 48 different initial animations, equally balanced by number of bounces during feedback (16 each for 0, 1, and 2 bounces). 
+For each of these initial animations, there were four trial types and two hole sizes, for a total of eight versions of each stimulus. 
+The four trial types were: ``far in'' (FI), where the ball went through the center of the hole; ``far miss'' (FM), where the ball missed the hole by a wide margin; ``close in'' (CI), where the ball just barely went through the hole; and `` close miss'' (CM), where the ball just barely missed the hole. 
+The two hole sizes were 100px and 200px.
+
+In order to ensure that participants never saw the same initial animation twice, we used a latin-square design of Initial Animation $\times$ Trial Type $\times$ Hole Size.
+Thus, each participant saw each initial animation once, each trial type 12 times, and each hole size 24 times.
+This also ensured that the ball would go through the hole half the time, so that participants would not be biased to respond either way.
+Additionally, there were seven instruction trials and eight control trials, which were the same for all participants.
+The control trials were designed to be easy and were either of type ``straight hit'' (with a hole size of either 300px or 350px) or ``far miss'' (with a hole size of 100px).
+Thus, participants saw a total of 63 trials.
+
+\subsection{Results}
+
+\subsubsection{Responses}
+
+On average, participants were correct \AvgCorrect{} of the time and responded that the ball would go in the hole \AvgResponse{} of the time (\ResponseN{}), excluding catch trials.
+There was a significant effect of trial type on participants' responses (\ResponseHoleClass{}) as well as a significant effect of hole size (\ResponseHoleSize{}).
+There was also an interaction between trial type and hole size (\ResponseFull{}).
+There was a significant difference between responses for the two hole sizes (for CI, \ResponseCIttest{}; for FI, \ResponseCIttest{}; and for FM, \ResponseFMttest{}) except on the CM trials (\ResponseCMttest{}).
+Figure \ref{fig:pct-vs-rt}A shows responses as a function of trial type and hole size.
+
+\subsubsection{Response times}
+
+For all analyses of response time (RT), we computed averages using bootstrapped logarithmic means (exponential of the mean of the log RTs), using 10000 bootstrap samples.
+On average, participants responded in \AvgRT{}, excluding catch trials.
+There were effects of both trial type (\RTHoleClass{}) and hole size (\RTHoleSize{}), as well as an interaction between trial type and hole size (\RTFull{}).
+As in Figure \ref{fig:pct-vs-rt}B, hole size only had an effect in the case of the FI trials (\ResponsetimeFIttest{}; for CI, \ResponsetimeCIttest{}; for CM, \ResponsetimeCMttest{}; and for FM, \ResponsetimeFMttest{}).
+
 Participants were fastest to respond on trials with zero bounces (\RTZeroBounces{}), slower to respond on trials with one bounce (\RTOneBounces{}), and slowest to respond on trials with two bounces (\RTTwoBounces{}).
-While this may be partially modulated by difficulty---people make more variable predictions as bounces are added \cite{Smith:2013fc}, and more variable trials have longer reaction times---there appears to be an additional time cost.
-We fit a new 2nd-order polynomial function to participants' responses, and included the number of bounces as an additional regressor.
-With this new model, we find that the number of bounces is a strong predictor of response time above and beyond uncertainty (with bounces, \AicSecondOrderWithBounces{} and \BicSecondOrderWithBounces{}; without bounces, \AicSecondOrder{} and \BicSecondOrder{}).
-By looking at the coefficient for the number of bounces, we find that the each bounce adds approximately \RTBounceCoef{} to the overall response time.
-Thus, even if people are using a \textsc{sprt}-like strategy, there is an additional time cost per bounce that cannot be explained by simulation variance alone.
+
+\subsubsection{Relationship of responses and RTs}
+
+According to \textsc{sprt}, participants should be slower on trials for which they are less certain (i.e., when their average response is closer to 0.5), and faster when they are more certain (i.e., when their average response is closer to 0 or 1).
+Figure \ref{fig:pct-vs-rt}C illustrates that this trend does indeed appear.
+To demonstrate this more quantitatively, we fit both 1st- and 2nd- order polynomial functions to the relationship between responses and RTs.
+The 1st-order function had \AicFirstOrder{} and \BicFirstOrder{}, while the 2nd-order function had \AicSecondOrder{} and \BicSecondOrder{}.
+
+Participants' responses do not fully account for their RTs, however: the number of bounces is also a strong predictor of RT.
+Although people do make more variable predictions as bounces are added \cite{Smith:2013fc}, and more variable trials have longer RTs, there appears to be an additional time cost.
+We modified the 2nd-order polynomial to include the number of bounces as an regressor, and found that the number of bounces is a strong predictor of RT above and beyond the responses (with bounces, \AicSecondOrderWithBounces{} and \BicSecondOrderWithBounces{}; without bounces, \AicSecondOrder{} and \BicSecondOrder{}).
+From the coefficient, we find that the each bounce adds \RTBounceCoef{}.
+Thus, even if people are using a \textsc{sprt}-like strategy, there is a time cost per bounce that cannot be explained by simulation variance alone.
+This suggests that there is a discrepancy between our simulation model and the manner in which people are \emph{actually} running simulations; investigating the details of this discrepancy is an area for future work.
+
+\subsubsection{Learning}
+
+To check for practice effects, we computed Spearman rank correlations (with 95\% confidence intervals computed from 10000 bootstrap samples) between trial number and accuracy, as well as between trial number and RT.
+We found an overall effect of practice on accuracy (\ResponseTrialCorr{}), though in the second half of the experiment, this effect disappeared (\ResponseTrialCorrLate{}).
+There was also an overall effect of practice on RT (\RTTrialCorr{}), which was strong both in the first (\RTTrialCorrEarly{}) and second (\RTTrialCorrLate{}) halves of the experiment.
+Future work will need to include a longer training period to alleviate these practice effects.
 
 \subsubsection{Model comparison}
 
-If we assume that every sample takes the same amount of time, response times as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
-However, because bounces were a strong predictor of response time, our final response time equation also incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
-Briefly, $\beta_0$ is the time to set up the simulation(s) and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
-To compute this equation, we used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
-We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed reaction times, using 10000 samples from the physical simulation model.
-The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking fewer than one sample?
-We suspect that $\sigma_{adj}<1$ because the model actually overestimates the standard deviation; thus, $\sigma_{adj}$ is also adjusting for the inflated uncertainty in the model, and people are taking approximately one sample to catch the ball.} \betazero{}, \betaone{}, and \betatwo{}.
-
-We computed Pearson correlations between the model and people with 95\% confidence intervals computed from 10000 bootstrap samples. The fitted model explains participants' judgments of whether the ball would go in the hole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A).
-A model that takes only one sample each time (equivalent to \textsc{sprt} with $T=1$) does slightly better at explaining people's responses (\RawHoleResponseCorr{}).
-As shown in Table \ref{tbl:rt}, both models do equally well at explaining overall RT in terms of correlation.
-According to both BIC and AIC, the $T=1$ model does slightly worse (\BicNoSamples{} and \AicNoSamples{}) than the full model (\BicFull{} and \AicFull{}).
-Moreover, the $T=1$ model cannot explain variance in RTs within bounces, whereas the full model with $T=2$ can (Table \ref{tbl:rt}).
-If the number of bounces is excluded entirely, the full model can predict human RTs to a moderate degree (\NoBouncesHoleRTCorr{}), while the model with $T=1$ cannot predict RTs at all.
-
-\section{Discussion}
-
-In this paper, we asked the question: do people optimally use mental simulations?
-We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
-The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on the trials they were most uncertain about.
-Comparing people's responses and response times to those of the model, we found an extremely strong fit.
-This provides evidence that people not only rely on approximate physical simulations, but that they optimally vary the number of simulations that they run according to \textsc{sprt}.
-
 \begin{table}
+    \centering
     \begin{tabular}{ccl}
     \toprule
-    \textbf{Threshold} & \textbf{Bounces} & \textbf{Correlation} \\
+    \textbf{Model} & \textbf{Bounces} & \textbf{Correlation} \\
     \midrule
     $T=1$ & 0   & \NoSamplesHoleRTCorrZeroBounces{} \\
           & 1   & \NoSamplesHoleRTCorrOneBounce{} \\
@@ -316,58 +290,82 @@ This provides evidence that people not only rely on approximate physical simulat
     \label{tbl:rt}
 \end{table}
 
+If we assume that every sample takes the same amount of time, RTs as predicted by the model should be directly proportional to $\mathbb{E}[N\,|\,T,p]$.
+However, because bounces were a strong predictor of RT, we also incorporated the number of bounces, $B$, according to $RT = \beta_0 + (\beta_1 + \beta_2\cdot{}\mathbb{E}[B]) \cdot{}\mathbb{E}[N\,|\,T,p]$.
+Briefly, $\beta_0$ is the time to set up the simulation(s) and to respond, $\beta_1$ is the time to simulate with no bounces, and $\beta_2$ is the time needed to simulate each bounce.
+We used the physical simulation model to determine $\mathbb{E}[B]$ as the average number of times the ball bounced across all model simulations.
+We then fit all parameters ($T$, $\sigma_{adj}$, $\beta_0$, $\beta_1$, and $\beta_2$) to minimize sum squared error between modeled and observed RTs, using 10000 samples from the physical simulation model.
+The best fitting values were: \threshold{}, \sdadj{},\footnote{If \sdadj{}, then $M<1$. How could people be taking less than one sample?
+We suspect that $\sigma_{adj}<1$ because the model overestimates the standard deviation of the ball's trajectory; thus, it is likely that people are taking one sample, and $\sigma_{adj}$ is adjusting for inflated uncertainty in the model.} \betazero{}, \betaone{}, and \betatwo{}.
+
+We computed Pearson correlations between the model and people with 95\% confidence intervals computed from 10000 bootstrap samples.
+The fitted model explains participants' judgments of whether the ball would go in the hole very well (\HoleResponseCorr{}, see Figure \ref{fig:model-results}A), and is also a good predictor of RT (\HoleRTCorr{}).
+A model that takes one sample each time (equivalent to \textsc{sprt} with $T=1$) is slightly better at explaining people's responses (\RawHoleResponseCorr{}), and is equally good at explaining overall RT in terms of correlation (\NoSamplesHoleRTCorr{}).
+However, according to both BIC and AIC, the $T=1$ model is slightly worse (\BicNoSamples{} and \AicNoSamples{}) than the full model (\BicFull{} and \AicFull{}) at explaining RTs.
+Moreover, the $T=1$ model cannot explain variance in RTs within bounces, whereas the full model with $T=2$ can (see Table \ref{tbl:rt}).
+If the number of bounces is excluded, the model with $T=2$ can predict human RTs to a moderate degree (\NoBouncesHoleRTCorr{}), while the model with $T=1$ cannot predict RTs at all.
+
+\section{Discussion}
+
+In this paper, we asked the question: do people optimally use mental simulations?
+We hypothesized that people use noisy physical simulations to predict whether a ball would go in a hole, and that they vary the number of simulations in order to exploit the fact that some judgments are easier to make than others.
+The results of our experiment paint a clear picture that people \emph{do} vary the number of samples they take, as evidenced by the increase in response time on the trials they were most uncertain about.
+Comparing people's responses and response times to those of the model, we found a strong fit.
+This provides evidence that people not only rely on approximate physical simulations, but that they vary the number of simulations that they run according to \textsc{sprt}.
+
 If \textsc{sprt} is the optimal strategy, then what is the optimal threshold?
 We found the best fitting \textsc{sprt} threshold to be \threshold{}, which is consistent with previous research.
 According to \citeA{Vul:2014ba}, a sample-based agent should only take a small number of samples before making a judgment so long as there is any cost to taking samples.
-While taking a small number of samples clearly provides a worse chance of making a good decision than taking multiple samples, over the long run, this strategy maximizes expected utility across a large number of judgments.
+While taking a small number of samples provides a worse chance of making a good decision than taking multiple samples, over the long run, this strategy maximizes expected utility across a large number of judgments.
 There has been some evidence that this story also holds true for mental simulations.
 For example, \citeA{Battaglia2013} analyzed the variability of people's responses in tasks concerning towers of building blocks, and found that participants seemed to use between three and seven samples per judgment.
-However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they systematically vary the number of simulations rationally in response to task demands.
+However, this paper is the first to provide evidence not only that people use a small number of simulations, but that they vary the number of simulations in response to task demands.
 
 Mental simulation is a powerful and flexible tool, as it offers us a way to make predictions about scenarios that have not yet come to pass, or which may never come to pass.
 In this work, we demonstrated that when people use mental simulation, they are sensitive to their own uncertainty in reasoning about the task and accordingly adjust how many simulations they run.
-This results joins others \cite<e.g.>{Hamrick:2014wq} in explaining not just \emph{that} people use simulation to reason about the world, but specifically \emph{how} they use it.
+This results joins others \cite<e.g.>{Hamrick:2014wq} in explaining not just \emph{that} people use simulation to reason about the world, but \emph{how} they use it.
 While there are still many questions left unanswered---e.g., how do people use simulations in non-binary tasks?---this work brings us one step closer to understanding of how mental simulation is used.
+
+\subsection{Acknowledgments}
+
+This work was supported by \TODO{}
 
 \section{Appendix: Replication of \citeA{Smith:2013fc}}
 
 \subsubsection{Participants}
 
-We recruited \PaddleNumComplete{} participants on Amazon's Mechanical Turk using the psiTurk \cite{McDonnell12} experimental framework.
-Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for approximately 5 minutes of work.
-Additionally, we excluded \PaddleNumFailed{} participants from analysis for failing to catch the ball on more than one control trial, leaving a total of \PaddleNumOk{} participants.
+We recruited \PaddleNumComplete{} participants using psiTurk \cite{McDonnell12}.
+Participants were treated in accordance with UC Berkeley IRB standards and were paid \$0.60 for 5 minutes of work.
+We excluded \PaddleNumFailed{} participants for failing to catch the ball on more than one control trial.
 
 \subsubsection{Stimuli}
 
-The stimuli were modified versions of those used the main experiment, with two differences.
+The stimuli were modified versions of those used in the main experiment, with two differences.
 First, instead of a wall with a hole in it, there was a paddle of length 100px that could move up and down the $y$-axis.
-Second, instead of a full feedback animation, we just displayed the last frame of the animation.
-Because there was no hole that could vary by trial, there were only 48 stimuli, plus the seven instruction trials and eight catch trials.
+Second, instead of a full feedback animation, we just displayed the last frame.
+Because there was no hole that could vary by trial, there were only 48 stimuli, plus seven instruction and eight catch trials.
 
 \subsubsection{Procedure}
 
-The experiment was divided into two phases: the training phase (consisting of seven trials), and the experimental phase (consisting of the 48 experimental trials, with the eight control trials evenly interspersed).
-On each trial, participants were shown the scene, including the initial position of the ball and the location of the hole.
-The paddle begin at the center of the $y$-axis, and was freely movable along the $y$-axis from the very beginning of the trial.
-Participants were instructed to press ``space'' to begin the trial and display the stimulus presentation animation.
+Like the main experiment, there were two phases: the training phase and the experimental phase.
+On each trial, participants were shown the scene, including the initial position of the ball.
+The paddle begin at the center of the $y$-axis, and was freely movable at the start of the trial.
+Participants were instructed to press ``space'' to begin the trial and display the stimulus animation.
 After the stimulus presentation, a gray occluder appeared, as well as a timer that began counting down for 2 seconds.
-During this time, participants had to move the paddle to try to catch the ball in the position it would be when the timer was up.
-When the timer countdown finished, the paddle froze at its current location, and the occluder was removed and the full path of the ball revealed.
-If the ball was on the paddle, then participants were told, ``You caught the ball!''.
-If the ball was not on the paddle, participants were told ``Oops, you didn't catch the ball.''
-Participants were then instructed to press ``space'' to begin the next trial.
+During this time, participants had to move the paddle to catch the ball in the position it would be when the timer was up.
+When the timer finished, the paddle froze, the occluder was removed, and the full path of the ball was revealed.
+Participants were told whether they caught the ball or not, and then instructed to press ``space'' to begin the next trial.
 
 \subsubsection{Results}
 
-We fit the model parameters of $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to participant's responses \cite<for details, see>{Smith:2013fc}, finding the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}. 
+We fit the model parameters of $\sigma_p$, $\kappa_v$, $\kappa_m$, $\kappa_b$, and $\sigma_0$ to participant's responses \cite<for details, see>{Smith:2013fc}, finding the best fitting parameters to be \perr{}, \kapv{}, \kapm{}, \kapb{}, and \sdzero{}.
 With these parameters, we found very similar results to those from \citeA{Smith:2013fc}.
 In particular, we found a correlation of \PaddleCorr{} between the model's predicted means of where the ball would end up and people's average location of the paddle.
 
 \bibliographystyle{apacite}
-
+\renewcommand{\bibliographytypesize}{\small}
 \setlength{\bibleftmargin}{.125in}
 \setlength{\bibindent}{-\bibleftmargin}
-
 \bibliography{references}
 
 \end{document}
